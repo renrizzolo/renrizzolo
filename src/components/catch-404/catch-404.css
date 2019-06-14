@@ -1,0 +1,7 @@
+h1,
+p {
+  color: var(--color-text);
+}
+p {
+  font-weight: lighter;
+}
