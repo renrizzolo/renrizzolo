@@ -1,8 +1,18 @@
 import { Config } from '@stencil/core';
+import { postcss } from '@stencil/postcss';
+import autoprefixer from 'autoprefixer';
 
 // https://stenciljs.com/docs/config
 
 export const config: Config = {
+  plugins: [
+    postcss({
+      plugins: [autoprefixer({
+        browsers: ['last 6 versions'],
+        cascade: false
+      })]
+    })
+  ]
   globalStyle: 'src/global/app.css',
   globalScript: 'src/global/app.ts',
   outputTargets: [
