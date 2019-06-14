@@ -10,17 +10,25 @@ import {
   MatchResults,
 } from '@stencil/router';
 
-
 export namespace Components {
+  interface AppBackground {}
   interface AppHome {}
   interface AppProfile {
     'match': MatchResults;
   }
   interface AppRoot {}
+  interface Catch404 {}
+  interface RenrizzoloLogo {}
 }
 
 declare global {
 
+
+  interface HTMLAppBackgroundElement extends Components.AppBackground, HTMLStencilElement {}
+  var HTMLAppBackgroundElement: {
+    prototype: HTMLAppBackgroundElement;
+    new (): HTMLAppBackgroundElement;
+  };
 
   interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {}
   var HTMLAppHomeElement: {
@@ -39,24 +47,45 @@ declare global {
     prototype: HTMLAppRootElement;
     new (): HTMLAppRootElement;
   };
+
+  interface HTMLCatch404Element extends Components.Catch404, HTMLStencilElement {}
+  var HTMLCatch404Element: {
+    prototype: HTMLCatch404Element;
+    new (): HTMLCatch404Element;
+  };
+
+  interface HTMLRenrizzoloLogoElement extends Components.RenrizzoloLogo, HTMLStencilElement {}
+  var HTMLRenrizzoloLogoElement: {
+    prototype: HTMLRenrizzoloLogoElement;
+    new (): HTMLRenrizzoloLogoElement;
+  };
   interface HTMLElementTagNameMap {
+    'app-background': HTMLAppBackgroundElement;
     'app-home': HTMLAppHomeElement;
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
+    'catch-404': HTMLCatch404Element;
+    'renrizzolo-logo': HTMLRenrizzoloLogoElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface AppBackground extends JSXBase.HTMLAttributes<HTMLAppBackgroundElement> {}
   interface AppHome extends JSXBase.HTMLAttributes<HTMLAppHomeElement> {}
   interface AppProfile extends JSXBase.HTMLAttributes<HTMLAppProfileElement> {
     'match'?: MatchResults;
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
+  interface Catch404 extends JSXBase.HTMLAttributes<HTMLCatch404Element> {}
+  interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
 
   interface IntrinsicElements {
+    'app-background': AppBackground;
     'app-home': AppHome;
     'app-profile': AppProfile;
     'app-root': AppRoot;
+    'catch-404': Catch404;
+    'renrizzolo-logo': RenrizzoloLogo;
   }
 }
 

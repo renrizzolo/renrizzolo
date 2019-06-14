@@ -13,5 +13,10 @@
     "@stencil/core": "1.0.3",
     "@stencil/router": "one"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@stencil/postcss": "^1.0.1",
+    "@types/autoprefixer": "^9.5.0",
+    "autoprefixer": "^9.6.0"
+  }
 }
