@@ -1,0 +1,19 @@
+.app-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  background-size: 400% 400%;
+  background-image: linear-gradient(
+    -45deg,
+    var(--color-g-1),
+    var(--color-g-2),
+    var(--color-g-4),
+    var(--color-g-4)
+  );
+  box-sizing: border-box;
+  transition: background 1200ms ease;
+}
