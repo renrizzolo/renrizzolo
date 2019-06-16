@@ -7,18 +7,50 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  LocationSegments,
   MatchResults,
+  RouterHistory,
 } from '@stencil/router';
 
 export namespace Components {
   interface AppBackground {}
-  interface AppHome {}
+  interface AppHome {
+    'history': RouterHistory;
+    'location': LocationSegments;
+    'mounted': boolean;
+    'styles'?: { [key: string]: string };
+  }
   interface AppProfile {
     'match': MatchResults;
+    'mounted': boolean;
+    'styles'?: { [key: string]: string};
   }
   interface AppRoot {}
+  interface AppWave {
+    'class': string;
+  }
   interface Catch404 {}
   interface RenrizzoloLogo {}
+  interface RouteTransition {
+    'config': { duration: number, timing: string };
+    'enter': { [key: string]: string; };
+    'from': { [key: string]: string; };
+    'items': LocationSegments;
+    'keys': string;
+    'leave': { [key: string]: string; };
+    'renderFunction'?: (style: { [key: string]: string; }, loc: LocationSegments) => any;
+  }
+  interface TransitionGroup {
+    'class'?: string;
+    'config': { duration: number, fromDuration?: number, leaveDuration?: number, timing: string, delay?: number };
+    'enter': { [key: string]: string; };
+    'from': { [key: string]: string; };
+    'items': any[];
+    'keys': string;
+    'leave': { [key: string]: string; };
+    'mounted': boolean;
+    'renderFunction'?: (style: { [key: string]: string; }, loc: []) => any;
+  }
 }
 
 declare global {
@@ -48,6 +80,12 @@ declare global {
     new (): HTMLAppRootElement;
   };
 
+  interface HTMLAppWaveElement extends Components.AppWave, HTMLStencilElement {}
+  var HTMLAppWaveElement: {
+    prototype: HTMLAppWaveElement;
+    new (): HTMLAppWaveElement;
+  };
+
   interface HTMLCatch404Element extends Components.Catch404, HTMLStencilElement {}
   var HTMLCatch404Element: {
     prototype: HTMLCatch404Element;
@@ -59,33 +97,81 @@ declare global {
     prototype: HTMLRenrizzoloLogoElement;
     new (): HTMLRenrizzoloLogoElement;
   };
+
+  interface HTMLRouteTransitionElement extends Components.RouteTransition, HTMLStencilElement {}
+  var HTMLRouteTransitionElement: {
+    prototype: HTMLRouteTransitionElement;
+    new (): HTMLRouteTransitionElement;
+  };
+
+  interface HTMLTransitionGroupElement extends Components.TransitionGroup, HTMLStencilElement {}
+  var HTMLTransitionGroupElement: {
+    prototype: HTMLTransitionGroupElement;
+    new (): HTMLTransitionGroupElement;
+  };
   interface HTMLElementTagNameMap {
     'app-background': HTMLAppBackgroundElement;
     'app-home': HTMLAppHomeElement;
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
+    'app-wave': HTMLAppWaveElement;
     'catch-404': HTMLCatch404Element;
     'renrizzolo-logo': HTMLRenrizzoloLogoElement;
+    'route-transition': HTMLRouteTransitionElement;
+    'transition-group': HTMLTransitionGroupElement;
   }
 }
 
 declare namespace LocalJSX {
   interface AppBackground extends JSXBase.HTMLAttributes<HTMLAppBackgroundElement> {}
-  interface AppHome extends JSXBase.HTMLAttributes<HTMLAppHomeElement> {}
+  interface AppHome extends JSXBase.HTMLAttributes<HTMLAppHomeElement> {
+    'history'?: RouterHistory;
+    'location'?: LocationSegments;
+    'mounted'?: boolean;
+    'styles'?: { [key: string]: string };
+  }
   interface AppProfile extends JSXBase.HTMLAttributes<HTMLAppProfileElement> {
     'match'?: MatchResults;
+    'mounted'?: boolean;
+    'styles'?: { [key: string]: string};
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
+  interface AppWave extends JSXBase.HTMLAttributes<HTMLAppWaveElement> {
+    'class'?: string;
+  }
   interface Catch404 extends JSXBase.HTMLAttributes<HTMLCatch404Element> {}
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
+  interface RouteTransition extends JSXBase.HTMLAttributes<HTMLRouteTransitionElement> {
+    'config'?: { duration: number, timing: string };
+    'enter'?: { [key: string]: string; };
+    'from'?: { [key: string]: string; };
+    'items'?: LocationSegments;
+    'keys'?: string;
+    'leave'?: { [key: string]: string; };
+    'renderFunction'?: (style: { [key: string]: string; }, loc: LocationSegments) => any;
+  }
+  interface TransitionGroup extends JSXBase.HTMLAttributes<HTMLTransitionGroupElement> {
+    'class'?: string;
+    'config'?: { duration: number, fromDuration?: number, leaveDuration?: number, timing: string, delay?: number };
+    'enter'?: { [key: string]: string; };
+    'from'?: { [key: string]: string; };
+    'items'?: any[];
+    'keys'?: string;
+    'leave'?: { [key: string]: string; };
+    'mounted'?: boolean;
+    'renderFunction'?: (style: { [key: string]: string; }, loc: []) => any;
+  }
 
   interface IntrinsicElements {
     'app-background': AppBackground;
     'app-home': AppHome;
     'app-profile': AppProfile;
     'app-root': AppRoot;
+    'app-wave': AppWave;
     'catch-404': Catch404;
     'renrizzolo-logo': RenrizzoloLogo;
+    'route-transition': RouteTransition;
+    'transition-group': TransitionGroup;
   }
 }
 

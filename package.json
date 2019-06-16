@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@stencil/core": "1.0.3",
-    "@stencil/router": "one"
+    "@stencil/router": "one",
+    "ip-stencil-route-listener": "0.0.2"
   },
   "license": "MIT",
   "devDependencies": {
