@@ -1,7 +1,16 @@
 :host {
-  --wave-size: 300;
   --intro-text-translate: 25;
   z-index: 1;
+}
+.app-home{
+  transform: translateY(100%);
+  transition: transform 500ms ease;
+}
+.app-home.animate-in {
+  transform: translateY(0%);
+}
+.app-home.animate-out {
+  transform: translateY(-100%);
 }
 p {
   mix-blend-mode: color-dodge;
@@ -13,6 +22,7 @@ p {
   align-items: center;
 }
 .intro-text {
+  text-align: center;
   opacity: 0;
   transform: translateY(calc(var(--intro-text-translate) * 1px));
   animation: come-on-in 2s 0.5s forwards;
@@ -45,50 +55,14 @@ svg {
   mix-blend-mode: luminosity;
   transform: translate3d(0%, 0%, 0);
 }
-.wave {
-  width: 100%;
-  height: calc(var(--wave-size) * 1px);
-  position: absolute;
-  bottom: 0;
-  background-size: calc(var(--wave-size) * 1px * 5);
-  background-repeat: repeat-x;
-  mix-blend-mode: screen;
-  background-image: url('data:image/svg+xml;utf8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 300 100" style="enable-background:new 0 0 300 100;" xml:space="preserve"><path fill="tomato" d="M0,100l0-42c0,0,63-22,117-13c47.2,7.9,99.8,32.8,144.5,23.5C288,63,300,58,300,58l0,42H0z"/></svg>');
-  animation: bg-pos 15s linear forwards infinite;
-}
-.wave:nth-of-type(1) {
-  mix-blend-mode: hue;
-
-  height: calc(var(--wave-size) * 1.1px);
-}
-.wave:nth-of-type(2) {
-  mix-blend-mode: screen;
-  background-size: calc(var(--wave-size) * 1.2px * 5);
-  animation: bg-pos-2 15s linear forwards infinite;
-
-  height: calc(var(--wave-size) * 1.2px);
-}
-@keyframes bg-pos {
-  0% {
-    background-position: 0% 75%;
-  }
-  50% {
-    background-position: calc(var(--wave-size) * 2px) 75%;
-  }
-  100% {
-    background-position: calc(var(--wave-size) * 1px * 5) 75%;
-  }
-}
-@keyframes bg-pos-2 {
-  0% {
-    background-position: 0% 75%;
-  }
-  50% {
-    background-position: calc(var(--wave-size) * 2px) 75%;
-  }
-  100% {
-    background-position: calc(var(--wave-size) * 1.2px * 5) 75%;
-  }
+.ren-bg {
+    width: 100%;
+    mix-blend-mode: luminosity;
+    position: absolute;
+    opacity: 0.05;
+    height: 100vh;
+    object-fit: cover;
+    object-position: top;
 }
 
 @keyframes come-on-in {
