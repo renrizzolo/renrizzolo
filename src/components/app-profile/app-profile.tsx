@@ -24,51 +24,11 @@ export class AppProfile {
     }
     return '';
   }
-  // componentWillUpdate() {
-  //   if (!mounted)
-  //     return this.unMountStyle() // call outro animation when mounted prop is false
-  //   this.setState({ // remount the node when the mounted prop is true
-  //     show: true
-  //   })
-  //   setTimeout(this.mountStyle, 10) // call the into animation
-  // }
-  // componentDidUpdate() {
-  //   console.log(this.mounted);
-    
-  //   if (!this.mounted) { // remove the node on transition end when the mounted prop is false
-  //     setTimeout(() => {
-  //       console.log('unmount on update');
 
-  //       this.isMounted = true;
-  //     }, 1600)
-  //   }
-  // }
   componentDidLoad() {
     this.isMounted = true;
   }
-  // componentDidLoad(){
-  //   console.log('styles', this.styles,);
-  //   setTimeout(() => {
-  //     console.log('unmount on load');
 
-  //     this.isMounted = true;
-      
-  //   }, 600);
-  // }
-  // componentWillUnload(){
-  //   setTimeout(() => {
-  //     console.log('unmount on will unload');
-      
-  //   this.isMounted = false;
-  //   }, 600)
-  // }
-  // transitionEnd() {
-  //   console.log('transition ended');
-    
-  //   if (!this.mounted) { // remove the node on transition end when the mounted prop is false
-  //     this.isMounted = false;
-  //   }
-  // }
   toggle = () => {
     this.isMounted = !this.isMounted;
   }
