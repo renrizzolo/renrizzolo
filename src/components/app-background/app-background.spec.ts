@@ -1,7 +1,7 @@
-import { AppHome } from './app-home';
+import { AppBackground } from './app-background';
 
 describe('app', () => {
   it('builds', () => {
-    expect(new AppHome()).toBeTruthy();
+    expect(new AppBackground()).toBeTruthy();
   });
 });

@@ -12,8 +12,22 @@
     var(--color-g-1),
     var(--color-g-2),
     var(--color-g-4),
-    var(--color-g-4)
-  );
+    var(--color-g-4));
   box-sizing: border-box;
   transition: background 1200ms ease;
+  animation: gradient 10s ease 0s alternate infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 50% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
