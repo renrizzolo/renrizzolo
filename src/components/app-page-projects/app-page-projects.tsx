@@ -1,14 +1,12 @@
 import { Component, Prop, State,  h, } from '@stencil/core';
-import { MatchResults } from '@stencil/router';
 
 @Component({
-  tag: 'app-profile',
-  styleUrl: 'app-profile.css',
+  tag: 'app-page-projects',
+  styleUrl: 'app-page-projects.css',
   shadow: true
 })
-export class AppProfile {
-  @Prop() 
-  match: MatchResults;
+export class AppPageProjects {
+ 
   @Prop()
   styles?:{ [key: string]: string};
   @Prop()
@@ -45,14 +43,15 @@ export class AppProfile {
 
   render() {
     console.log('this.isMounted', this.isMounted);
-    if (this.match && this.match.params.name) {
       return (
-        <div style={this.styles}>
-           
-          <app-background>
-            <div class="app-profile">
+        <div>
+ 
               <app-wave class="wave--flipped" />
-              <transition-group
+            
+            <div class="app-page-projects">
+              <ui-button url="/" class="abs abs--top-left">Back</ui-button>
+
+             {/*  <transition-group
                 class="class"
                 items={this.items}
                 config={{ duration: 600, timing: 'ease', delay: 300 }}
@@ -61,8 +60,8 @@ export class AppProfile {
                 leave={{ opacity: '0', transform: 'translateX(35px)' }}
                 mounted={this.isMounted}
               >
-              </transition-group>
-            <p>
+              </transition-group> */}
+         {/*    <p>
                 <a onClick={this.toggle}>Toggle items</a>            </p>
 
                 <p>
@@ -70,15 +69,26 @@ export class AppProfile {
 
                   <p>
             <a onClick={this.remove}>remove item</a>
-            </p>
-            <stencil-route-link url="/">Back</stencil-route-link>
-              <p>
-                Hello! My name is {this.normalize(this.match.params.name)}.
-              </p>
+            </p> */}
+              <h1>
+                Projects
+              </h1>
+              <ui-grid cols={2} gap={3}>
+                {/* <div class="project project-item">
+                  <header class="project-item--header">
+                    <h3 class="project-item--title">Project title</h3>
+                    <a class="project-item--link">https://www.github.com/renrizzolo</a>
+                  </header>
+                  <section>
+                    <img class="project-item--img" src="https://unsplash.it/400/?random"/>
+                  </section>
+                </div> */}
+                <project-item/>
+              <project-item />
+
+              </ui-grid>
             </div>
-          </app-background>
         </div>
       );
-    }
   }
 }
