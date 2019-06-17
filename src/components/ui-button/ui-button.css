@@ -1,0 +1,59 @@
+a {
+  transition: all 150ms ease-in;
+}
+a:hover {
+  transition: all 200ms ease-out;
+}
+a.link {
+  color: var(--color-button);
+  text-decoration: none;
+  border-bottom: 2px solid;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+a.link:hover {
+  color: var(--color-text);
+}
+a:not(.link) {
+  background-color: var(--color-button);
+  cursor: pointer;
+}
+a:not(.link) {
+  color: var(--col-secondary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
+  background-size: 200% 100%;
+  background-color: var(--color-button);
+  box-shadow: inset 0px 0 0 0 rgba(0, 0, 0, 0.1);
+  background-position: left bottom;
+}
+a:not(.link):hover {
+  background-color: var(--color-secondary);
+  box-shadow: inset -2px -2px 0 0 rgba(0, 0, 0, 0.2);
+  color: var(--color-button);
+}
+.abs {
+  position: absolute;
+  z-index: 1;
+}
+.abs--top-left {
+  top: 2rem;
+  left: 2rem;
+}
+.abs--top-right {
+  top: 2rem;
+  right: 2rem;
+}
+.abs--bottom-left {
+  bottom: 2rem;
+  left: 2rem;
+}
+.abs--bottom-right {
+  bottom: 2rem;
+  right: 2rem;
+}
