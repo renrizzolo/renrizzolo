@@ -1,5 +1,5 @@
 import { Component, h, Prop, State, Listen, ComponentInterface} from '@stencil/core';
-import { LocationSegments, RouterHistory } from '@stencil/router';
+import { LocationSegments, } from '@stencil/router';
 
 @Component({
   tag: 'app-home',
@@ -27,7 +27,6 @@ export class AppHome implements ComponentInterface {
   @State()
   isMounted: boolean = false;
 
-  @Prop() history: RouterHistory;
   @Prop() styles?: { [key: string]: string };
   @Prop() location: LocationSegments;
 
@@ -49,13 +48,12 @@ export class AppHome implements ComponentInterface {
           <div class="intro-text">
 
           <p >I'm a front-end developer from Melbourne, Australia ✌️</p>
-            <stencil-route-link url="/profile/ren">link</stencil-route-link>
-            <stencil-route-link  url="/">2</stencil-route-link>
+            <ui-button url="/projects">Projects</ui-button>
           </div>            
 
           <div class="footer">
-            <a href="https://twitter.com/ren_riz">twitter</a>&nbsp;
-            <a href="https://github.com/renrizzolo">gitHub</a>
+            <ui-button href="https://twitter.com/ren_riz">twitter</ui-button>&nbsp;
+            <ui-button href="https://github.com/renrizzolo">gitHub</ui-button>
           </div>
         </app-background>
       </div>
