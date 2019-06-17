@@ -8,20 +8,17 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   LocationSegments,
-  MatchResults,
-  RouterHistory,
 } from '@stencil/router';
 
 export namespace Components {
   interface AppBackground {}
   interface AppHome {
-    'history': RouterHistory;
     'location': LocationSegments;
     'mounted': boolean;
     'styles'?: { [key: string]: string };
   }
-  interface AppProfile {
-    'match': MatchResults;
+  interface AppPage404 {}
+  interface AppPageProjects {
     'mounted': boolean;
     'styles'?: { [key: string]: string};
   }
@@ -29,7 +26,14 @@ export namespace Components {
   interface AppWave {
     'class': string;
   }
-  interface Catch404 {}
+  interface ProjectItem {
+    'post': {
+      id: number,
+      slug: string,
+      coverImage: string,
+      title: string,
+    };
+  }
   interface RenrizzoloLogo {}
   interface RouteTransition {
     'config': { duration: number, timing: string };
@@ -51,6 +55,17 @@ export namespace Components {
     'mounted': boolean;
     'renderFunction'?: (style: { [key: string]: string; }, loc: []) => any;
   }
+  interface UiButton {
+    'class'?: string;
+    'href'?: string;
+    'onClick'?: (event: MouseEvent) => any;
+    'url'?: string;
+  }
+  interface UiGrid {
+    'class'?: string;
+    'cols': 1 | 2 | 3 | 4;
+    'gap': 0 | 1 | 2 | 3 | 4;
+  }
 }
 
 declare global {
@@ -68,10 +83,16 @@ declare global {
     new (): HTMLAppHomeElement;
   };
 
-  interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {}
-  var HTMLAppProfileElement: {
-    prototype: HTMLAppProfileElement;
-    new (): HTMLAppProfileElement;
+  interface HTMLAppPage404Element extends Components.AppPage404, HTMLStencilElement {}
+  var HTMLAppPage404Element: {
+    prototype: HTMLAppPage404Element;
+    new (): HTMLAppPage404Element;
+  };
+
+  interface HTMLAppPageProjectsElement extends Components.AppPageProjects, HTMLStencilElement {}
+  var HTMLAppPageProjectsElement: {
+    prototype: HTMLAppPageProjectsElement;
+    new (): HTMLAppPageProjectsElement;
   };
 
   interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {}
@@ -86,10 +107,10 @@ declare global {
     new (): HTMLAppWaveElement;
   };
 
-  interface HTMLCatch404Element extends Components.Catch404, HTMLStencilElement {}
-  var HTMLCatch404Element: {
-    prototype: HTMLCatch404Element;
-    new (): HTMLCatch404Element;
+  interface HTMLProjectItemElement extends Components.ProjectItem, HTMLStencilElement {}
+  var HTMLProjectItemElement: {
+    prototype: HTMLProjectItemElement;
+    new (): HTMLProjectItemElement;
   };
 
   interface HTMLRenrizzoloLogoElement extends Components.RenrizzoloLogo, HTMLStencilElement {}
@@ -109,29 +130,43 @@ declare global {
     prototype: HTMLTransitionGroupElement;
     new (): HTMLTransitionGroupElement;
   };
+
+  interface HTMLUiButtonElement extends Components.UiButton, HTMLStencilElement {}
+  var HTMLUiButtonElement: {
+    prototype: HTMLUiButtonElement;
+    new (): HTMLUiButtonElement;
+  };
+
+  interface HTMLUiGridElement extends Components.UiGrid, HTMLStencilElement {}
+  var HTMLUiGridElement: {
+    prototype: HTMLUiGridElement;
+    new (): HTMLUiGridElement;
+  };
   interface HTMLElementTagNameMap {
     'app-background': HTMLAppBackgroundElement;
     'app-home': HTMLAppHomeElement;
-    'app-profile': HTMLAppProfileElement;
+    'app-page-404': HTMLAppPage404Element;
+    'app-page-projects': HTMLAppPageProjectsElement;
     'app-root': HTMLAppRootElement;
     'app-wave': HTMLAppWaveElement;
-    'catch-404': HTMLCatch404Element;
+    'project-item': HTMLProjectItemElement;
     'renrizzolo-logo': HTMLRenrizzoloLogoElement;
     'route-transition': HTMLRouteTransitionElement;
     'transition-group': HTMLTransitionGroupElement;
+    'ui-button': HTMLUiButtonElement;
+    'ui-grid': HTMLUiGridElement;
   }
 }
 
 declare namespace LocalJSX {
   interface AppBackground extends JSXBase.HTMLAttributes<HTMLAppBackgroundElement> {}
   interface AppHome extends JSXBase.HTMLAttributes<HTMLAppHomeElement> {
-    'history'?: RouterHistory;
     'location'?: LocationSegments;
     'mounted'?: boolean;
     'styles'?: { [key: string]: string };
   }
-  interface AppProfile extends JSXBase.HTMLAttributes<HTMLAppProfileElement> {
-    'match'?: MatchResults;
+  interface AppPage404 extends JSXBase.HTMLAttributes<HTMLAppPage404Element> {}
+  interface AppPageProjects extends JSXBase.HTMLAttributes<HTMLAppPageProjectsElement> {
     'mounted'?: boolean;
     'styles'?: { [key: string]: string};
   }
@@ -139,7 +174,14 @@ declare namespace LocalJSX {
   interface AppWave extends JSXBase.HTMLAttributes<HTMLAppWaveElement> {
     'class'?: string;
   }
-  interface Catch404 extends JSXBase.HTMLAttributes<HTMLCatch404Element> {}
+  interface ProjectItem extends JSXBase.HTMLAttributes<HTMLProjectItemElement> {
+    'post'?: {
+      id: number,
+      slug: string,
+      coverImage: string,
+      title: string,
+    };
+  }
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
   interface RouteTransition extends JSXBase.HTMLAttributes<HTMLRouteTransitionElement> {
     'config'?: { duration: number, timing: string };
@@ -161,17 +203,31 @@ declare namespace LocalJSX {
     'mounted'?: boolean;
     'renderFunction'?: (style: { [key: string]: string; }, loc: []) => any;
   }
+  interface UiButton extends JSXBase.HTMLAttributes<HTMLUiButtonElement> {
+    'class'?: string;
+    'href'?: string;
+    'onClick'?: (event: MouseEvent) => any;
+    'url'?: string;
+  }
+  interface UiGrid extends JSXBase.HTMLAttributes<HTMLUiGridElement> {
+    'class'?: string;
+    'cols'?: 1 | 2 | 3 | 4;
+    'gap'?: 0 | 1 | 2 | 3 | 4;
+  }
 
   interface IntrinsicElements {
     'app-background': AppBackground;
     'app-home': AppHome;
-    'app-profile': AppProfile;
+    'app-page-404': AppPage404;
+    'app-page-projects': AppPageProjects;
     'app-root': AppRoot;
     'app-wave': AppWave;
-    'catch-404': Catch404;
+    'project-item': ProjectItem;
     'renrizzolo-logo': RenrizzoloLogo;
     'route-transition': RouteTransition;
     'transition-group': TransitionGroup;
+    'ui-button': UiButton;
+    'ui-grid': UiGrid;
   }
 }
 
