@@ -19,7 +19,7 @@ export class AppRoot {
               <route-transition
                 items={location}
                 keys={location.key}
-                config={{ duration: 800, timing: 'cubic-bezier(0.63, 1, 0.620, 1)' }} //cubic-bezier(0.23, 1, 0.320, 1)
+                config={{ duration: 800, timing: 'cubic-bezier(0.63, 1, 0.620, 1)' }}
                 from={{  opacity: '0', transform: 'translateY(15px) scale(1.05)' }}
                 enter={{ opacity: '1',   transform: 'translateY(0px) scale(1)'  }}
                 leave={{ opacity: '0', transform: 'translateY(15px) scale(1.05)' }}
@@ -28,22 +28,30 @@ export class AppRoot {
 
                   <stencil-route-switch location={loc ? {...loc} : location} scrollTopOffset={0}>
                     <stencil-route url="/" component="app-home" exact={true} componentProps={style} 
-                      routeRender={(props) => (
-                        <app-home 
-                          {...props} 
-                          styles={style}
-                        />
+                      routeRender={(_) => (
+                        <div style={style}>
+                          <app-home 
+                            
+                          />
+                        </div>
                       )}
                     />
-                   <stencil-route url="/profile/:name" component="app-profile" componentProps={style} 
-                    routeRender={(props) => (
-                      <app-profile 
-                          {...props}
-                          styles={style} 
+                   <stencil-route url="/projects" componentProps={style} 
+                    routeRender={(_) => (
+                      <div style={style}>
+                      <app-page-projects 
+                          
                         />
+                        </div>
                       )} 
                     /> 
-                    <stencil-route component="catch-404" componentProps={style} routeRender={() => (<catch-404 />)} />
+                    <stencil-route componentProps={style} 
+                      routeRender={(_) => (
+                        <div style={style}>
+                          <catch-404 />
+                        </div>
+                      )} 
+                    />
                   </stencil-route-switch>
                 )}}
               />
