@@ -1,5 +1,4 @@
-import { Component, h, Prop, } from '@stencil/core';
-
+import { Component, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'ui-grid',
@@ -7,16 +6,18 @@ import { Component, h, Prop, } from '@stencil/core';
   shadow: true,
 })
 export class UiGrid {
-  @Prop() 
+  @Prop()
   class?: string;
-  @Prop() 
+  @Prop()
   cols: 1 | 2 | 3 | 4 = 1;
-  @Prop() 
+  @Prop()
   gap: 0 | 1 | 2 | 3 | 4 = 0;
 
   render() {
-    return <div class={`grid grid--cols-${this.cols} grid--gap-${this.gap} ${this.class}`}>
-      <slot/>
+    return (
+      <div class={`grid grid--cols-${this.cols} grid--gap-${this.gap} ${this.class}`}>
+        <slot />
       </div>
+    );
   }
 }

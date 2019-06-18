@@ -1,4 +1,4 @@
-.grid{
+.grid {
   display: grid;
 }
 .grid--cols-1 {
@@ -24,4 +24,9 @@
 }
 .grid--gap-4 {
   grid-gap: 4rem;
+}
+@media screen and (max-width: 600px) {
+  [class*='grid--cols'] {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
