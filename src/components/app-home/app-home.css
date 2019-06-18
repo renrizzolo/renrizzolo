@@ -2,15 +2,16 @@
   --intro-text-translate: 25;
   z-index: 1;
 }
-.app-home{
-  transform: translateY(100%);
-  transition: transform 500ms ease;
+.app-home {
+  /* transform: translateY(100%);
+  transition: transform 500ms ease; */
 }
-.app-home.animate-in {
-  transform: translateY(0%);
-}
-.app-home.animate-out {
-  transform: translateY(-100%);
+.centered {
+  flex-direction: column;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 }
 p {
   mix-blend-mode: color-dodge;
@@ -55,13 +56,13 @@ svg {
   transform: translate3d(0%, 0%, 0);
 }
 .ren-bg {
-    width: 100%;
-    mix-blend-mode: luminosity;
-    position: absolute;
-    opacity: 0.05;
-    height: 100vh;
-    object-fit: cover;
-    object-position: top;
+  width: 100%;
+  mix-blend-mode: luminosity;
+  position: absolute;
+  opacity: 0.05;
+  height: 100vh;
+  object-fit: cover;
+  object-position: top;
 }
 
 @keyframes come-on-in {
