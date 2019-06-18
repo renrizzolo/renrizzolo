@@ -13,14 +13,12 @@ import {
 export namespace Components {
   interface AppBackground {}
   interface AppHome {
-    'location': LocationSegments;
-    'mounted': boolean;
     'styles'?: { [key: string]: string };
   }
   interface AppPage404 {}
   interface AppPageProjects {
     'mounted': boolean;
-    'styles'?: { [key: string]: string};
+    'styles'?: { [key: string]: string };
   }
   interface AppRoot {}
   interface AppWave {
@@ -28,32 +26,46 @@ export namespace Components {
   }
   interface ProjectItem {
     'post': {
-      id: number,
-      slug: string,
-      coverImage: string,
-      title: string,
+      id: number;
+      slug: string;
+      coverImage?: string;
+      heading: string;
+      subHeading?: string;
+      link?: string;
     };
   }
   interface RenrizzoloLogo {}
   interface RouteTransition {
-    'config': { duration: number, timing: string };
-    'enter': { [key: string]: string; };
-    'from': { [key: string]: string; };
+    'config': { duration: number; timing: string };
+    'enter': { [key: string]: string };
+    'from': { [key: string]: string };
     'items': LocationSegments;
     'keys': string;
-    'leave': { [key: string]: string; };
-    'renderFunction'?: (style: { [key: string]: string; }, loc: LocationSegments) => any;
+    'leave': { [key: string]: string };
+    'renderFunction'?: (style: { [key: string]: string }, loc: LocationSegments) => any;
   }
   interface TransitionGroup {
     'class'?: string;
-    'config': { duration: number, fromDuration?: number, leaveDuration?: number, timing: string, delay?: number };
-    'enter': { [key: string]: string; };
-    'from': { [key: string]: string; };
+    'config': {
+      duration: number;
+      fromDuration?: number;
+      leaveDuration?: number;
+      timing: string;
+      delay?: number;
+    };
+    'enter': { [key: string]: string };
+    'from': { [key: string]: string };
     'items': any[];
     'keys': string;
-    'leave': { [key: string]: string; };
+    'leave': { [key: string]: string };
     'mounted': boolean;
-    'renderFunction'?: (style: { [key: string]: string; }, loc: []) => any;
+    'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
+    'wrapper': string;
+    'wrapperProps': object;
+  }
+  interface TransitionMountWrapper {
+    'mounted': boolean;
+    'styles': {};
   }
   interface UiButton {
     'class'?: string;
@@ -131,6 +143,12 @@ declare global {
     new (): HTMLTransitionGroupElement;
   };
 
+  interface HTMLTransitionMountWrapperElement extends Components.TransitionMountWrapper, HTMLStencilElement {}
+  var HTMLTransitionMountWrapperElement: {
+    prototype: HTMLTransitionMountWrapperElement;
+    new (): HTMLTransitionMountWrapperElement;
+  };
+
   interface HTMLUiButtonElement extends Components.UiButton, HTMLStencilElement {}
   var HTMLUiButtonElement: {
     prototype: HTMLUiButtonElement;
@@ -153,6 +171,7 @@ declare global {
     'renrizzolo-logo': HTMLRenrizzoloLogoElement;
     'route-transition': HTMLRouteTransitionElement;
     'transition-group': HTMLTransitionGroupElement;
+    'transition-mount-wrapper': HTMLTransitionMountWrapperElement;
     'ui-button': HTMLUiButtonElement;
     'ui-grid': HTMLUiGridElement;
   }
@@ -161,14 +180,12 @@ declare global {
 declare namespace LocalJSX {
   interface AppBackground extends JSXBase.HTMLAttributes<HTMLAppBackgroundElement> {}
   interface AppHome extends JSXBase.HTMLAttributes<HTMLAppHomeElement> {
-    'location'?: LocationSegments;
-    'mounted'?: boolean;
     'styles'?: { [key: string]: string };
   }
   interface AppPage404 extends JSXBase.HTMLAttributes<HTMLAppPage404Element> {}
   interface AppPageProjects extends JSXBase.HTMLAttributes<HTMLAppPageProjectsElement> {
     'mounted'?: boolean;
-    'styles'?: { [key: string]: string};
+    'styles'?: { [key: string]: string };
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
   interface AppWave extends JSXBase.HTMLAttributes<HTMLAppWaveElement> {
@@ -176,32 +193,46 @@ declare namespace LocalJSX {
   }
   interface ProjectItem extends JSXBase.HTMLAttributes<HTMLProjectItemElement> {
     'post'?: {
-      id: number,
-      slug: string,
-      coverImage: string,
-      title: string,
+      id: number;
+      slug: string;
+      coverImage?: string;
+      heading: string;
+      subHeading?: string;
+      link?: string;
     };
   }
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
   interface RouteTransition extends JSXBase.HTMLAttributes<HTMLRouteTransitionElement> {
-    'config'?: { duration: number, timing: string };
-    'enter'?: { [key: string]: string; };
-    'from'?: { [key: string]: string; };
+    'config'?: { duration: number; timing: string };
+    'enter'?: { [key: string]: string };
+    'from'?: { [key: string]: string };
     'items'?: LocationSegments;
     'keys'?: string;
-    'leave'?: { [key: string]: string; };
-    'renderFunction'?: (style: { [key: string]: string; }, loc: LocationSegments) => any;
+    'leave'?: { [key: string]: string };
+    'renderFunction'?: (style: { [key: string]: string }, loc: LocationSegments) => any;
   }
   interface TransitionGroup extends JSXBase.HTMLAttributes<HTMLTransitionGroupElement> {
     'class'?: string;
-    'config'?: { duration: number, fromDuration?: number, leaveDuration?: number, timing: string, delay?: number };
-    'enter'?: { [key: string]: string; };
-    'from'?: { [key: string]: string; };
+    'config'?: {
+      duration: number;
+      fromDuration?: number;
+      leaveDuration?: number;
+      timing: string;
+      delay?: number;
+    };
+    'enter'?: { [key: string]: string };
+    'from'?: { [key: string]: string };
     'items'?: any[];
     'keys'?: string;
-    'leave'?: { [key: string]: string; };
+    'leave'?: { [key: string]: string };
     'mounted'?: boolean;
-    'renderFunction'?: (style: { [key: string]: string; }, loc: []) => any;
+    'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
+    'wrapper'?: string;
+    'wrapperProps'?: object;
+  }
+  interface TransitionMountWrapper extends JSXBase.HTMLAttributes<HTMLTransitionMountWrapperElement> {
+    'mounted'?: boolean;
+    'styles'?: {};
   }
   interface UiButton extends JSXBase.HTMLAttributes<HTMLUiButtonElement> {
     'class'?: string;
@@ -226,6 +257,7 @@ declare namespace LocalJSX {
     'renrizzolo-logo': RenrizzoloLogo;
     'route-transition': RouteTransition;
     'transition-group': TransitionGroup;
+    'transition-mount-wrapper': TransitionMountWrapper;
     'ui-button': UiButton;
     'ui-grid': UiGrid;
   }
