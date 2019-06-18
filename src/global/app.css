@@ -10,13 +10,16 @@
 
 :root {
   --color-primary: #ff7880;
+  --color-primary-transparent: #ff788033;
+  --color-primary-light: #f6a7b1;
   --color-secondary: #261c57;
+  --color-secondary-light: #9b92c9;
   --color-background: #1b1a23;
   --color-g-1: #36107e;
   --color-g-2: #1d1a2b;
   --color-g-3: #130b3c;
   --color-g-4: #261c57;
-  --color-text: #f7f6a5;
+  --color-text: #ffc6a6;
   --color-button: var(--color-primary);
   --color-logo: rgb(40, 40, 40);
 }
@@ -28,14 +31,14 @@ html {
 }
 
 body {
-  overflow: hidden;
   height: 100%;
   margin: 0px;
   padding: 0px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 16px;
 }
 
-a{
+a {
   color: var(--color-text);
 }

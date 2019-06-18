@@ -1,9 +1,9 @@
 .app-background {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   padding: 2rem;
   background-size: 400% 400%;
@@ -12,11 +12,13 @@
     var(--color-g-1),
     var(--color-g-2),
     var(--color-g-4),
-    var(--color-g-4));
+    var(--color-g-4)
+  );
   box-sizing: border-box;
   transition: background 1200ms ease;
   animation: gradient 10s ease 0s alternate infinite;
 }
+
 @keyframes gradient {
   0% {
     background-position: 0% 0%;
