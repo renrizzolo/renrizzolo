@@ -8,9 +8,7 @@
   background-color: var(--item-background);
   position: relative;
   overflow: hidden;
-  /* border: 1px solid var(--item-background); */
-  /* border-bottom-right-radius: 20px;
-  border-top-left-radius: 20px; */
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
   border-bottom-right-radius: 20px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 10px;
