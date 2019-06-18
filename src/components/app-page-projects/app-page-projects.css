@@ -1,32 +1,37 @@
 .app-page-projects {
+  background-color: var(--color-secondary);
+  min-height: 100vh;
+}
+.app-page-projects--container {
   z-index: 1;
-  padding: 2rem;
-  text-align: center;
-  color: white;
   display: flex;
   flex-direction: column;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding-top: 6rem;
+  padding-top: 350px;
   box-sizing: border-box;
 }
-a { 
+h1 {
+  color: var(--color-primary);
+
+  font-size: 3.5rem;
+  font-weight: 800;
+}
+a {
   color: var(--color-text);
 }
-.class{
- position: absolute;
- top:0;
- left:0;
- right:0;
- 
+.class {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
-.project-item--header{
+.project-item--header {
   text-align: left;
   padding: 1rem;
   background: var(--color-primary);
- color: var(--color-secondary);
-
+  color: var(--color-secondary);
 }
 .project-item--title {
   margin-bottom: 0;
