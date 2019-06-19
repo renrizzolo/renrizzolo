@@ -1,0 +1,15 @@
+.theme-buttons {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+.drip {
+  width: 18px;
+  fill: var(--color-secondary);
+}
+ui-button {
+  margin-right: 10px;
+}
