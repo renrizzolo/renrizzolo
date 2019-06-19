@@ -44,7 +44,7 @@ export namespace Components {
     'items': LocationSegments;
     'keys': string;
     'leave': { [key: string]: string };
-    'renderFunction'?: (style: { [key: string]: string }, loc: LocationSegments) => any;
+    'renderFunction'?: (style: { [key: string]: string }, loc: LocationSegments, lastEvent: string) => any;
   }
   interface TransitionGroup {
     'class'?: string;
@@ -215,7 +215,7 @@ declare namespace LocalJSX {
     'items'?: LocationSegments;
     'keys'?: string;
     'leave'?: { [key: string]: string };
-    'renderFunction'?: (style: { [key: string]: string }, loc: LocationSegments) => any;
+    'renderFunction'?: (style: { [key: string]: string }, loc: LocationSegments, lastEvent: string) => any;
   }
   interface TransitionGroup extends JSXBase.HTMLAttributes<HTMLTransitionGroupElement> {
     'class'?: string;
