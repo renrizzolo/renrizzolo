@@ -11,7 +11,9 @@ export class catch404 {
       <app-background>
         <h1>404</h1>
         <p>Sorry, that page wasn't found.</p>
-        <ui-button href="/" class="link">Back to land</ui-button>
+        <ui-button url="/" class="link">
+          Back to land
+        </ui-button>
       </app-background>
     );
   }
