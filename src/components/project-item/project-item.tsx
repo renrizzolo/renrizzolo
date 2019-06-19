@@ -14,6 +14,8 @@ export class ProjectItem {
     heading: string;
     subHeading?: string;
     link?: string;
+    tags?: string[];
+    category?: string;
   };
 
   render() {
@@ -43,6 +45,9 @@ export class ProjectItem {
         )}
         <div class={'project-item--heading__overlay'} />
         <section class="project-item--info">
+          <div class="tags-container">
+            {post.tags && post.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
           <h1 class="project-item--heading">
             <stencil-route-link url={`/post/${post.slug}`}>{post.heading}</stencil-route-link>
           </h1>
