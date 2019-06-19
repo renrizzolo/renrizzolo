@@ -91,9 +91,9 @@ export class AppRoot {
                     from={{ opacity: '0', transform: 'translateY(5px) scale(1.05)' }}
                     enter={{ opacity: '1', transform: 'translateY(0px) scale(1)' }}
                     leave={{ opacity: '0', transform: 'translateY(15px) scale(1.05)' }}
-                    renderFunction={(style, loc) => {
+                    renderFunction={(style, loc, lastEvent) => {
                       return (
-                        <div>
+                        <div style={{ overflow: lastEvent !== 'enter' ? 'hidden' : 'unset'}}>
                           <div
                             class="theme-buttons"
                             style={{ opacity: style.opacity, transition: style.transition }}
