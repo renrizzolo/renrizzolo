@@ -23,7 +23,7 @@ export class AppHome implements ComponentInterface {
 
             <div class="footer">
               <ui-button href="https://twitter.com/ren_riz">Twitter</ui-button>&nbsp;
-              <ui-button href="https://github.com/renrizzolo">gitHub</ui-button>
+              <ui-button href="https://github.com/renrizzolo">GitHub</ui-button>
             </div>
           </div>
         </app-background>
