@@ -12,15 +12,17 @@ a.link {
   font-size: 0.9rem;
   cursor: pointer;
 }
+a.link.active {
+  color: var(--color-text);
+}
 a.link:hover {
   color: var(--color-text);
 }
+
 a:not(.link) {
   background-color: var(--color-button);
   cursor: pointer;
-}
-a:not(.link) {
-  color: var(--col-secondary);
+  color: var(--color-secondary);
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: bold;
