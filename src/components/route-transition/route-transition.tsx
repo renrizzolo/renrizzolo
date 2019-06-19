@@ -6,7 +6,7 @@ let lastEvent = '';
 
 @Component({
   tag: 'route-transition',
-  shadow: true,
+  shadow: false,
 })
 export class RouteTransition implements ComponentInterface {
   @Element() el!: any;
