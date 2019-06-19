@@ -32,6 +32,8 @@ export namespace Components {
       heading: string;
       subHeading?: string;
       link?: string;
+      tags?: string[];
+      category?: string;
     };
   }
   interface RenrizzoloLogo {}
@@ -187,7 +189,9 @@ declare namespace LocalJSX {
     'mounted'?: boolean;
     'styles'?: { [key: string]: string };
   }
-  interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
+  interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {
+    'onThemeUpdated'?: (event: CustomEvent<any>) => void;
+  }
   interface AppWave extends JSXBase.HTMLAttributes<HTMLAppWaveElement> {
     'class'?: string;
   }
@@ -199,6 +203,8 @@ declare namespace LocalJSX {
       heading: string;
       subHeading?: string;
       link?: string;
+      tags?: string[];
+      category?: string;
     };
   }
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
