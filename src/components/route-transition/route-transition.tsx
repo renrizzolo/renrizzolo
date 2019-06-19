@@ -24,7 +24,7 @@ export class RouteTransition implements ComponentInterface {
   @Prop()
   leave: { [key: string]: string };
   @Prop()
-  renderFunction?: (style: { [key: string]: string }, loc: LocationSegments) => any;
+  renderFunction?: (style: { [key: string]: string }, loc: LocationSegments, lastEvent: string) => any;
 
   @Watch('keys')
   keyWatcher(newValue: string, oldValue: string) {
@@ -159,6 +159,6 @@ export class RouteTransition implements ComponentInterface {
 
     console.log('render loc', style, this.loc);
     console.groupEnd();
-    return this.renderFunction(style, this.loc);
+    return this.renderFunction(style, this.loc, lastEvent);
   }
 }
