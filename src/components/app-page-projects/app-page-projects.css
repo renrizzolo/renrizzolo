@@ -9,8 +9,14 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding-top: 350px;
+  padding-top: 250px;
+  padding-bottom: 50px;
   box-sizing: border-box;
+}
+@media screen and (max-width: 600px) {
+  .app-page-projects--container {
+    padding-top: 50px;
+  }
 }
 h1 {
   color: var(--color-primary);

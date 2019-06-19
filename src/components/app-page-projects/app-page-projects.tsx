@@ -4,18 +4,43 @@ const projects = [
   {
     id: 1,
     slug: 'react-native-sectioned-multi-select',
-    coverImage: 'https://picsum.photos/id/865/400/200',
+    coverImage: 'assets/projects/rnsms.png',
     heading: 'React Native Sectioned Multi Select',
     subHeading: 'A highly configurable select component for React Native',
     link: '',
+    tags: ['React Native', 'Javscript'],
+    category: 'library',
   },
   {
-    id: 1,
+    id: 2,
     slug: 'react-native-swipeable-rating',
-    coverImage: 'https://picsum.photos/id/335/400/200',
+    coverImage: 'assets/projects/rnsr.png',
     heading: 'React Native Swipeable Rating',
     subHeading: 'A React Native star rating component with swipe & tap support',
     link: '',
+    tags: ['React Native', 'Javscript'],
+    category: 'library',
+  },
+  {
+    id: 3,
+    slug: 'casual-sparks',
+    coverImage: 'assets/projects/casual-sparks.png',
+    heading: 'Casual Sparks',
+    subHeading: 'Record label website with custom Sound Cloud player',
+    link: 'https://casualsparks.com',
+    tags: ['Javscript', 'React', 'Gatsby'],
+    category: 'website',
+  },
+  {
+    id: 4,
+    slug: 'ren-rizzolo',
+    coverImage: 'assets/projects/renrizzolo-web.png',
+    heading: 'Ren Rizzolo',
+    subHeading:
+      'Simple portfolio site with custom route transitions component and colour theme picker',
+    link: 'https://renrizzolo.com',
+    tags: ['Javscript', 'Stencil JS', 'Web Components', 'CSS variables'],
+    category: 'website',
   },
 ];
 
@@ -92,7 +117,7 @@ export class AppPageProjects {
                 <project-item post={project} />
               ))}
               wrapper="ui-grid"
-              wrapperProps={{ cols: 2, gap: 3 }}
+              wrapperProps={{ cols: 3, gap: 2 }}
               config={{ duration: 600, timing: 'ease', delay: 300 }}
               from={{ transitionDuration: '300ms', opacity: '0', transform: 'translateY(50px)' }}
               enter={{ opacity: '1', transform: 'translateY(0px)' }}
