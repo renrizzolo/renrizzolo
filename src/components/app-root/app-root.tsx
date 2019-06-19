@@ -10,8 +10,10 @@ const themes = {
     { key: '--color-primary', value: '#f9c7c7' },
     { key: '--color-primary-transparent', value: '#ffd4c333' },
     { key: '--color-primary-light', value: '#fff7f3' },
-    { key: '--color-secondary', value: 'tomato' },
-    { key: '--color-secondary-light', value: 'tomato' },
+    { key: '--color-secondary', value: '#d63a1e' },
+    { key: '--color-secondary-light', value: '#e88370' },
+    { key: '--color-secondary-transparent', value: '#e8837033' },
+
     { key: '--color-g-1', value: '#36107e' },
     { key: '--color-g-2', value: '#1d1a2b' },
     { key: '--color-g-3', value: '#130b3c' },
@@ -27,6 +29,8 @@ const themes = {
     { key: '--color-primary-light', value: '#F7B147' },
     { key: '--color-secondary', value: '#A0351B' },
     { key: '--color-secondary-light', value: '#D8684B' },
+    { key: '--color-secondary-transparent', value: '#D8684B33' },
+
     { key: '--color-g-1', value: '#51252A' },
     { key: '--color-g-2', value: '#7A3A42' },
     { key: '--color-g-3', value: '#51252A' },
@@ -42,6 +46,8 @@ const themes = {
     { key: '--color-primary-light', value: '#fceef0' },
     { key: '--color-secondary', value: '#273043' },
     { key: '--color-secondary-light', value: '#32446B' },
+    { key: '--color-secondary-transparent', value: '#32446B33' },
+
     { key: '--color-g-1', value: '#9197AE' },
     { key: '--color-g-2', value: '#787E96' },
     { key: '--color-g-3', value: '#9197AE' },
