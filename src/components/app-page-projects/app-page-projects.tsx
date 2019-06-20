@@ -1,48 +1,5 @@
 import { Component, Prop, State, h } from '@stencil/core';
-
-const projects = [
-  {
-    id: 1,
-    slug: 'react-native-sectioned-multi-select',
-    coverImage: 'assets/projects/rnsms.png',
-    heading: 'React Native Sectioned Multi Select',
-    subHeading: 'A highly configurable select component for React Native',
-    link: '',
-    tags: ['React Native', 'Javscript'],
-    category: 'library',
-  },
-  {
-    id: 2,
-    slug: 'react-native-swipeable-rating',
-    coverImage: 'assets/projects/rnsr.png',
-    heading: 'React Native Swipeable Rating',
-    subHeading: 'A React Native star rating component with swipe & tap support',
-    link: '',
-    tags: ['React Native', 'Javscript'],
-    category: 'library',
-  },
-  {
-    id: 3,
-    slug: 'casual-sparks',
-    coverImage: 'assets/projects/casual-sparks.png',
-    heading: 'Casual Sparks',
-    subHeading: 'Record label website with custom Sound Cloud player',
-    link: 'https://casualsparks.com',
-    tags: ['Javscript', 'React', 'Gatsby'],
-    category: 'website',
-  },
-  {
-    id: 4,
-    slug: 'ren-rizzolo',
-    coverImage: 'assets/projects/renrizzolo-web.png',
-    heading: 'Ren Rizzolo',
-    subHeading:
-      'Simple portfolio site with custom route transitions component and colour theme picker',
-    link: 'https://renrizzolo.com',
-    tags: ['Javscript', 'Stencil JS', 'Web Components', 'CSS variables'],
-    category: 'website',
-  },
-];
+import { projects, Project } from './projects';
 
 @Component({
   tag: 'app-page-projects',
@@ -52,15 +9,20 @@ const projects = [
 export class AppPageProjects {
   @Prop()
   styles?: { [key: string]: string };
-  @Prop()
   mounted: boolean;
+
   @State()
   isMounted: boolean = false;
-  @State()
-  items: any[] = [<h1>new item</h1>, <h1>test item</h1>, <h1>another item</h1>];
+  items: Project[] = projects;
+  filteredBy: string = '';
+  tags: string[] = [];
 
   componentDidLoad() {
     this.isMounted = true;
+    projects.map(
+      (proj) =>
+        proj.tags && proj.tags.map((tag) => this.tags.indexOf(tag) === -1 && this.tags.push(tag))
+    );
   }
 
   toggle = () => {
@@ -77,11 +39,40 @@ export class AppPageProjects {
 
     this.items = [...newA];
   };
+  resetFilter = () => {
+    this.isMounted = false;
+    this.filteredBy = '';
+    setTimeout(() => {
+      this.items = [...projects];
+      this.isMounted = true;
+    }, projects.length * 100 * 2);
+  };
 
+  filterItems = (k: string, v: string) => {
+    this.isMounted = false;
+    this.filteredBy = `${k}|${v}`;
+    setTimeout(() => {
+      this.items = [
+        ...projects.filter((item) => {
+          if (Array.isArray(item[k])) {
+            console.log(item[k], item[k].indexOf(v));
+
+            return item[k].indexOf(v) !== -1;
+          } else {
+            return item[k] === v;
+          }
+        }),
+      ];
+      this.isMounted = true;
+    }, this.items.length * 100 * 2);
+  };
   render() {
     console.log('this.isMounted', this.isMounted);
     console.log('this.styles', this.styles);
 
+    console.log('tags', this.tags);
+
+    // const items = this.filterItems(projects, '', '');
     return (
       <div style={this.styles} class="app-page-projects">
         <app-background>
@@ -91,34 +82,45 @@ export class AppPageProjects {
             <ui-button url="/" class="abs abs--top-left">
               Back
             </ui-button>
-
-            {/*  <transition-group
-                class="class"
-                items={this.items}
-                config={{ duration: 600, timing: 'ease', delay: 300 }}
-                from={{transitionDuration: '300ms', opacity: '0', transform: 'translateX(-15px)' }}
-                enter={{ opacity: '1', transform: 'translateX(0px)' }}
-                leave={{ opacity: '0', transform: 'translateX(35px)' }}
-                mounted={this.isMounted}
-              >
-              </transition-group> */}
-            {/*    <p>
-                <a onClick={this.toggle}>Toggle items</a>            </p>
-
-                <p>
-                <a onClick={this.add}>add item</a>            </p>
-
-                  <p>
-            <a onClick={this.remove}>remove item</a>
-            </p> */}
             <h1>Projects</h1>
+            <div class="app-page-projects--filters">
+              <ui-button
+                class={`${this.filteredBy === '' ? 'active' : ''}`}
+                onClick={() => this.resetFilter()}
+              >
+                All
+              </ui-button>
+              <ui-button
+                class={`${this.filteredBy === 'category|library' ? 'active' : ''}`}
+                onClick={() => this.filterItems('category', 'library')}
+              >
+                Libraries
+              </ui-button>
+
+              <ui-button
+                class={`${this.filteredBy === 'category|website' ? 'active' : ''}`}
+                onClick={() => this.filterItems('category', 'website')}
+              >
+                Websites
+              </ui-button>
+            </div>
+            <div class="app-page-projects--filters">
+              {this.tags.map((tag) => (
+                <ui-button
+                  class={`link ${this.filteredBy === `tags|${tag}` ? 'active' : ''}`}
+                  onClick={() => this.filterItems('tags', tag)}
+                >
+                  #{tag}
+                </ui-button>
+              ))}
+            </div>
             <transition-group
-              items={projects.map((project) => (
+              items={this.items.map((project) => (
                 <project-item post={project} />
               ))}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 2 }}
-              config={{ duration: 600, timing: 'ease', delay: 300 }}
+              config={{ duration: 600, timing: 'ease', delay: 100 }}
               from={{ transitionDuration: '300ms', opacity: '0', transform: 'translateY(50px)' }}
               enter={{ opacity: '1', transform: 'translateY(0px)' }}
               leave={{ opacity: '0', transform: 'translateY(35px)' }}
