@@ -2,17 +2,7 @@
   background-color: var(--color-secondary);
   min-height: 100vh;
 }
-.app-page-projects--container {
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  max-width: 1100px;
-  margin: 0 auto;
-  width: 100%;
-  padding-top: 250px;
-  padding-bottom: 50px;
-  box-sizing: border-box;
-}
+
 .app-page-projects--filters {
   display: flex;
   flex-direction: row;
