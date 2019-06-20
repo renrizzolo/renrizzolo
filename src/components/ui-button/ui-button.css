@@ -1,6 +1,6 @@
 a {
   transition: all 150ms ease-in;
-  display: block;
+  display: inline-block;
 }
 a:hover {
   transition: all 200ms ease-out;
