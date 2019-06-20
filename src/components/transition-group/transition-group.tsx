@@ -48,6 +48,7 @@ export class TransitionGroup implements ComponentInterface {
     console.log('mounted', newValue);
 
     if (newValue !== oldValue) {
+      
       console.log('toggled mounted watch');
       this.isMounted = newValue;
     }
@@ -59,11 +60,14 @@ export class TransitionGroup implements ComponentInterface {
     setTimeout(() => {
       console.log('mount on load');
       this.isMounted = true;
+      
     }, this.config.duration);
     this.initialItems = this.items;
   }
 
-  componentDidLoad() {}
+  componentDidLoad() {
+
+  }
 
   componentWillUpdate() {
     console.log(this.mounted);
@@ -110,6 +114,8 @@ export class TransitionGroup implements ComponentInterface {
   }
 
   getStyle = (index: number) => {
+    console.log('style', this.isMounted);
+    
     let style = {};
     if (this.isMounted === null) {
       style = this.leave;
@@ -141,6 +147,7 @@ export class TransitionGroup implements ComponentInterface {
   };
 
   render() {
+    
     return (
       <this.wrapper {...this.wrapperProps}>
         {this.initialItems.map((item, i) => {

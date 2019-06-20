@@ -142,7 +142,7 @@ export class AppRoot {
                               routeRender={(props) => (
                                 <transition-mount-wrapper mounted={true} styles={style}>
                                   <transition-group
-                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)', delay: 100 }}
+                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)', delay: 200 }}
                                     from={{ opacity: '0', transform: 'translateY(-20px)' }}
                                     enter={{ opacity: '1', transform: 'translateY(0px)'}}
                                     leave={{ opacity: '0', transform: 'translateY(20px)'}}
@@ -157,19 +157,22 @@ export class AppRoot {
                               component="app-page-projects"
                               exact={true}
                               componentProps={{ styles: {} }}
-                              routeRender={(props) => (
-                                <transition-mount-wrapper mounted={true} styles={style}>
+                              routeRender={(props) => {
+                                console.log('pp', props.history.location.key === loc.key, props.history.location.key, location.key, props.history.location.key === location.key);
+                                
+                              return ( <transition-mount-wrapper mounted={true} styles={style}>
                                   <transition-group
-                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)', delay: 100 }}
+                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)', delay: 200 }}
                                     from={{ opacity: '0', transform: 'translateY(-20px)' }}
                                     enter={{ opacity: '1', transform: 'translateY(0px)' }}
                                     leave={{ opacity: '0', transform: 'translateY(20px)' }}
-                                    mounted={lastEvent === 'pageEntered' && props.history.location.key === loc.key}
+                                  mounted={lastEvent === 'pageEntered' && props.history.location.key === loc.key}
                                     items={[<app-page-projects />]}
-                                  />
+                                    />
                                 </transition-mount-wrapper>
                               )}
                               
+                            }
                             />
                             <stencil-route
                               url="/project/:slug"
@@ -178,7 +181,7 @@ export class AppRoot {
                               routeRender={(props) => (
                                 <transition-mount-wrapper mounted={true} styles={style}>
                                   <transition-group
-                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)' }}
+                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)', delay: 200  }}
                                     from={{ opacity: '0', transform: 'translateY(-20px)' }}
                                     enter={{ opacity: '1', transform: 'translateY(0px)' }}
                                     leave={{ opacity: '0', transform: 'translateY(20px)' }}
