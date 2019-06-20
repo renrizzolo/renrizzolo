@@ -99,7 +99,7 @@ export class AppRoot {
                     leave={{ opacity: '0', transform: 'translateY(15px) scale(1.05)' }}
                     renderFunction={(style, loc, lastEvent) => {
                       return (
-                        <div style={{ overflow: lastEvent !== 'enter' ? 'hidden' : 'unset'}}>
+                        <div style={{ overflow: lastEvent !== 'enter' ? 'hidden' : 'unset' }}>
                           <div
                             class="theme-buttons"
                             style={{ opacity: style.opacity, transition: style.transition }}
@@ -142,6 +142,11 @@ export class AppRoot {
                               url="/projects"
                               component="app-page-projects"
                               exact={true}
+                              componentProps={{ styles: style }}
+                            />
+                            <stencil-route
+                              url="/project/:slug"
+                              component="app-page-project"
                               componentProps={{ styles: style }}
                             />
                             <stencil-route
