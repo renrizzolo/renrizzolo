@@ -8,7 +8,11 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   LocationSegments,
+  MatchResults,
 } from '@stencil/router';
+import {
+  Project,
+} from './components/app-page-projects/projects';
 
 export namespace Components {
   interface AppBackground {}
@@ -16,8 +20,11 @@ export namespace Components {
     'styles'?: { [key: string]: string };
   }
   interface AppPage404 {}
+  interface AppPageProject {
+    'match': MatchResults;
+    'styles'?: { [key: string]: string };
+  }
   interface AppPageProjects {
-    'mounted': boolean;
     'styles'?: { [key: string]: string };
   }
   interface AppRoot {}
@@ -25,16 +32,8 @@ export namespace Components {
     'class': string;
   }
   interface ProjectItem {
-    'post': {
-      id: number;
-      slug: string;
-      coverImage?: string;
-      heading: string;
-      subHeading?: string;
-      link?: string;
-      tags?: string[];
-      category?: string;
-    };
+    'fullSize': boolean;
+    'post': Project;
   }
   interface RenrizzoloLogo {}
   interface RouteTransition {
@@ -103,6 +102,12 @@ declare global {
     new (): HTMLAppPage404Element;
   };
 
+  interface HTMLAppPageProjectElement extends Components.AppPageProject, HTMLStencilElement {}
+  var HTMLAppPageProjectElement: {
+    prototype: HTMLAppPageProjectElement;
+    new (): HTMLAppPageProjectElement;
+  };
+
   interface HTMLAppPageProjectsElement extends Components.AppPageProjects, HTMLStencilElement {}
   var HTMLAppPageProjectsElement: {
     prototype: HTMLAppPageProjectsElement;
@@ -166,6 +171,7 @@ declare global {
     'app-background': HTMLAppBackgroundElement;
     'app-home': HTMLAppHomeElement;
     'app-page-404': HTMLAppPage404Element;
+    'app-page-project': HTMLAppPageProjectElement;
     'app-page-projects': HTMLAppPageProjectsElement;
     'app-root': HTMLAppRootElement;
     'app-wave': HTMLAppWaveElement;
@@ -185,8 +191,11 @@ declare namespace LocalJSX {
     'styles'?: { [key: string]: string };
   }
   interface AppPage404 extends JSXBase.HTMLAttributes<HTMLAppPage404Element> {}
+  interface AppPageProject extends JSXBase.HTMLAttributes<HTMLAppPageProjectElement> {
+    'match'?: MatchResults;
+    'styles'?: { [key: string]: string };
+  }
   interface AppPageProjects extends JSXBase.HTMLAttributes<HTMLAppPageProjectsElement> {
-    'mounted'?: boolean;
     'styles'?: { [key: string]: string };
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {
@@ -196,16 +205,8 @@ declare namespace LocalJSX {
     'class'?: string;
   }
   interface ProjectItem extends JSXBase.HTMLAttributes<HTMLProjectItemElement> {
-    'post'?: {
-      id: number;
-      slug: string;
-      coverImage?: string;
-      heading: string;
-      subHeading?: string;
-      link?: string;
-      tags?: string[];
-      category?: string;
-    };
+    'fullSize'?: boolean;
+    'post'?: Project;
   }
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
   interface RouteTransition extends JSXBase.HTMLAttributes<HTMLRouteTransitionElement> {
@@ -256,6 +257,7 @@ declare namespace LocalJSX {
     'app-background': AppBackground;
     'app-home': AppHome;
     'app-page-404': AppPage404;
+    'app-page-project': AppPageProject;
     'app-page-projects': AppPageProjects;
     'app-root': AppRoot;
     'app-wave': AppWave;
