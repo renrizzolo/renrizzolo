@@ -4,6 +4,14 @@
   --item-text: var(--color-primary);
   --item-text--hover: var(--color-text);
 }
+code {
+  color: var(--item-text);
+}
+p {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
 .project-item--container {
   background-color: var(--item-background);
   position: relative;
@@ -15,13 +23,26 @@
   border-top-right-radius: 5px;
   height: 100%;
 }
+.project-item--container.full-size {
+  --item-background: var(--color-primary);
+  --item-background--hover: var(--color-primary);
+  --item-text: var(--color-secondary);
+  --item-text--hover: var(--color-secondary);
+}
+.project-item--container.full-size .project-item--subheading {
+  color: black;
+  font-weight: bold;
+}
+.project-item--container.full-size .project-item--image {
+  max-height: 700px;
+}
 .project-item--heading {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 .project-item--heading a {
   font-size: 1.5rem;
-  color: var(--color-primary);
+  color: var(--item-text);
   max-height: 100%;
   text-decoration: none;
   transition: color 200ms ease;
@@ -33,7 +54,7 @@
 }
 .project-item--subheading {
   line-height: 1.4;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: normal;
   color: var(--item-text);
   margin-top: 0.5rem;
@@ -47,11 +68,11 @@
     font-size: 0.9rem;
   }
 }
-.project-item--container:hover .project-item--heading a,
-.project-item--container:hover .project-item--subheading {
+.project-item--container:not(.full-size):hover .project-item--heading a,
+.project-item--container:not(.full-size):hover .project-item--subheading {
   color: var(--item-text--hover);
 }
-.project-item--container:hover .project-item--info {
+.project-item--container:not(.full-size):hover .project-item--info {
   transform: translateY(1px);
 }
 
@@ -59,7 +80,7 @@
   margin: 0;
   overflow: hidden;
 }
-.project-item--container:hover .project-item--image {
+.project-item--container:not(.full-size):hover .project-item--image {
   transform: scale(1.03);
 }
 
@@ -83,7 +104,7 @@
   transform: translateY(100%);
   transition: transform 400ms 0ms ease;
 }
-.project-item--container:hover .project-item--image__overlay {
+.project-item--container:not(.full-size):hover .project-item--image__overlay {
   transform: translateY(0%);
   transition: transform 400ms 100ms ease;
 }
@@ -98,7 +119,7 @@
   height: 100%;
   transition: transform 200ms 100ms ease;
 }
-.project-item--container:hover .project-item--heading__overlay {
+.project-item--container:not(.full-size):hover .project-item--heading__overlay {
   transform: translateY(0%);
   transition: transform 200ms ease;
 }

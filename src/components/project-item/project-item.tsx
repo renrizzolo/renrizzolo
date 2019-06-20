@@ -1,4 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
+import { Project } from '../app-page-projects/projects';
 
 @Component({
   tag: 'project-item',
@@ -7,31 +8,21 @@ import { Component, h, Prop } from '@stencil/core';
 })
 export class ProjectItem {
   @Prop()
-  post: {
-    id: number;
-    slug: string;
-    coverImage?: string;
-    heading: string;
-    subHeading?: string;
-    link?: string;
-    tags?: string[];
-    category?: string;
-  };
+  fullSize: boolean = false;
+  @Prop()
+  post: Project;
 
   render() {
-    // const post = {
-    //   id: 1,
-    //   slug: 'project1',
-    //   // coverImage: 'https://picsum.photos/id/995/400/200',
-    //   heading: 'React Native Sectioned Multi Select',
-    //   subHeading: 'A highly configurable select component for React Native',
-    // };
     const post = this.post;
+    const url = !this.fullSize ? `/project/${post.slug}` : null;
     return (
-      <div class="project-item--container" key={`post-${post.id}`}>
+      <div
+        class={`project-item--container ${this.fullSize ? 'full-size' : ''}`}
+        key={`post-${post.id}`}
+      >
         {post.coverImage && (
           <div class="project-item--image__wrapper">
-            <stencil-route-link url={`/project/${post.slug}`}>
+            <stencil-route-link url={url}>
               <div class="project-item--image__overlay" />
               <figure
                 itemprop="image"
@@ -48,10 +39,16 @@ export class ProjectItem {
           <div class="tags-container">
             {post.tags && post.tags.map((tag) => <span class="tag">{tag}</span>)}
           </div>
-          <h1 class="project-item--heading">
-            <stencil-route-link url={`/post/${post.slug}`}>{post.heading}</stencil-route-link>
-          </h1>
-          <p class="project-item--subheading">{post.subHeading}</p>
+          {!this.fullSize && (
+            <h1 class="project-item--heading">
+              <stencil-route-link url={url}>{post.heading}</stencil-route-link>
+            </h1>
+          )}
+
+          <div>
+            <p class="project-item--subheading">{post.subHeading}</p>
+            {this.fullSize && <div innerHTML={post.details} />}
+          </div>
         </section>
       </div>
     );
