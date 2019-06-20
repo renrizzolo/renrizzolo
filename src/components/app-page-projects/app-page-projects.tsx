@@ -78,7 +78,7 @@ export class AppPageProjects {
         <app-background>
           <app-wave class="wave--flipped" />
 
-          <div class="app-page-projects--container">
+          <ui-container>
             <ui-button url="/" class="abs abs--top-left">
               Back
             </ui-button>
@@ -126,7 +126,7 @@ export class AppPageProjects {
               leave={{ opacity: '0', transform: 'translateY(35px)' }}
               mounted={this.isMounted}
             />
-          </div>
+          </ui-container>
         </app-background>
       </div>
     );

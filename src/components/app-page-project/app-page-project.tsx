@@ -28,18 +28,18 @@ export class AppPageProject {
       console.log(project);
       if (project) {
         return (
-          <div style={this.styles} class="app-page-project">
+          <div class="app-page-project">
             <app-background>
               <app-wave class="wave--flipped" />
 
-              <div class="app-page-project--container">
+              <ui-container>
                 <ui-button url="/projects" class="abs abs--top-left">
                   Back
                 </ui-button>
 
                 <h1>{project.heading}</h1>
                 <project-item post={project} fullSize />
-              </div>
+              </ui-container>
             </app-background>
           </div>
         );
