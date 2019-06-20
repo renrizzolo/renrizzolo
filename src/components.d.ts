@@ -74,6 +74,9 @@ export namespace Components {
     'onClick'?: (event: MouseEvent) => any;
     'url'?: string;
   }
+  interface UiContainer {
+    'class'?: string;
+  }
   interface UiGrid {
     'class'?: string;
     'cols': 1 | 2 | 3 | 4;
@@ -162,6 +165,12 @@ declare global {
     new (): HTMLUiButtonElement;
   };
 
+  interface HTMLUiContainerElement extends Components.UiContainer, HTMLStencilElement {}
+  var HTMLUiContainerElement: {
+    prototype: HTMLUiContainerElement;
+    new (): HTMLUiContainerElement;
+  };
+
   interface HTMLUiGridElement extends Components.UiGrid, HTMLStencilElement {}
   var HTMLUiGridElement: {
     prototype: HTMLUiGridElement;
@@ -181,6 +190,7 @@ declare global {
     'transition-group': HTMLTransitionGroupElement;
     'transition-mount-wrapper': HTMLTransitionMountWrapperElement;
     'ui-button': HTMLUiButtonElement;
+    'ui-container': HTMLUiContainerElement;
     'ui-grid': HTMLUiGridElement;
   }
 }
@@ -247,6 +257,9 @@ declare namespace LocalJSX {
     'onClick'?: (event: MouseEvent) => any;
     'url'?: string;
   }
+  interface UiContainer extends JSXBase.HTMLAttributes<HTMLUiContainerElement> {
+    'class'?: string;
+  }
   interface UiGrid extends JSXBase.HTMLAttributes<HTMLUiGridElement> {
     'class'?: string;
     'cols'?: 1 | 2 | 3 | 4;
@@ -267,6 +280,7 @@ declare namespace LocalJSX {
     'transition-group': TransitionGroup;
     'transition-mount-wrapper': TransitionMountWrapper;
     'ui-button': UiButton;
+    'ui-container': UiContainer;
     'ui-grid': UiGrid;
   }
 }

@@ -93,16 +93,18 @@ export class AppRoot {
                   <route-transition
                     items={location}
                     keys={location.key}
-                    config={{ duration: 600, timing: 'cubic-bezier(0.63, 1, 0.620, 1)' }}
-                    from={{ opacity: '0', transform: 'translateY(5px) scale(1.05)' }}
-                    enter={{ opacity: '1', transform: 'translateY(0px) scale(1)' }}
-                    leave={{ opacity: '0', transform: 'translateY(15px) scale(1.05)' }}
+                    config={{ duration: 850, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)' }}
+                    from={{ opacity: '1', transform: 'translateY(0%)' }}
+                    enter={{ opacity: '1', transform: 'translateY(-100%)' }}
+                    leave={{ opacity: '1', transform: 'translateY(0%)' }}
                     renderFunction={(style, loc, lastEvent) => {
+                      console.log('lastEvent', lastEvent);
+                      
                       return (
-                        <div style={{ overflow: lastEvent !== 'enter' ? 'hidden' : 'unset' }}>
+                        <div class={lastEvent !== 'enter' ? 'hide-overflow' : ''}>
                           <div
                             class="theme-buttons"
-                            style={{ opacity: style.opacity, transition: style.transition }}
+                            style={{ opacity: lastEvent === 'pageEntered' ? '1' : '0' }}
                           >
                             {Object.keys(themes).map((theme) => (
                               <ui-button
@@ -136,21 +138,58 @@ export class AppRoot {
                               url="/"
                               component="app-home"
                               exact={true}
-                              componentProps={{ styles: style }}
+                              componentProps={{ styles: {} }}
+                              routeRender={(props) => (
+                                <transition-mount-wrapper mounted={true} styles={style}>
+                                  <transition-group
+                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)', delay: 100 }}
+                                    from={{ opacity: '0', transform: 'translateY(-20px)' }}
+                                    enter={{ opacity: '1', transform: 'translateY(0px)'}}
+                                    leave={{ opacity: '0', transform: 'translateY(20px)'}}
+                                    mounted={lastEvent === 'pageEntered' && props.history.location.key === loc.key}
+                                    items={[<app-home />]}
+                                  />
+                                </transition-mount-wrapper>
+                              )}
                             />
                             <stencil-route
                               url="/projects"
                               component="app-page-projects"
                               exact={true}
-                              componentProps={{ styles: style }}
+                              componentProps={{ styles: {} }}
+                              routeRender={(props) => (
+                                <transition-mount-wrapper mounted={true} styles={style}>
+                                  <transition-group
+                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)', delay: 100 }}
+                                    from={{ opacity: '0', transform: 'translateY(-20px)' }}
+                                    enter={{ opacity: '1', transform: 'translateY(0px)' }}
+                                    leave={{ opacity: '0', transform: 'translateY(20px)' }}
+                                    mounted={lastEvent === 'pageEntered' && props.history.location.key === loc.key}
+                                    items={[<app-page-projects />]}
+                                  />
+                                </transition-mount-wrapper>
+                              )}
+                              
                             />
                             <stencil-route
                               url="/project/:slug"
                               component="app-page-project"
-                              componentProps={{ styles: style }}
+                              componentProps={{ styles: {} }}
+                              routeRender={(props) => (
+                                <transition-mount-wrapper mounted={true} styles={style}>
+                                  <transition-group
+                                    config={{ duration: 500, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)' }}
+                                    from={{ opacity: '0', transform: 'translateY(-20px)' }}
+                                    enter={{ opacity: '1', transform: 'translateY(0px)' }}
+                                    leave={{ opacity: '0', transform: 'translateY(20px)' }}
+                                    mounted={lastEvent === 'pageEntered' && props.history.location.key === loc.key}
+                                    items={[<app-page-project {...props} />]}
+                                  />
+                                </transition-mount-wrapper>
+                              )}
                             />
                             <stencil-route
-                              componentProps={{ styles: style }}
+                              componentProps={{ styles: {} }}
                               routeRender={(_) => (
                                 <transition-mount-wrapper mounted={true} styles={style}>
                                   <app-page-404 />

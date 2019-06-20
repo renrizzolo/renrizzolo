@@ -41,6 +41,8 @@ export class RouteTransition implements ComponentInterface {
 
     if (lastKey !== newValue && lastEvent !== 'pageEnter') {
       //let the unmount transition run
+      console.log('page: before timeout');
+      
       setTimeout(() => {
         console.log(
           'page: has entered with delay',
@@ -50,7 +52,6 @@ export class RouteTransition implements ComponentInterface {
         );
         this._setEvent('pageEnter', this.currentPageLocation);
       }, this.config.duration);
-
       this.localPageSegments = this.currentPageLocation;
     }
   }
@@ -123,7 +124,7 @@ export class RouteTransition implements ComponentInterface {
   componentDidUpdate() {
     // new page 'finished' entering
     if (
-      lastKey === this.currentPageLocation.key &&
+      lastKey === this.localPageSegments.key &&
       lastEvent !== 'pageEntered' &&
       lastEvent !== 'pageLeave'
     ) {
@@ -131,13 +132,15 @@ export class RouteTransition implements ComponentInterface {
       // this is not ok
       // clearly there's a race condition
       setTimeout(() => {
+        
         this._setEvent('pageEntered', this.currentPageLocation);
       }, 50);
+    
     }
   }
 
   getStyle() {
-    let style = this.from;
+    let style = {};
     if (lastEvent === 'pageEnter') {
       style = this.from;
     }

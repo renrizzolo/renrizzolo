@@ -13,3 +13,8 @@
 ui-button {
   margin-right: 10px;
 }
+
+.hide-overflow {
+  overflow: hidden;
+  position: relative;
+}

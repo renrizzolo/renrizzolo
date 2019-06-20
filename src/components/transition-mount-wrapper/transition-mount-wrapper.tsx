@@ -1,8 +1,9 @@
-import { h, Component, Prop, State, ComponentInterface } from '@stencil/core';
+import { h, Component, Prop, State, ComponentInterface, Host } from '@stencil/core';
 
 @Component({
   tag: 'transition-mount-wrapper',
-  shadow: true,
+  styleUrl: 'transition-mount-wrapper.css',
+  shadow: false,
 })
 export class TransitionMountWrapper implements ComponentInterface {
   @Prop()
@@ -16,9 +17,10 @@ export class TransitionMountWrapper implements ComponentInterface {
   }
   render() {
     return (
-      <div style={this.styles}>
+      <Host>
+        <div class="overlay" style={this.styles} />
         <slot />
-      </div>
+      </Host>
     );
   }
 }
