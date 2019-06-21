@@ -13,16 +13,24 @@ export class AppPageProjects {
 
   @State()
   isMounted: boolean = false;
-  items: Project[] = projects;
+  @State()
+  items: Project[] = [];
+  @State()
   filteredBy: string = '';
+  @State()
   tags: string[] = [];
 
+  componentWillLoad() {
+    this.isMounted = false;
+  }
+
   componentDidLoad() {
-    this.isMounted = true;
+    this.items = [...projects];
     projects.map(
       (proj) =>
         proj.tags && proj.tags.map((tag) => this.tags.indexOf(tag) === -1 && this.tags.push(tag))
     );
+    this.isMounted = true;
   }
 
   toggle = () => {
@@ -36,41 +44,34 @@ export class AppPageProjects {
   remove = () => {
     const newA = this.items.slice(0, this.items.length - 1);
     console.log(newA);
-
     this.items = [...newA];
   };
+
   resetFilter = () => {
-    this.isMounted = false;
     this.filteredBy = '';
-    setTimeout(() => {
-      this.items = [...projects];
-      this.isMounted = true;
-    }, projects.length * 100 * 2);
+    this.items = [...projects];
   };
 
   filterItems = (k: string, v: string) => {
-    this.isMounted = false;
     this.filteredBy = `${k}|${v}`;
-    setTimeout(() => {
-      this.items = [
-        ...projects.filter((item) => {
-          if (Array.isArray(item[k])) {
-            console.log(item[k], item[k].indexOf(v));
-
-            return item[k].indexOf(v) !== -1;
-          } else {
-            return item[k] === v;
-          }
-        }),
-      ];
-      this.isMounted = true;
-    }, this.items.length * 100 * 2);
+    const temp = projects.filter((item) => {
+      if (Array.isArray(item[k])) {
+        console.log(item[k], item[k].indexOf(v));
+        return item[k].indexOf(v) !== -1;
+      } else {
+        return item[k] === v;
+      }
+    });
+    this.items = [...temp];
   };
+
   render() {
     console.log('this.isMounted', this.isMounted);
     console.log('this.styles', this.styles);
 
     console.log('tags', this.tags);
+    const items = this.items.map((project) => <project-item post={project} />);
+    console.log(items);
 
     // const items = this.filterItems(projects, '', '');
     return (
@@ -84,6 +85,7 @@ export class AppPageProjects {
             </ui-button>
             <h1>Projects</h1>
             <div class="app-page-projects--filters">
+              <a onClick={this.toggle}>toggle</a>
               <ui-button
                 class={`${this.filteredBy === '' ? 'active' : ''}`}
                 onClick={() => this.resetFilter()}
@@ -115,15 +117,13 @@ export class AppPageProjects {
               ))}
             </div>
             <transition-group
-              items={this.items.map((project) => (
-                <project-item post={project} />
-              ))}
+              items={items}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 2 }}
               config={{ duration: 600, timing: 'ease', delay: 100 }}
               from={{ transitionDuration: '300ms', opacity: '0', transform: 'translateY(50px)' }}
               enter={{ opacity: '1', transform: 'translateY(0px)' }}
-              leave={{ opacity: '0', transform: 'translateY(35px)' }}
+              leave={{ opacity: '0', transform: 'translateY(-35px)', transitionDelay: '0ms' }}
               mounted={this.isMounted}
             />
           </ui-container>

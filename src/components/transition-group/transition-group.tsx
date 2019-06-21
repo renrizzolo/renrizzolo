@@ -39,72 +39,115 @@ export class TransitionGroup implements ComponentInterface {
   @State()
   loc: [];
   isMounted: boolean;
+  @State()
   newItemKey: number = null;
+  @State()
   initialItems: any[] = [];
-  newStyle: { [key: string]: string };
+  @State()
+  style: { [key: string]: string };
 
   @Watch('mounted')
   mountWatch(newValue: boolean, oldValue: boolean) {
-    console.log('mounted', newValue);
-
-    if (newValue !== oldValue) {
-      
+    if (newValue !== oldValue && this.items.length <= 1) {
       console.log('toggled mounted watch');
       this.isMounted = newValue;
+      if (newValue === true) {
+        console.log('nu is tru');
+        this.style = { ...this.from };
+        setTimeout(() => {
+          this.style = { ...this.enter };
+          this.el.forceUpdate();
+        }, 60);
+      }
+      if (newValue === false) {
+        console.log('nu is false');
+        setTimeout(() => {
+          this.style = { ...this.leave };
+          this.el.forceUpdate();
+        }, 60);
+      }
+    }
+  }
+
+  @Watch('items')
+  itemsWatch(newValue: [], oldValue: []) {
+    console.log('items watch', oldValue, newValue);
+    // this works for multiple in / out but not single
+    // if (newValue && newValue.length >= 1) {
+
+    // this works for single in / out
+    // but can't toggle from > 1 to 1
+    // I think I need to make a separate
+    // component or at least a prop for
+    // trail/single only
+    if (newValue && newValue.length > 1) {
+      if (newValue && newValue !== oldValue) {
+        console.log('diff new items watch');
+        // this.isMounted = false;
+        this.style = { ...this.from };
+
+        setTimeout(() => {
+          this.style = { ...this.enter };
+          this.initialItems = [...this.items];
+        }, this.config.duration);
+
+        // this.el.forceUpdate();
+      }
     }
   }
 
   componentWillLoad() {
     this.isMounted = false;
-
-    setTimeout(() => {
-      console.log('mount on load');
-      this.isMounted = true;
-      
-    }, this.config.duration);
-    this.initialItems = this.items;
+    this.style = { ...this.from };
+    this.initialItems = [...this.items];
   }
 
   componentDidLoad() {
+    setTimeout(() => {
+      console.log('mount on load');
+      this.style = { ...this.enter };
 
+      this.isMounted = true;
+    }, this.config.duration);
   }
 
-  componentWillUpdate() {
-    console.log(this.mounted);
+  // componentWillUpdate() {
+  //   console.log(this.mounted);
 
-    if (this.items.length > this.initialItems.length) {
-      this.newStyle = { ...this.from };
+  //   if (this.items.length > this.initialItems.length) {
+  //     this.newStyle = { ...this.from };
 
-      console.log('will update from');
-      setTimeout(() => {
-        this.newItemKey = this.items.length > 0 ? this.items.length - 1 : null;
-        this.newStyle = { ...this.enter };
-        this.el.forceUpdate();
-      }, 50);
-    } else if (this.items.length < this.initialItems.length) {
-      console.log('will update leave');
-      this.newItemKey = this.items.length > 0 ? this.items.length - 1 : null;
+  //     console.log('will update from');
+  //     setTimeout(() => {
+  //       this.newItemKey = this.items.length > 0 ? this.items.length - 1 : null;
+  //       this.newStyle = { ...this.enter };
+  //       // this.el.forceUpdate();
+  //     }, 50);
+  //   } else if (this.items.length < this.initialItems.length) {
+  //     console.log('will update leave');
+  //     this.newItemKey = this.items.length > 0 ? this.items.length - 1 : null;
 
-      // @todo - remove item animation
-    }
-    if (this.items !== this.initialItems) {
-      console.log('will update change items');
-      this.initialItems = [...this.items];
-    }
-  }
+  //     // @todo - remove item animation
+  //   }
+  //   if (this.items !== this.initialItems) {
+  //     console.log('will update change items');
+  //     // this.initialItems = [...this.items];
+  //   }
+  // }
 
-  componenetWillRender() {
-    console.log('will render', this.newItemKey, this.items.length, this.initialItems.length);
-    if (this.items.length < this.initialItems.length) {
-      console.log('will update leave');
-      this.newItemKey = this.items.length > 0 ? this.items.length - 1 : null;
+  // componenetWillRender() {
+  //   console.log('will render', this.newItemKey, this.items.length, this.initialItems.length);
+  //   if (this.items.length < this.initialItems.length) {
+  //     console.log('will update leave');
+  //     this.newItemKey = this.items.length > 0 ? this.items.length - 1 : null;
 
-      // @todo - remove item animation
-    }
-  }
-  componentDidUpdate() {
-    this.newItemKey = null;
-  }
+  //     // @todo - remove item animation
+  //   }
+  // }
+
+  // componentDidUpdate() {
+  //   this.newItemKey = null;
+  // }
 
   componentWillUnload() {
     setTimeout(() => {
@@ -113,48 +156,33 @@ export class TransitionGroup implements ComponentInterface {
     }, this.config.duration);
   }
 
-  getStyle = (index: number) => {
-    console.log('style', this.isMounted);
-    
-    let style = {};
-    if (this.isMounted === null) {
-      style = this.leave;
-    }
-    if (this.isMounted === true) {
-      style = this.enter;
-    }
-    if (this.isMounted === false) {
-      style = this.from;
-    }
-    console.log(this.isMounted, index, this.initialItems.length, this.items.length);
+  getStyle = () => {
+    // console.log(this.isMounted, index, this.initialItems.length, this.items.length);
 
     // an item was added
-    if (
-      index === this.items.length - 1 &&
-      this.items !== this.initialItems &&
-      this.isMounted === true
-    ) {
-      console.log(index, 'index > this.items.length - 1');
-      style = this.newStyle;
-    }
+    // if (
+    //   index === this.items.length - 1 &&
+    //   this.items !== this.initialItems &&
+    //   this.isMounted === true
+    // ) {
+    //   console.log(index, 'index > this.items.length - 1');
+    //   style = this.newStyle;
+    // }
 
-    style = {
+    const style = {
       transitionDuration: `${this.config.duration}ms`,
       transitionTimingFunction: this.config.timing,
-      ...style,
+      ...this.style,
     };
     return style;
   };
 
   render() {
-    
     return (
       <this.wrapper {...this.wrapperProps}>
         {this.initialItems.map((item, i) => {
-          const style = this.getStyle(i);
-          console.group('render item');
-          console.log(`${i} tg-applying ${JSON.stringify(style)}`);
-          console.groupEnd();
+          const style = this.getStyle();
+          console.log(`${this.wrapper} ${i} tg-applying`);
           const shouldNotDelay = this.newItemKey === i;
           return (
             <div

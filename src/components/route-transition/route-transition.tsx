@@ -24,7 +24,11 @@ export class RouteTransition implements ComponentInterface {
   @Prop()
   leave: { [key: string]: string };
   @Prop()
-  renderFunction?: (style: { [key: string]: string }, loc: LocationSegments, lastEvent: string) => any;
+  renderFunction?: (
+    style: { [key: string]: string },
+    loc: LocationSegments,
+    lastEvent: string
+  ) => any;
 
   @Watch('keys')
   keyWatcher(newValue: string, oldValue: string) {
@@ -42,7 +46,7 @@ export class RouteTransition implements ComponentInterface {
     if (lastKey !== newValue && lastEvent !== 'pageEnter') {
       //let the unmount transition run
       console.log('page: before timeout');
-      
+
       setTimeout(() => {
         console.log(
           'page: has entered with delay',
@@ -132,10 +136,8 @@ export class RouteTransition implements ComponentInterface {
       // this is not ok
       // clearly there's a race condition
       setTimeout(() => {
-        
         this._setEvent('pageEntered', this.currentPageLocation);
       }, 50);
-    
     }
   }
 
