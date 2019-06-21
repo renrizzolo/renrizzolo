@@ -15,6 +15,7 @@ export class ProjectItem {
   render() {
     const post = this.post;
     const url = !this.fullSize ? `/project/${post.slug}` : null;
+    !this.post && null;
     return (
       <div
         class={`project-item--container ${this.fullSize ? 'full-size' : ''}`}
