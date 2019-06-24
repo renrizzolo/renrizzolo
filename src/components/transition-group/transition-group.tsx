@@ -34,6 +34,8 @@ export class TransitionGroup implements ComponentInterface {
   @Prop()
   leave: { [key: string]: string };
   @Prop()
+  trail: boolean;
+  @Prop()
   renderFunction?: (style: { [key: string]: string }, loc: []) => any;
 
   @State()
@@ -48,7 +50,7 @@ export class TransitionGroup implements ComponentInterface {
 
   @Watch('mounted')
   mountWatch(newValue: boolean, oldValue: boolean) {
-    if (newValue !== oldValue && this.items.length <= 1) {
+    if (newValue !== oldValue) {
       console.log('toggled mounted watch');
       this.isMounted = newValue;
       if (newValue === true) {
@@ -56,14 +58,14 @@ export class TransitionGroup implements ComponentInterface {
         this.style = { ...this.from };
         setTimeout(() => {
           this.style = { ...this.enter };
-          this.el.forceUpdate();
+          // this.el.forceUpdate();
         }, 60);
       }
       if (newValue === false) {
         console.log('nu is false');
         setTimeout(() => {
           this.style = { ...this.leave };
-          this.el.forceUpdate();
+          // this.el.forceUpdate();
         }, 60);
       }
     }
@@ -71,7 +73,6 @@ export class TransitionGroup implements ComponentInterface {
 
   @Watch('items')
   itemsWatch(newValue: [], oldValue: []) {
-    console.log('items watch', oldValue, newValue);
     // this works for multiple in / out but not single
     // if (newValue && newValue.length >= 1) {
 
@@ -80,18 +81,28 @@ export class TransitionGroup implements ComponentInterface {
     // I think I need to make a separate
     // component or at least a prop for
     // trail/single only
-    if (newValue && newValue.length > 1) {
-      if (newValue && newValue !== oldValue) {
-        console.log('diff new items watch');
-        // this.isMounted = false;
-        this.style = { ...this.from };
+    if (newValue) {
+      if (this.trail && newValue.length >= 1) {
+        if (newValue && newValue !== oldValue) {
+          console.log(this.wrapper, 'diff new items watch');
+          console.log(oldValue, newValue);
 
-        setTimeout(() => {
-          this.style = { ...this.enter };
-          this.initialItems = [...this.items];
-        }, this.config.duration);
+          // this.isMounted = false;
+          if (this.isMounted) {
+            this.style = { ...this.leave };
+          } else {
+            this.style = { ...this.from };
+          }
 
-        // this.el.forceUpdate();
+          setTimeout(() => {
+            if (this.mounted) {
+              this.style = { ...this.enter };
+            }
+            this.initialItems = [...this.items];
+          }, this.config.duration + this.config.delay * 2);
+
+          // this.el.forceUpdate();
+        }
       }
     }
   }
@@ -105,10 +116,10 @@ export class TransitionGroup implements ComponentInterface {
   componentDidLoad() {
     setTimeout(() => {
       console.log('mount on load');
-      this.style = { ...this.enter };
+      // this.style = { ...this.enter };
 
       this.isMounted = true;
-    }, this.config.duration);
+    }, this.config.duration + this.config.delay * 2);
   }
 
   // componentWillUpdate() {

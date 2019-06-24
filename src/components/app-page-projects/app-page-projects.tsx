@@ -30,7 +30,9 @@ export class AppPageProjects {
       (proj) =>
         proj.tags && proj.tags.map((tag) => this.tags.indexOf(tag) === -1 && this.tags.push(tag))
     );
-    this.isMounted = true;
+    setTimeout(() => {
+      this.isMounted = true;
+    }, 800);
   }
 
   toggle = () => {
@@ -117,11 +119,12 @@ export class AppPageProjects {
               ))}
             </div>
             <transition-group
+              trail={true}
               items={items}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 2 }}
-              config={{ duration: 600, timing: 'ease', delay: 100 }}
-              from={{ transitionDuration: '300ms', opacity: '0', transform: 'translateY(50px)' }}
+              config={{ duration: 300, timing: 'ease', delay: 100 }}
+              from={{ opacity: '0', transform: 'translateY(50px)' }}
               enter={{ opacity: '1', transform: 'translateY(0px)' }}
               leave={{ opacity: '0', transform: 'translateY(-35px)', transitionDelay: '0ms' }}
               mounted={this.isMounted}

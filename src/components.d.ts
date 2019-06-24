@@ -65,6 +65,7 @@ export namespace Components {
     'leave': { [key: string]: string };
     'mounted': boolean;
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
+    'trail': boolean;
     'wrapper': string;
     'wrapperProps': object;
   }
@@ -252,6 +253,7 @@ declare namespace LocalJSX {
     'leave'?: { [key: string]: string };
     'mounted'?: boolean;
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
+    'trail'?: boolean;
     'wrapper'?: string;
     'wrapperProps'?: object;
   }
