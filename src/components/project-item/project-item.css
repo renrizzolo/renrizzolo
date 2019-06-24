@@ -12,6 +12,9 @@ p {
   margin-bottom: 0.75rem;
   font-size: 1.05rem;
 }
+a {
+  color: var(--color-secondary);
+}
 .project-item--container {
   background-color: var(--item-background);
   position: relative;
@@ -34,7 +37,7 @@ p {
   font-weight: bold;
 }
 .project-item--container.full-size .project-item--image {
-  max-height: 700px;
+  max-height: 100%;
 }
 .project-item--heading {
   margin-top: 1rem;
