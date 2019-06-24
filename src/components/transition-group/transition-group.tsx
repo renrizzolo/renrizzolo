@@ -1,8 +1,8 @@
 import { h, Component, ComponentInterface, Prop, State, Element, Watch } from '@stencil/core';
-
+const transitions = { "ease": ".25,.1,.25,1", "linear": "0,0,1,1", "ease-in": ".42,0,1,1", "ease-out": "0,0,.58,1", "ease-in-out": ".42,0,.58,1", "bounce": "1,1.46,.26,.73", "flick": "1,.55,.1,.98", "woosh": ".06,.84,.76,.99" }
 @Component({
   tag: 'transition-group',
-  shadow: true,
+  shadow: false,
 })
 export class TransitionGroup implements ComponentInterface {
   @Element() el!: any;
@@ -47,26 +47,19 @@ export class TransitionGroup implements ComponentInterface {
   initialItems: any[] = [];
   @State()
   style: { [key: string]: string };
+  @State()
+  settingStyle: boolean = false;
 
   @Watch('mounted')
   mountWatch(newValue: boolean, oldValue: boolean) {
     if (newValue !== oldValue) {
       console.log('toggled mounted watch');
       this.isMounted = newValue;
-      if (newValue === true) {
-        console.log('nu is tru');
-        this.style = { ...this.from };
-        setTimeout(() => {
-          this.style = { ...this.enter };
-          // this.el.forceUpdate();
-        }, 60);
+      if (newValue === true ) {
+        this.setStyle(this.from, this.enter)
       }
       if (newValue === false) {
-        console.log('nu is false');
-        setTimeout(() => {
-          this.style = { ...this.leave };
-          // this.el.forceUpdate();
-        }, 60);
+        this.setStyle(null, this.leave)
       }
     }
   }
@@ -82,11 +75,11 @@ export class TransitionGroup implements ComponentInterface {
     // component or at least a prop for
     // trail/single only
     if (newValue) {
-      if (this.trail && newValue.length >= 1) {
+      if (this.trail && newValue.length) {
         if (newValue && newValue !== oldValue) {
           console.log(this.wrapper, 'diff new items watch');
           console.log(oldValue, newValue);
-
+          this.settingStyle = true;
           // this.isMounted = false;
           if (this.isMounted) {
             this.style = { ...this.leave };
@@ -99,14 +92,25 @@ export class TransitionGroup implements ComponentInterface {
               this.style = { ...this.enter };
             }
             this.initialItems = [...this.items];
-          }, this.config.duration + this.config.delay * 2);
+            this.settingStyle = false;
+          }, this.config.duration + this.config.delay);
 
           // this.el.forceUpdate();
         }
       }
     }
   }
+  setStyle = (from, to, timeout = 0) => {
+    if (this.settingStyle) return;
+    this.settingStyle = true;
+    this.style = { ...from };
+    setTimeout(() => {
+      this.style = { ...to };
+      // this.el.forceUpdate();
+      this.settingStyle = false;
 
+    }, timeout);
+  }
   componentWillLoad() {
     this.isMounted = false;
     this.style = { ...this.from };
@@ -114,12 +118,14 @@ export class TransitionGroup implements ComponentInterface {
   }
 
   componentDidLoad() {
+    // this.settingStyle = true;
     setTimeout(() => {
       console.log('mount on load');
-      // this.style = { ...this.enter };
-
+      this.style = { ...this.enter };
       this.isMounted = true;
-    }, this.config.duration + this.config.delay * 2);
+      this.settingStyle = false;
+
+    }, this.config.delay);
   }
 
   // componentWillUpdate() {
@@ -182,7 +188,7 @@ export class TransitionGroup implements ComponentInterface {
 
     const style = {
       transitionDuration: `${this.config.duration}ms`,
-      transitionTimingFunction: this.config.timing,
+      transitionTimingFunction: transitions[this.config.timing] ? `cubic-bezier(${transitions[this.config.timing]})` : this.config.timing,
       ...this.style,
     };
     return style;
