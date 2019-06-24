@@ -37,9 +37,16 @@ export class ProjectItem {
         )}
         <div class={'project-item--heading__overlay'} />
         <section class="project-item--info">
-          <div class="tags-container">
+          <transition-group 
+            config={{ duration: 600, timing: 'ease', delay: 0 }}
+            mounted={true}
+            from={{transform: 'translateX(-5px)'}}
+            enter={{ transform: 'translateX(0px)'}}
+            leave={{ transform: 'translateX(5px)' }}
+            items={[<div class="tags-container">
             {post.tags && post.tags.map((tag) => <span class="tag">{tag}</span>)}
-          </div>
+          </div>]}
+          />
           {!this.fullSize && (
             <h1 class="project-item--heading">
               <stencil-route-link url={url}>{post.heading}</stencil-route-link>
