@@ -34,12 +34,12 @@ export class RouteTransition implements ComponentInterface {
   keyWatcher(newValue: string, oldValue: string) {
     console.log('new key', newValue, oldValue);
     if (lastKey !== newValue && lastEvent !== 'pageLeave') {
-      console.log(
-        'page: will leave',
-        this.localPageSegments.pathname,
-        lastKey,
-        this.currentPageLocation.key
-      );
+      // console.log(
+      //   'page: will leave',
+      //   this.localPageSegments.pathname,
+      //   lastKey,
+      //   this.currentPageLocation.key
+      // );
       this._setEvent('pageLeave', this.localPageSegments);
     }
 
@@ -48,12 +48,12 @@ export class RouteTransition implements ComponentInterface {
       console.log('page: before timeout');
 
       setTimeout(() => {
-        console.log(
-          'page: has entered with delay',
-          this.currentPageLocation.pathname,
-          lastKey,
-          this.currentPageLocation.key
-        );
+        // console.log(
+        //   'page: has entered with delay',
+        //   this.currentPageLocation.pathname,
+        //   lastKey,
+        //   this.currentPageLocation.key
+        // );
         this._setEvent('pageEnter', this.currentPageLocation);
       }, this.config.duration);
       this.localPageSegments = this.currentPageLocation;
