@@ -52,7 +52,7 @@ export class AppPageProject {
               <app-wave class="wave--flipped" />
 
               <ui-container>
-                <ui-button url="/projects" class="abs abs--top-left">
+                <ui-button url="/projects/" class="abs abs--top-left">
                   Back
                 </ui-button>
                 {this.next && (
