@@ -144,7 +144,7 @@ export class AppRoot {
                                       // when its key changes
                                       // trail
                                       keys={(item) =>
-                                        item.$attrs$ && item.$attrs$.match.params.slug
+                                        item && item.$attrs$ && item.$attrs$.match.params.slug
                                       }
                                       items={[<app-page-project {...props} />]}
                                     />

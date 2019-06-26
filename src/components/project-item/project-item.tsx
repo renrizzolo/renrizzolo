@@ -39,16 +39,29 @@ export class ProjectItem {
       >
         {post.coverImage && (
           <div class="project-item--image__wrapper">
-            <stencil-route-link url={url}>
-              <div class="project-item--image__overlay" />
-              <figure
-                itemprop="image"
-                itemtype="https://schema.org/ImageObject"
-                class="project-item--figure"
-              >
-                <img class="project-item--image" alt={post.heading} src={post.coverImage} />
-              </figure>
-            </stencil-route-link>
+            {!this.fullSize ? (
+              <stencil-route-link url={url}>
+                <div class="project-item--image__overlay" />
+                <figure
+                  itemprop="image"
+                  itemtype="https://schema.org/ImageObject"
+                  class="project-item--figure"
+                >
+                  <img class="project-item--image" alt={post.heading} src={post.coverImage} />
+                </figure>
+              </stencil-route-link>
+            ) : (
+              <div>
+                <div class="project-item--image__overlay" />
+                <figure
+                  itemprop="image"
+                  itemtype="https://schema.org/ImageObject"
+                  class="project-item--figure"
+                >
+                  <img class="project-item--image" alt={post.heading} src={post.coverImage} />
+                </figure>
+              </div>
+            )}
           </div>
         )}
         <div class={'project-item--heading__overlay'} />
