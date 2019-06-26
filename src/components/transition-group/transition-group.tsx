@@ -1,9 +1,9 @@
 import { h, Component, ComponentInterface, Prop, State, Element, Watch } from '@stencil/core';
 
-export function toArray(a) {
+function toArray(a) {
   return a !== void 0 ? (Array.isArray(a) ? a : [a]) : [];
 }
-export function shallowEqual(a, b) {
+function shallowEqual(a, b) {
   if (typeof a !== typeof b) return false;
   if (typeof a === 'string' || typeof a === 'number') return a === b;
   let i;
