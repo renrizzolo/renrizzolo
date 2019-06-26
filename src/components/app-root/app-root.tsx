@@ -126,28 +126,12 @@ export class AppRoot {
                             />
                             <stencil-route
                               url="/project/:slug"
-                              component="app-page-project"
-                              componentProps={{ styles: {} }}
                               routeRender={(props) => {
                                 const match = { ...props.match };
 
                                 return (
                                   <transition-mount-wrapper mounted={true} styles={style}>
-                                    <transition-group
-                                      {...transitionConfig}
-                                      mounted={
-                                        lastEvent === 'pageEntered' &&
-                                        props.history.location.key === loc.key
-                                      }
-                                      // if trail is false
-                                      // the item doesn't update
-                                      // when its key changes
-                                      // trail
-                                      keys={(item) =>
-                                        item.$attrs$ && item.$attrs$.match.params.slug
-                                      }
-                                      items={[<app-page-project match={{ ...match }} />]}
-                                    />
+                                    <app-page-project match={{ ...match }} />
                                   </transition-mount-wrapper>
                                 );
                               }}
