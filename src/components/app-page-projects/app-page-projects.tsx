@@ -14,7 +14,7 @@ export class AppPageProjects {
   @State()
   isMounted: boolean = false;
   @State()
-  items: Project[] = [];
+  items: Project[] = [...projects];
   @State()
   filteredBy: string = '';
   @State()
@@ -26,28 +26,17 @@ export class AppPageProjects {
 
   componentDidLoad() {
     this.items = [...projects];
+    // get tags
     projects.map(
       (proj) =>
         proj.tags && proj.tags.map((tag) => this.tags.indexOf(tag) === -1 && this.tags.push(tag))
     );
+    // delay before items come in
+    // (for route transition to finishe)
     setTimeout(() => {
       this.isMounted = true;
-    }, 800);
+    }, 400);
   }
-
-  toggle = () => {
-    this.isMounted = !this.isMounted;
-  };
-
-  add = () => {
-    this.items = [...this.items, <h1>new item{this.items.length}</h1>];
-  };
-
-  remove = () => {
-    const newA = this.items.slice(0, this.items.length - 1);
-    console.log(newA);
-    this.items = [...newA];
-  };
 
   resetFilter = () => {
     this.filteredBy = '';
@@ -58,7 +47,6 @@ export class AppPageProjects {
     this.filteredBy = `${k}|${v}`;
     const temp = projects.filter((item) => {
       if (Array.isArray(item[k])) {
-        console.log(item[k], item[k].indexOf(v));
         return item[k].indexOf(v) !== -1;
       } else {
         return item[k] === v;
@@ -68,14 +56,9 @@ export class AppPageProjects {
   };
 
   render() {
-    console.log('this.isMounted', this.isMounted);
-    console.log('this.styles', this.styles);
-
-    console.log('tags', this.tags);
-    const items = this.items.map((project) => <project-item post={project} />);
-    console.log(items);
-
-    // const items = this.filterItems(projects, '', '');
+    const items = this.items.map((project) => (mounted, delay) => (
+      <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
+    ));
     return (
       <div style={this.styles} class="app-page-projects">
         <app-background>
@@ -87,7 +70,6 @@ export class AppPageProjects {
             </ui-button>
             <h1>Projects</h1>
             <div class="app-page-projects--filters">
-              <a onClick={this.toggle}>toggle</a>
               <ui-button
                 class={`${this.filteredBy === '' ? 'active' : ''}`}
                 onClick={() => this.resetFilter()}
@@ -98,18 +80,18 @@ export class AppPageProjects {
                 class={`${this.filteredBy === 'category|library' ? 'active' : ''}`}
                 onClick={() => this.filterItems('category', 'library')}
               >
-                Libraries
+                Libraries & plugins
               </ui-button>
 
               <ui-button
                 class={`${this.filteredBy === 'category|website' ? 'active' : ''}`}
                 onClick={() => this.filterItems('category', 'website')}
               >
-                Websites
+                Websites & Web Apps
               </ui-button>
             </div>
             <div class="app-page-projects--filters">
-              {this.tags.map((tag) => (
+              {this.tags.sort().map((tag) => (
                 <ui-button
                   class={`link ${this.filteredBy === `tags|${tag}` ? 'active' : ''}`}
                   onClick={() => this.filterItems('tags', tag)}
@@ -120,13 +102,14 @@ export class AppPageProjects {
             </div>
             <transition-group
               trail={true}
+              keys={(_, i) => i}
               items={items}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 2 }}
-              config={{ duration: 300, timing: 'ease', delay: 100 }}
-              from={{ opacity: '0', transform: 'translateY(50px)' }}
+              config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}
+              from={{ opacity: '0', transform: 'translateY(5px)' }}
               enter={{ opacity: '1', transform: 'translateY(0px)' }}
-              leave={{ opacity: '0', transform: 'translateY(-35px)', transitionDelay: '0ms' }}
+              leave={{ opacity: '0', transform: 'translateY(-5px)' }}
               mounted={this.isMounted}
             />
           </ui-container>
