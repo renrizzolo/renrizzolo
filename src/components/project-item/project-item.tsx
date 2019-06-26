@@ -32,7 +32,7 @@ export class ProjectItem {
   render() {
     const post = this.post;
     const url = !this.fullSize && post ? `/project/${post.slug}` : null;
-    return (
+    return post ? (
       <div
         class={`project-item--container ${this.fullSize ? 'full-size' : ''}`}
         key={`post-${post.id}`}
@@ -108,6 +108,6 @@ export class ProjectItem {
           </div>
         </section>
       </div>
-    );
+    ) : 'loading';
   }
 }
