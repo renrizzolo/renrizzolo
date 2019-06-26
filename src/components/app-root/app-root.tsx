@@ -130,7 +130,6 @@ export class AppRoot {
                               componentProps={{ styles: {} }}
                               routeRender={(props) => {
                                 const match = { ...props.match };
-                                console.log('match', match, loc.pathname);
 
                                 return (
                                   <transition-mount-wrapper mounted={true} styles={style}>
@@ -144,7 +143,9 @@ export class AppRoot {
                                       // the item doesn't update
                                       // when its key changes
                                       // trail
-                                      keys={(item) => item.$attrs$.match.params.slug}
+                                      keys={(item) =>
+                                        item.$attrs$ && item.$attrs$.match.params.slug
+                                      }
                                       items={[<app-page-project match={{ ...match }} />]}
                                     />
                                   </transition-mount-wrapper>
