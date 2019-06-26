@@ -110,7 +110,7 @@ export class AppRoot {
                               )}
                             />
                             <stencil-route
-                              url="/projects"
+                              url="/projects/"
                               component="app-page-projects"
                               exact={true}
                               componentProps={{ styles: {} }}

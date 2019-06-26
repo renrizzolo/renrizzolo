@@ -3,7 +3,7 @@ import { Component, h, } from '@stencil/core';
 @Component({
   tag: 'app-background',
   styleUrl: 'app-background.css',
-  shadow: true,
+  shadow: false,
 })
 export class AppBackground {
  
