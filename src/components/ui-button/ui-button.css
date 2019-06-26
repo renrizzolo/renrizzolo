@@ -41,6 +41,20 @@ a:not(.link).active {
   box-shadow: inset -2px -2px 0 0 rgba(0, 0, 0, 0.2);
   color: var(--color-button);
 }
+.color--alt {
+  color: var(--color-primary);
+}
+.color--alt:hover {
+  color: var(--color-primary);
+}
+.color--alt a {
+  background-color: var(--color-secondary-transparent);
+  color: var(--color-primary);
+}
+.color--alt a:hover {
+  background-color: var(--color-primary-transparent);
+  color: var(--color-primary);
+}
 .abs {
   position: absolute;
   z-index: 1;
@@ -53,6 +67,16 @@ a:not(.link).active {
   top: 2rem;
   right: 2rem;
 }
+.abs--right {
+  right: 2rem;
+}
+.abs--left {
+  left: 2rem;
+}
+.abs--middle {
+  top: 50%;
+  transform: translateY(-50%);
+}
 .abs--bottom-left {
   bottom: 2rem;
   left: 2rem;
@@ -60,4 +84,9 @@ a:not(.link).active {
 .abs--bottom-right {
   bottom: 2rem;
   right: 2rem;
+}
+.flex-center a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
