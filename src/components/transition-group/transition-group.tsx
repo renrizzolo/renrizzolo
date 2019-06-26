@@ -102,10 +102,10 @@ export class TransitionGroup implements ComponentInterface {
     if (newValue) {
       const oldKeys = this.getOldKeys();
       const newKeys = this.getNewKeys();
-      console.log(this.wrapper, this.items, oldKeys, newKeys);
       
       // compare the keys
       if (newKeys && !shallowEqual(newKeys, oldKeys)) {
+        console.log('diffkeys', this.wrapper, this.items, oldKeys, newKeys);
         this.settingStyle = true;
         if (this.isMounted) {
           this.style = { ...this.leave };

@@ -22,7 +22,7 @@ export const config: Config = {
       type: 'www',
       // comment the following line to disable service workers in production
       serviceWorker: null,
-      // prerenderConfig: './prerender.config.js',
+      prerenderConfig: './prerender.config.js',
       baseUrl: 'https://elastic-hodgkin-a279cc.netlify.com/',
     },
   ],

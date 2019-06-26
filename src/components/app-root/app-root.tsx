@@ -134,7 +134,6 @@ export class AppRoot {
                                 return (
                                   <transition-mount-wrapper mounted={true} styles={style}>
                                     <transition-group
-                                    wrapper={'p'}
                                       {...transitionConfig}
                                       mounted={
                                         lastEvent === 'pageEntered' &&
@@ -147,7 +146,7 @@ export class AppRoot {
                                       keys={(item) =>
                                         item && item.$attrs$ && item.$attrs$.match.params.slug
                                       }
-                                      items={[<app-page-project match={match} />]}
+                                      items={props.history.location.key === loc.key ? [<app-page-project match={match} />] : []}
                                     />
                                   </transition-mount-wrapper>
                                 );
