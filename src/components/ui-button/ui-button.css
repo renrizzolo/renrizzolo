@@ -77,6 +77,14 @@ a:not(.link).active {
   top: 50%;
   transform: translateY(-50%);
 }
+@media screen and (max-width: 1200px) {
+  .link-next.abs--right {
+    right: -0.5rem;
+  }
+  .link-prev.abs--left {
+    left: -0.5rem;
+  }
+}
 .abs--bottom-left {
   bottom: 2rem;
   left: 2rem;

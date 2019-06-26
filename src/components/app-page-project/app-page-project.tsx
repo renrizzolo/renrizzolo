@@ -58,7 +58,7 @@ export class AppPageProject {
                 {this.next && (
                   <ui-button
                     url={`/project/${this.next.slug}`}
-                    class="color--alt abs abs--right abs--middle flex-center"
+                    class="link-next color--alt abs abs--right abs--middle flex-center"
                   >
                     <svg
                       version="1.1"
@@ -80,7 +80,7 @@ export class AppPageProject {
                 {this.prev && (
                   <ui-button
                     url={`/project/${this.prev.slug}`}
-                    class="color--alt abs abs--left  abs--middle flex-center"
+                    class="link-prev color--alt abs abs--left  abs--middle flex-center"
                   >
                     <svg
                       version="1.1"
