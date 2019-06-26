@@ -76,14 +76,10 @@ export class RouteTransition implements ComponentInterface {
 
     if (event === 'pageEnter') {
       this.loc = this.localPageSegments;
-
-      console.log('location is now pageEnter', this.loc);
     } else if (event === 'pageLeave') {
       this.loc = location;
-      console.log('location is now pageLeave', this.loc);
     } else if (event === 'pageLeft') {
       this.loc = this.currentPageLocation;
-      console.log('location is now pageLeft', this.loc);
     } else if (event === 'pageEntered' && lastEvent !== 'pageEntered') {
       // this is hackyyy
       // forcing update because the location doesn't change
@@ -91,8 +87,6 @@ export class RouteTransition implements ComponentInterface {
         this.el.forceUpdate();
         // why tho
       }, 50);
-
-      console.log('location is now pageEntered', this.loc);
     }
 
     lastEvent = event;
@@ -111,16 +105,14 @@ export class RouteTransition implements ComponentInterface {
   componentDidLoad() {
     // app loaded
     if (lastKey === this.currentPageLocation.key) {
-      console.log('page: did load', this.currentPageLocation.pathname);
-
-      this._setEvent('pageEntered', this.currentPageLocation);
+      setTimeout(() => {
+        this._setEvent('pageEntered', this.currentPageLocation);
+      }, 250);
     }
   }
 
   componentDidUnload() {
     if (lastKey !== this.currentPageLocation.key) {
-      console.log('page: did unload', this.currentPageLocation.pathname);
-
       this._setEvent('pageLeave', this.localPageSegments);
     }
   }
@@ -132,12 +124,11 @@ export class RouteTransition implements ComponentInterface {
       lastEvent !== 'pageEntered' &&
       lastEvent !== 'pageLeave'
     ) {
-      console.log('page enter same key');
       // this is not ok
       // clearly there's a race condition
       setTimeout(() => {
         this._setEvent('pageEntered', this.currentPageLocation);
-      }, 50);
+      }, 250);
     }
   }
 
@@ -158,12 +149,6 @@ export class RouteTransition implements ComponentInterface {
 
   render() {
     const style = this.getStyle();
-
-    console.group('Route render');
-    console.log(`applying ${lastEvent} to ${this.loc.pathname}`);
-
-    console.log('render loc', style, this.loc);
-    console.groupEnd();
     return this.renderFunction(style, this.loc, lastEvent);
   }
 }
