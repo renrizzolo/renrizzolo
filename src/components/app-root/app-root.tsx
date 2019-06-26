@@ -129,11 +129,12 @@ export class AppRoot {
                               component="app-page-project"
                               componentProps={{ styles: {} }}
                               routeRender={(props) => {
-                                // const match = { ...props.match };
+                                const match = { ...props.match };
 
                                 return (
                                   <transition-mount-wrapper mounted={true} styles={style}>
                                     <transition-group
+                                    wrapper={'p'}
                                       {...transitionConfig}
                                       mounted={
                                         lastEvent === 'pageEntered' &&
@@ -146,7 +147,7 @@ export class AppRoot {
                                       keys={(item) =>
                                         item && item.$attrs$ && item.$attrs$.match.params.slug
                                       }
-                                      items={[<app-page-project {...props} />]}
+                                      items={[<app-page-project match={match} />]}
                                     />
                                   </transition-mount-wrapper>
                                 );
