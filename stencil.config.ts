@@ -7,11 +7,14 @@ import autoprefixer from 'autoprefixer';
 export const config: Config = {
   plugins: [
     postcss({
-      plugins: [autoprefixer({
-        cascade: false
-      })]
-    })
+      plugins: [
+        autoprefixer({
+          cascade: false,
+        }),
+      ],
+    }),
   ],
+  copy: [{ src: '_redirects' }],
   globalStyle: 'src/global/app.css',
   globalScript: 'src/global/app.ts',
   outputTargets: [
@@ -19,7 +22,7 @@ export const config: Config = {
       type: 'www',
       // comment the following line to disable service workers in production
       serviceWorker: null,
-      baseUrl: 'https://myapp.local/'
-    }
-  ]
+      baseUrl: 'https://renrizzolo.com',
+    },
+  ],
 };
