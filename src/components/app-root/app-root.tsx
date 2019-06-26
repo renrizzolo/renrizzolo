@@ -1,59 +1,15 @@
 import { Component, State, h, Event, EventEmitter } from '@stencil/core';
-const sans =
-  "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol";
+import { themes } from './themes';
 
-const themes = {
-  //default
-  florence: [
-    { key: '--font-primary', value: `Helvetica, ${sans}` },
-
-    { key: '--color-primary', value: '#f9c7c7' },
-    { key: '--color-primary-transparent', value: '#ffd4c333' },
-    { key: '--color-primary-light', value: '#fff7f3' },
-    { key: '--color-secondary', value: '#d63a1e' },
-    { key: '--color-secondary-light', value: '#e88370' },
-    { key: '--color-secondary-transparent', value: '#e8837033' },
-
-    { key: '--color-g-1', value: '#36107e' },
-    { key: '--color-g-2', value: '#1d1a2b' },
-    { key: '--color-g-3', value: '#130b3c' },
-    { key: '--color-g-4', value: '#261c57' },
-    { key: '--color-logo', value: '#282828' },
-  ],
-
-  brune: [
-    { key: '--font-primary', value: `Muli, ${sans}` },
-
-    { key: '--color-primary', value: '#faa44f' },
-    { key: '--color-primary-transparent', value: '#E8852233' },
-    { key: '--color-primary-light', value: '#F7B147' },
-    { key: '--color-secondary', value: '#A0351B' },
-    { key: '--color-secondary-light', value: '#D8684B' },
-    { key: '--color-secondary-transparent', value: '#D8684B33' },
-
-    { key: '--color-g-1', value: '#51252A' },
-    { key: '--color-g-2', value: '#7A3A42' },
-    { key: '--color-g-3', value: '#51252A' },
-    { key: '--color-g-4', value: '#7A3A42' },
-    { key: '--color-logo', value: '#535353' },
-  ],
-
-  flatline: [
-    { key: '--font-primary', value: `Roboto, ${sans}` },
-
-    { key: '--color-primary', value: '#fceef0' },
-    { key: '--color-primary-transparent', value: '#fceef033' },
-    { key: '--color-primary-light', value: '#fceef0' },
-    { key: '--color-secondary', value: '#273043' },
-    { key: '--color-secondary-light', value: '#32446B' },
-    { key: '--color-secondary-transparent', value: '#32446B33' },
-
-    { key: '--color-g-1', value: '#9197AE' },
-    { key: '--color-g-2', value: '#787E96' },
-    { key: '--color-g-3', value: '#9197AE' },
-    { key: '--color-g-4', value: '#787E96' },
-    { key: '--color-logo', value: '#8e8b8b' },
-  ],
+const transitionConfig = {
+  config: {
+    duration: 500,
+    timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
+    delay: 200,
+  },
+  from: { opacity: '0', transform: 'translateY(-20px)' },
+  enter: { opacity: '1', transform: 'translateY(0px)' },
+  leave: { opacity: '0', transform: 'translateY(20px)' },
 };
 
 @Component({
@@ -71,14 +27,15 @@ export class AppRoot {
     themes[theme].forEach(({ key, value }) => {
       root.style.setProperty(key, value);
     });
+    localStorage.setItem('theme', theme);
     this.currentTheme = theme;
-    // emit new theme so
+    // emit new theme event so
     // SVG wave can compute
     // the new value
     this.themeUpdated.emit(themes[theme]);
   };
   componentDidLoad() {
-    this.changeTheme('florence');
+    this.changeTheme(localStorage.getItem('theme') || 'florence');
   }
   render() {
     return (
@@ -142,14 +99,7 @@ export class AppRoot {
                               routeRender={(props) => (
                                 <transition-mount-wrapper mounted={true} styles={style}>
                                   <transition-group
-                                    config={{
-                                      duration: 500,
-                                      timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
-                                      delay: 200,
-                                    }}
-                                    from={{ opacity: '0', transform: 'translateY(-20px)' }}
-                                    enter={{ opacity: '1', transform: 'translateY(0px)' }}
-                                    leave={{ opacity: '0', transform: 'translateY(20px)' }}
+                                    {...transitionConfig}
                                     mounted={
                                       lastEvent === 'pageEntered' &&
                                       props.history.location.key === loc.key
@@ -167,14 +117,7 @@ export class AppRoot {
                               routeRender={(_) => (
                                 <transition-mount-wrapper mounted={true} styles={style}>
                                   <transition-group
-                                    config={{
-                                      duration: 500,
-                                      timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
-                                      delay: 200,
-                                    }}
-                                    from={{ opacity: '0', transform: 'translateY(-20px)' }}
-                                    enter={{ opacity: '1', transform: 'translateY(0px)' }}
-                                    leave={{ opacity: '0', transform: 'translateY(20px)' }}
+                                    {...transitionConfig}
                                     mounted={lastEvent === 'pageEntered'}
                                     items={[<app-page-projects />]}
                                   />
@@ -185,31 +128,41 @@ export class AppRoot {
                               url="/project/:slug"
                               component="app-page-project"
                               componentProps={{ styles: {} }}
+                              routeRender={(props) => {
+                                const match = { ...props.match };
+                                console.log('match', match, loc.pathname);
+
+                                return (
+                                  <transition-mount-wrapper mounted={true} styles={style}>
+                                    <transition-group
+                                      {...transitionConfig}
+                                      mounted={
+                                        lastEvent === 'pageEntered' &&
+                                        props.history.location.key === loc.key
+                                      }
+                                      // if trail is false
+                                      // the item doesn't update
+                                      // when its key changes
+                                      // trail
+                                      keys={(item) => item.$attrs$.match.params.slug}
+                                      items={[<app-page-project match={{ ...match }} />]}
+                                    />
+                                  </transition-mount-wrapper>
+                                );
+                              }}
+                            />
+                            <stencil-route
+                              componentProps={{ styles: {} }}
                               routeRender={(props) => (
                                 <transition-mount-wrapper mounted={true} styles={style}>
                                   <transition-group
-                                    config={{
-                                      duration: 500,
-                                      timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
-                                      delay: 200,
-                                    }}
-                                    from={{ opacity: '0', transform: 'translateY(-20px)' }}
-                                    enter={{ opacity: '1', transform: 'translateY(0px)' }}
-                                    leave={{ opacity: '0', transform: 'translateY(20px)' }}
+                                    {...transitionConfig}
                                     mounted={
                                       lastEvent === 'pageEntered' &&
                                       props.history.location.key === loc.key
                                     }
-                                    items={[<app-page-project {...props} />]}
+                                    items={[<app-page-404 />]}
                                   />
-                                </transition-mount-wrapper>
-                              )}
-                            />
-                            <stencil-route
-                              componentProps={{ styles: {} }}
-                              routeRender={(_) => (
-                                <transition-mount-wrapper mounted={true} styles={style}>
-                                  <app-page-404 />
                                 </transition-mount-wrapper>
                               )}
                             />
