@@ -87,8 +87,8 @@ export namespace Components {
   }
   interface UiButton {
     'class'?: string;
+    'clickHandler'?: (event: MouseEvent) => any;
     'href'?: string;
-    'onClick'?: (event: MouseEvent) => any;
     'url'?: string;
   }
   interface UiContainer {
@@ -287,8 +287,8 @@ declare namespace LocalJSX {
   }
   interface UiButton extends JSXBase.HTMLAttributes<HTMLUiButtonElement> {
     'class'?: string;
+    'clickHandler'?: (event: MouseEvent) => any;
     'href'?: string;
-    'onClick'?: (event: MouseEvent) => any;
     'url'?: string;
   }
   interface UiContainer extends JSXBase.HTMLAttributes<HTMLUiContainerElement> {

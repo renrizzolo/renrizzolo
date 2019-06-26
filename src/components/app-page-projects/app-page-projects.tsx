@@ -72,20 +72,20 @@ export class AppPageProjects {
             <div class="app-page-projects--filters">
               <ui-button
                 class={`${this.filteredBy === '' ? 'active' : ''}`}
-                onClick={() => this.resetFilter()}
+                clickHandler={() => this.resetFilter()}
               >
                 All
               </ui-button>
               <ui-button
                 class={`${this.filteredBy === 'category|library' ? 'active' : ''}`}
-                onClick={() => this.filterItems('category', 'library')}
+                clickHandler={() => this.filterItems('category', 'library')}
               >
                 Libraries & plugins
               </ui-button>
 
               <ui-button
                 class={`${this.filteredBy === 'category|website' ? 'active' : ''}`}
-                onClick={() => this.filterItems('category', 'website')}
+                clickHandler={() => this.filterItems('category', 'website')}
               >
                 Websites & Web Apps
               </ui-button>
@@ -94,7 +94,7 @@ export class AppPageProjects {
               {this.tags.sort().map((tag) => (
                 <ui-button
                   class={`link ${this.filteredBy === `tags|${tag}` ? 'active' : ''}`}
-                  onClick={() => this.filterItems('tags', tag)}
+                  clickHandler={() => this.filterItems('tags', tag)}
                 >
                   #{tag}
                 </ui-button>

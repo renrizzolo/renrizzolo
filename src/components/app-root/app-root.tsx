@@ -66,7 +66,7 @@ export class AppRoot {
                             {Object.keys(themes).map((theme) => (
                               <ui-button
                                 class={`link ${this.currentTheme === theme ? 'active' : ''}`}
-                                onClick={() => this.changeTheme(theme)}
+                                clickHandler={() => this.changeTheme(theme)}
                               >
                                 {theme}
                               </ui-button>

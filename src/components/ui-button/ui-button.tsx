@@ -1,5 +1,4 @@
-import { Component, h, Prop, } from '@stencil/core';
-
+import { Component, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'ui-button',
@@ -7,26 +6,24 @@ import { Component, h, Prop, } from '@stencil/core';
   shadow: true,
 })
 export class UiButton {
-  @Prop() 
+  @Prop()
   class?: string;
   @Prop()
-  onClick?: (event: MouseEvent) => any;
+  clickHandler?: (event: MouseEvent) => any;
   @Prop()
   href?: string;
   @Prop()
   url?: string;
 
   render() {
-    return this.url ?
-      (
-        <stencil-route-link class={this.class} url={this.url} onClick={this.onClick}>
-          <slot />
-        </stencil-route-link>
-      )
-    : (
-      <a class={this.class} href={this.href} onClick={this.onClick}>
-       <slot/>
+    return this.url ? (
+      <stencil-route-link class={this.class} url={this.url} onClick={this.clickHandler}>
+        <slot />
+      </stencil-route-link>
+    ) : (
+      <a class={this.class} href={this.href} onClick={this.clickHandler}>
+        <slot />
       </a>
-    )
+    );
   }
 }
