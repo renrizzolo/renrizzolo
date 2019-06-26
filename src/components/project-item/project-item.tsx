@@ -1,4 +1,4 @@
-import { Component, h, Prop } from '@stencil/core';
+import { Component, h, Prop, State } from '@stencil/core';
 import { Project } from '../app-page-projects/projects';
 
 @Component({
@@ -11,11 +11,27 @@ export class ProjectItem {
   fullSize: boolean = false;
   @Prop()
   post: Project;
+  @Prop()
+  mounted: boolean;
+  @Prop()
+  delay: number;
+  @State()
+  ready: boolean = false;
+
+  // determines when
+  // the parent transition
+  // has finished
+  // so we can start this
+  // component's transitions
+  componentDidLoad() {
+    setTimeout(() => {
+      this.ready = true;
+    }, this.delay);
+  }
 
   render() {
     const post = this.post;
     const url = !this.fullSize ? `/project/${post.slug}` : null;
-    !this.post && null;
     return (
       <div
         class={`project-item--container ${this.fullSize ? 'full-size' : ''}`}
@@ -37,21 +53,41 @@ export class ProjectItem {
         )}
         <div class={'project-item--heading__overlay'} />
         <section class="project-item--info">
-          <transition-group 
-            config={{ duration: 600, timing: 'ease', delay: 0 }}
-            mounted={true}
-            from={{transform: 'translateX(-5px)'}}
-            enter={{ transform: 'translateX(0px)'}}
-            leave={{ transform: 'translateX(5px)' }}
-            items={[<div class="tags-container">
-            {post.tags && post.tags.map((tag) => <span class="tag">{tag}</span>)}
-          </div>]}
+          <transition-group
+            wrapper={'span'}
+            wrapperProps={{ class: 'tags-container' }}
+            keys={(item) => item.$key$}
+            config={{ duration: 550, timing: 'ease', delay: 150 }}
+            mounted={this.ready}
+            trail
+            from={{ opacity: '0', transform: 'translateX(5px)' }}
+            enter={{ opacity: '1', transform: 'translateX(0px)' }}
+            leave={{ opacity: '0', transform: 'translateX(5px)' }}
+            items={
+              post.tags &&
+              post.tags.map((tag) => (
+                <span key={tag} class="tag">
+                  {tag}
+                </span>
+              ))
+            }
           />
-          {!this.fullSize && (
-            <h1 class="project-item--heading">
-              <stencil-route-link url={url}>{post.heading}</stencil-route-link>
-            </h1>
-          )}
+          <transition-group
+            config={{ duration: 250, timing: 'woosh', delay: 150 }}
+            mounted={this.ready}
+            from={{ opacity: '0', transform: 'translateX(15px)' }}
+            enter={{ opacity: '1', transform: 'translateX(0px)' }}
+            leave={{ opacity: '0', transform: 'translateX(15px)' }}
+            items={[
+              this.fullSize ? (
+                <h1 class="project-item--heading">{post.heading}</h1>
+              ) : (
+                <h1 class="project-item--heading">
+                  <stencil-route-link url={url}>{post.heading}</stencil-route-link>
+                </h1>
+              ),
+            ]}
+          />
 
           <div>
             <p class="project-item--subheading">{post.subHeading}</p>
