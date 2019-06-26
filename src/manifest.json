@@ -1,13 +1,20 @@
 {
-  "name": "Stencil Starter",
-  "short_name": "Stencil",
+  "name": "Ren Rizzolo Portfolio",
+  "short_name": "Ren Rizzolo",
   "start_url": "/",
   "display": "standalone",
-  "icons": [{
-    "src": "assets/icon/icon.png",
-    "sizes": "512x512",
-    "type": "image/png"
-  }],
+  "icons": [
+    {
+      "src": "/assets/icon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
   "background_color": "#16161d",
   "theme_color": "#16161d"
 }

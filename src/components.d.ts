@@ -32,7 +32,9 @@ export namespace Components {
     'class': string;
   }
   interface ProjectItem {
+    'delay': number;
     'fullSize': boolean;
+    'mounted': boolean;
     'post': Project;
   }
   interface RenrizzoloLogo {}
@@ -55,13 +57,23 @@ export namespace Components {
       duration: number;
       fromDuration?: number;
       leaveDuration?: number;
-      timing: string;
+      timing:
+      | string
+      | 'ease'
+      | 'linear'
+      | 'ease-in'
+      | 'ease-out'
+      | 'ease-in-out'
+      | 'bounce'
+      | 'flick'
+      | 'woosh';
+
       delay?: number;
     };
     'enter': { [key: string]: string };
     'from': { [key: string]: string };
     'items': any[];
-    'keys': string;
+    'keys': (item: any, index: number) => string | number;
     'leave': { [key: string]: string };
     'mounted': boolean;
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
@@ -220,7 +232,9 @@ declare namespace LocalJSX {
     'class'?: string;
   }
   interface ProjectItem extends JSXBase.HTMLAttributes<HTMLProjectItemElement> {
+    'delay'?: number;
     'fullSize'?: boolean;
+    'mounted'?: boolean;
     'post'?: Project;
   }
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
@@ -243,13 +257,23 @@ declare namespace LocalJSX {
       duration: number;
       fromDuration?: number;
       leaveDuration?: number;
-      timing: string;
+      timing:
+      | string
+      | 'ease'
+      | 'linear'
+      | 'ease-in'
+      | 'ease-out'
+      | 'ease-in-out'
+      | 'bounce'
+      | 'flick'
+      | 'woosh';
+
       delay?: number;
     };
     'enter'?: { [key: string]: string };
     'from'?: { [key: string]: string };
     'items'?: any[];
-    'keys'?: string;
+    'keys'?: (item: any, index: number) => string | number;
     'leave'?: { [key: string]: string };
     'mounted'?: boolean;
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;

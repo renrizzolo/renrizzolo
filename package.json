@@ -2,7 +2,7 @@
   "name": "renrizzolo",
   "private": true,
   "version": "0.0.1",
-  "description": "Stencil App Starter",
+  "description": "Ren Rizzolo",
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@stencil/core": "1.0.3",
-    "@stencil/router": "one",
-    "ip-stencil-route-listener": "0.0.2"
+    "@stencil/router": "one"
   },
   "license": "MIT",
   "devDependencies": {
