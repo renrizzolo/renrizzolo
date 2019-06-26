@@ -90,7 +90,7 @@ export class RouteTransition implements ComponentInterface {
     }
 
     lastEvent = event;
-    lastKey = location.key;
+    lastKey = location && location.key;
   };
 
   componentWillLoad() {
