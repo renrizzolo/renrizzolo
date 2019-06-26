@@ -10,6 +10,7 @@ export interface Project {
   details?: string;
 }
 
+// this is my CMS
 export const projects: Project[] = [
   {
     id: 1,
@@ -23,7 +24,7 @@ export const projects: Project[] = [
     details:
       '<p>A sectioned select modal component designed for child/parent lists (e.g category:sub-category)</p>\
       <p>This is my most popular open source project with 1200+ weekly downloads on NPM.</p>\
-      <p><a href="https://github.com/renrizzolo/react-native-sectioned-multi-select">View repository</a>',
+      <p><a href="https://npmjs.com/package/react-native-sectioned-multi-select">View on NPM</a></p>',
   },
   {
     id: 2,
@@ -34,6 +35,10 @@ export const projects: Project[] = [
     link: '',
     tags: ['React Native', 'Javscript'],
     category: 'library',
+    details:
+      '<p>A star rating component for React Native.</p>\
+      <p>Stars can be either tapped or swiped through to select the desired rating.</p>\
+      <p><a href="https://npmjs.com/package/react-native-swipeable-rating">View on NPM</a></p>',
   },
   {
     id: 3,
@@ -58,8 +63,60 @@ export const projects: Project[] = [
     subHeading:
       'Simple portfolio site with custom route transitions component and colour theme picker',
     link: 'https://renrizzolo.com',
-    tags: ['Javscript', 'Stencil JS', 'Web Components', 'CSS variables'],
+    tags: ['Javscript', 'Stencil JS', 'CSS variables'],
     category: 'website',
-    details: '<pre><code>InternalError: too much recursion</code></pre>',
+    details: '<pre><code>InternalError: too much recursion</code></pre>', // jokes
+  },
+  {
+    id: 5,
+    slug: 'property-weekly',
+    coverImage: '/assets/projects/property-weekly.png',
+    heading: 'Property Weekly',
+    subHeading: 'Bespoke Realestate website built on WordPress',
+    link: 'https://propertyWeekly.net.au',
+    tags: ['WordPress', 'Bootstrap', 'Jquery', 'SCSS', 'grunt'],
+    category: 'website',
+    details:
+      '<p>Fully custom WordPress theme + plugins + widgets. Uses the RealestateView API for Australian Realestate listing data. Listings search with map view. Virtual pages for property listings. PDFJS based print edition browser.</p>\
+      <a href="https://propertyweekly.net.au">https://propertyweekly.net.au</a>',
+  },
+  {
+    id: 6,
+    slug: 'subscribe-jewishnews',
+    coverImage: '/assets/projects/subscribe-jewishnews.png',
+    heading: 'Jewish News Subscriptions',
+    subHeading: 'Subscriptions platform for The Australian Jewish News',
+    link: 'https://subscribe.jewishnews.net.au',
+    tags: ['Bootstrap', 'Jquery', 'SCSS', 'grunt'],
+    category: 'website',
+    details:
+      '<p>Online & print subscriptions website built with membership framework Amember. Uses Stripe for payments with recurring subscriptions. Grants digital access to apps & online epaper through an API.</p>\
+      <p><a href="https://subscribe.jewishnews.net.au">https://subscribe.jewishnews.net.au</a></p>',
+  },
+  {
+    id: 7,
+    slug: 'pdfs-jewishnews',
+    coverImage: '/assets/projects/pdfs-screen.png',
+    heading: 'Jewish News PDFs',
+    subHeading: 'Internal PDF repository for supplements & tear sheets.',
+    link: '',
+    tags: ['nodeJS', 'postgresQL', 'React', 'Apollo', 'graphql', 'AWS'],
+    category: 'Website',
+    details:
+      '<p>React PWA with code splitting & server side rendering.</p>\
+      <p>PDF viewer & catalog, S3 storage, server side pdf processing/compression/collation, postgresql -> graphql schema via Postgraphile, JWT authentication, link shortening.</p>',
+  },
+  {
+    id: 8,
+    slug: 'lightgallery-for-gutenberg',
+    coverImage: '/assets/projects/lightgallery-for-gutenberg.png',
+    heading: 'Lightgallery for Gutenberg',
+    subHeading: 'WordPress Gutenberg gallery plugin',
+    link: 'https://github.com/renrizzolo/light-gallery-for-gutenberg',
+    tags: ['WordPress', 'PHP', 'React', 'Gutenberg'],
+    category: 'library',
+    details:
+      '<p>Slider and full screen gallery plugin for Wordpress Gutenberg editor. </p>\
+      <p><a href="https://github.com/renrizzolo/light-gallery-for-gutenberg">View repository</a></p>',
   },
 ];
