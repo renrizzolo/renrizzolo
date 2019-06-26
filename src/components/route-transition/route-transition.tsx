@@ -16,7 +16,7 @@ export class RouteTransition implements ComponentInterface {
   @Prop()
   keys: string;
   @Prop()
-  config: { duration: number; timing: string };
+  config: { duration: number; timing: string } = {duration: 300, timing: 'ease'};
   @Prop()
   from: { [key: string]: string };
   @Prop()

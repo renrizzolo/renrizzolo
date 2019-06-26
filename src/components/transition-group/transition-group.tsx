@@ -154,7 +154,7 @@ export class TransitionGroup implements ComponentInterface {
     this.settingStyle = true;
 
     this.style = { ...this.from };
-    this.initialItems = this.items.length ? [...this.items] : [];
+    this.initialItems = (this.items && this.items.length) ? [...this.items] : [];
   }
 
   componentDidLoad() {
