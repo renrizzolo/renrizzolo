@@ -5,13 +5,30 @@
   z-index: 1;
   display: flex;
   align-items: center;
+  opacity: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 0%;
+  margin-left: 130px;
+  display: grid;
+  grid-template-columns: repeat(5, max-content);
+  grid-gap: 0.5rem;
 }
 .drip {
+  align-self: center;
+  justify-self: center;
+
   width: 18px;
   fill: var(--color-secondary);
 }
-ui-button {
-  margin-right: 10px;
+@media screen and (max-width: 420px) {
+  .drip {
+    grid-column: 3;
+    grid-row: span 2 / 2;
+  }
+  .theme-buttons {
+    grid-template-columns: repeat(3, max-content);
+  }
 }
 
 .hide-overflow {
