@@ -1,6 +1,7 @@
 a {
   transition: all 150ms ease-in;
   display: inline-block;
+  user-select: none;
 }
 a:hover {
   transition: all 200ms ease-out;
