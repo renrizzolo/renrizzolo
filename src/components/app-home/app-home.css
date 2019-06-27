@@ -14,7 +14,6 @@
   justify-content: center;
 }
 p {
-  mix-blend-mode: color-dodge;
   color: var(--color-text);
   font-size: calc(0.8rem + 0.75vw);
   font-weight: lighter;
@@ -23,6 +22,7 @@ p {
   align-items: center;
 }
 .intro-text {
+  
   text-align: center;
   opacity: 0;
   transform: translateY(calc(var(--intro-text-translate) * 1px));
@@ -49,14 +49,10 @@ a:hover {
   transition: all 200ms ease-out;
   color: var(--color-text);
 }
-svg {
-  position: absolute;
-  bottom: 0;
-  mix-blend-mode: luminosity;
-  transform: translate3d(0%, 0%, 0);
-}
+
 .ren-bg {
   width: 100%;
+  will-change: opacity;
   mix-blend-mode: luminosity;
   position: absolute;
   opacity: 0.05;
