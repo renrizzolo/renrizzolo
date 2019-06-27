@@ -18,7 +18,7 @@ export class AppHome implements ComponentInterface {
             <renrizzolo-logo />
             <div class="intro-text">
               <p>I'm a front-end developer from Melbourne, Australia ✌️</p>
-              <ui-button url="/projects/">Projects</ui-button>
+              <ui-button url="/projects">Projects</ui-button>
             </div>
 
             <div class="footer">
