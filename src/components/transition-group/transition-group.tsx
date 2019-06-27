@@ -168,7 +168,7 @@ export class TransitionGroup implements ComponentInterface {
             itemRes = item();
           }
          
-          return this.keys(itemRes, index);
+          return itemRes;
         })
        if (this.wrapper === 'ui-grid') {
          throw new Error(
