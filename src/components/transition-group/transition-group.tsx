@@ -36,7 +36,7 @@ export class TransitionGroup implements ComponentInterface {
   @Prop()
   wrapperProps: object = {};
   @Prop()
-  keys: (item: any, index: number) => string | number;
+  keys: any;
   @Prop()
   class?: string;
   @Prop()
@@ -100,12 +100,12 @@ export class TransitionGroup implements ComponentInterface {
   @Watch('items')
   itemsWatch(newValue: []) {
     if (newValue) {
-      const oldKeys = this.getOldKeys();
-      const newKeys = this.getNewKeys();
-      
+      const oldKeys = this.getKeysFromItems(this.initialItems);
+      const newKeys = this.getKeysFromItems(this.items);
+
       // compare the keys
+      console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
       if (newKeys && !shallowEqual(newKeys, oldKeys)) {
-        console.log('diffkeys', this.wrapper, this.items, oldKeys, newKeys);
         this.settingStyle = true;
         if (this.isMounted) {
           this.style = { ...this.leave };
@@ -132,16 +132,19 @@ export class TransitionGroup implements ComponentInterface {
       }
     }
   }
-  getOldKeys = () => {
+
+  getKeysFromItems = (items) => {
     return typeof this.keys === 'function'
-      ? this.initialItems.map((item, index) => this.keys(item, index))
+      ? items.map((item, index) => {
+          let itemRes = item;
+          if (typeof item === 'function') {
+            itemRes = item();
+          }
+          return this.keys(itemRes, index);
+        })
       : toArray(this.keys);
   };
-  getNewKeys = () => {
-    return typeof this.keys === 'function'
-      ? this.items.map((item, index) => this.keys(item, index))
-      : toArray(this.keys);
-  };
+
   setStyle = (from, to, timeout = 0) => {
     if (this.settingStyle) return;
     this.settingStyle = true;
@@ -151,12 +154,13 @@ export class TransitionGroup implements ComponentInterface {
       this.settingStyle = false;
     }, timeout);
   };
+
   componentWillLoad() {
     this.isMounted = false;
     this.settingStyle = true;
 
     this.style = { ...this.from };
-    this.initialItems = (this.items && this.items.length) ? [...this.items] : [];
+    this.initialItems = this.items && this.items.length ? [...this.items] : [];
   }
 
   componentDidLoad() {

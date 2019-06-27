@@ -103,7 +103,7 @@ export class AppPageProjects {
             {items && (
               <transition-group
                 trail={true}
-                keys={(_, i) => i}
+                keys={(item) => item.$key$}
                 items={items}
                 wrapper="ui-grid"
                 wrapperProps={{ cols: 3, gap: 2 }}
