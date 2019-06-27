@@ -69,7 +69,7 @@ export class ProjectItem {
           <transition-group
             wrapper={'span'}
             wrapperProps={{ class: 'tags-container' }}
-            keys={(item) => (item.$ ? item.$.key : item.$key$)}
+            keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
             config={{ duration: 550, timing: 'ease', delay: 150 }}
             mounted={this.ready}
             trail
