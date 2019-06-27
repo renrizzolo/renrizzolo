@@ -165,12 +165,12 @@ export class TransitionGroup implements ComponentInterface {
           if (typeof item === 'function') {
             itemRes = item();
           }
-          // if (this.wrapper === 'ui-grid') {
-          //   throw new Error(
-          //     `${JSON.stringify(item)}${JSON.stringify(item())} ${JSON.stringify(items)}`
-          //   );
-          //   // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
-          // }
+          if (this.wrapper === 'ui-grid') {
+            throw new Error(
+              `keys ${JSON.stringify(itemRes)}${JSON.stringify(item())}`
+            );
+            // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
+          }
           return this.keys(itemRes, index);
         })
       : toArray(this.keys);
