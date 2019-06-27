@@ -115,8 +115,8 @@ export class TransitionGroup implements ComponentInterface {
 
       if (newKeys && newKeys.length && !shallowEqual(newKeys, oldKeys)) {
         console.log(this.wrapperProps,  newKeys, oldKeys);
-        
-        if (this.settingStyle) return;
+     
+        // if (this.settingStyle) return;
 
         this.settingStyle = true;
         if (this.isMounted) {
@@ -143,9 +143,17 @@ export class TransitionGroup implements ComponentInterface {
             if (this.mounted) {
               this.style = { ...this.enter };
             }
+        
+        //     if (this.wrapper === 'ui-grid') {
+        //    throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)}`)
+        //  }
             this.settingStyle = false;
           }, 50);
         }, timeout);
+      } else {
+        if (this.wrapper === 'ui-grid'){
+          throw new Error(`${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)}`)
+        }
       }
     }
   }

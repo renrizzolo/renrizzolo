@@ -28,9 +28,11 @@
 }
 html {
   height: 100%;
+  
 }
 
 body {
+  background-color: var(--color-primary);
   height: 100%;
   margin: 0px;
   padding: 0px;
