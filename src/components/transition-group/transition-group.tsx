@@ -145,15 +145,15 @@ export class TransitionGroup implements ComponentInterface {
             }
         
             this.settingStyle = false;
-              if (this.wrapper === 'ui-grid') {
-                throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
-           }
+          //     if (this.wrapper === 'ui-grid') {
+          //       throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
+          //  }
           }, 50);
         }, timeout);
       } else {
-        if (this.wrapper === 'ui-grid'){
-          throw new Error(`outside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
-        }
+        // if (this.wrapper === 'ui-grid'){
+        //   throw new Error(`outside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
+        // }
       }
     }
   }
@@ -170,12 +170,12 @@ export class TransitionGroup implements ComponentInterface {
          
           return this.keys(itemRes, index);
         })
-       if (this.wrapper === 'ui-grid') {
-         throw new Error(
-           `keys ${JSON.stringify(keys)}`
-         );
-         // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
-       }
+      //  if (this.wrapper === 'ui-grid') {
+      //    throw new Error(
+      //      `keys ${JSON.stringify(keys)}`
+      //    );
+      //    // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
+      //  }
         return keys;
        } else {
         return toArray(this.keys);
