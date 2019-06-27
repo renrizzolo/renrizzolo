@@ -22,6 +22,7 @@ export namespace Components {
   interface AppPage404 {}
   interface AppPageProject {
     'match': MatchResults;
+    'mounted': boolean;
     'styles'?: { [key: string]: string };
   }
   interface AppPageProjects {
@@ -73,7 +74,7 @@ export namespace Components {
     'enter': { [key: string]: string };
     'from': { [key: string]: string };
     'items': any[];
-    'keys': (item: any, index: number) => string | number;
+    'keys': any;
     'leave': { [key: string]: string };
     'mounted': boolean;
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
@@ -88,6 +89,7 @@ export namespace Components {
   interface UiButton {
     'class'?: string;
     'clickHandler'?: (event: MouseEvent) => any;
+    'external'?: boolean;
     'href'?: string;
     'url'?: string;
   }
@@ -220,6 +222,7 @@ declare namespace LocalJSX {
   interface AppPage404 extends JSXBase.HTMLAttributes<HTMLAppPage404Element> {}
   interface AppPageProject extends JSXBase.HTMLAttributes<HTMLAppPageProjectElement> {
     'match'?: MatchResults;
+    'mounted'?: boolean;
     'styles'?: { [key: string]: string };
   }
   interface AppPageProjects extends JSXBase.HTMLAttributes<HTMLAppPageProjectsElement> {
@@ -273,7 +276,7 @@ declare namespace LocalJSX {
     'enter'?: { [key: string]: string };
     'from'?: { [key: string]: string };
     'items'?: any[];
-    'keys'?: (item: any, index: number) => string | number;
+    'keys'?: any;
     'leave'?: { [key: string]: string };
     'mounted'?: boolean;
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
@@ -288,6 +291,7 @@ declare namespace LocalJSX {
   interface UiButton extends JSXBase.HTMLAttributes<HTMLUiButtonElement> {
     'class'?: string;
     'clickHandler'?: (event: MouseEvent) => any;
+    'external'?: boolean;
     'href'?: string;
     'url'?: string;
   }

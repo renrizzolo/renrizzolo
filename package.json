@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "description": "Ren Rizzolo",
   "scripts": {
-    "build": "stencil build",
+    "build": "stencil build --prerender",
     "start": "stencil build --dev --watch --serve",
+    "start.prod": "stencil build --prod --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
