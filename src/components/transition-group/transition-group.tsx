@@ -146,13 +146,13 @@ export class TransitionGroup implements ComponentInterface {
         
             this.settingStyle = false;
               if (this.wrapper === 'ui-grid') {
-                throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0])}`)
+                throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
            }
           }, 50);
         }, timeout);
       } else {
         if (this.wrapper === 'ui-grid'){
-          throw new Error(`outside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0])}`)
+          throw new Error(`outside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
         }
       }
     }
