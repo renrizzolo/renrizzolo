@@ -106,14 +106,7 @@ export class TransitionGroup implements ComponentInterface {
       const newKeys = this.getKeysFromItems(newValue);
 
       // compare the keys
-      if (this.wrapper === 'ui-grid') {
-        throw new Error(
-          `${JSON.stringify(this.items)} ${JSON.stringify(oldKeys)} ${JSON.stringify(
-            newKeys
-          )} ${!shallowEqual(newKeys, oldKeys)}`
-        );
-        // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
-      }
+
       if (newKeys && !shallowEqual(newKeys, oldKeys)) {
         this.settingStyle = true;
         if (this.isMounted) {
@@ -148,6 +141,12 @@ export class TransitionGroup implements ComponentInterface {
           let itemRes = item;
           if (typeof item === 'function') {
             itemRes = item();
+          }
+          if (this.wrapper === 'ui-grid') {
+            throw new Error(
+              `${JSON.stringify(item)}${JSON.stringify(item())} ${JSON.stringify(items)}`
+            );
+            // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
           }
           return this.keys(itemRes, index);
         })
