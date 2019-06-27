@@ -159,21 +159,27 @@ export class TransitionGroup implements ComponentInterface {
   }
 
   getKeysFromItems = (items) => {
-    return typeof this.keys === 'function' && items
-      ? items.map((item, index) => {
+     if( typeof this.keys === 'function' && items ) {
+
+    
+      const keys = items.map((item, index) => {
           let itemRes = item;
           if (typeof item === 'function') {
             itemRes = item();
           }
-          if (this.wrapper === 'ui-grid') {
-            throw new Error(
-              `keys ${JSON.stringify(itemRes)}${JSON.stringify(item())}`
-            );
-            // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
-          }
+         
           return this.keys(itemRes, index);
         })
-      : toArray(this.keys);
+       if (this.wrapper === 'ui-grid') {
+         throw new Error(
+           `keys ${JSON.stringify(keys)}`
+         );
+         // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
+       }
+        return keys;
+       } else {
+        return toArray(this.keys);
+         }
   };
 
   setStyle = (from, to, timeout = 0) => {
