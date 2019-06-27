@@ -106,7 +106,9 @@ export class TransitionGroup implements ComponentInterface {
       // compare the keys
       if (this.wrapper === 'ui-grid') {
         throw new Error(
-          `${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${!shallowEqual(newKeys, oldKeys)}`
+          `${JSON.stringify(this.items)} ${JSON.stringify(oldKeys)} ${JSON.stringify(
+            newKeys
+          )} ${!shallowEqual(newKeys, oldKeys)}`
         );
         // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
       }
