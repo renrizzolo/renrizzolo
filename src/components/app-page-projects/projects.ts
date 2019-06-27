@@ -18,13 +18,12 @@ export const projects: Project[] = [
     coverImage: '/assets/projects/rnsms.png',
     heading: 'React Native Sectioned Multi Select',
     subHeading: 'A highly configurable select component for React Native',
-    link: '',
+    link: 'https://npmjs.com/package/react-native-sectioned-multi-select',
     tags: ['React Native', 'Javscript'],
     category: 'library',
     details:
       '<p>A sectioned select modal component designed for child/parent lists (e.g category:sub-category)</p>\
-      <p>This is my most popular open source project with 1200+ weekly downloads on NPM.</p>\
-      <p><a href="https://npmjs.com/package/react-native-sectioned-multi-select">View on NPM</a></p>',
+      <p>This is my most popular open source project with 1200+ weekly downloads on NPM.</p>',
   },
   {
     id: 2,
@@ -32,13 +31,12 @@ export const projects: Project[] = [
     coverImage: '/assets/projects/rnsr.png',
     heading: 'React Native Swipeable Rating',
     subHeading: 'A React Native star rating component with swipe & tap support',
-    link: '',
+    link: 'https://npmjs.com/package/react-native-swipeable-rating',
     tags: ['React Native', 'Javscript'],
     category: 'library',
     details:
       '<p>A star rating component for React Native.</p>\
-      <p>Stars can be either tapped or swiped through to select the desired rating.</p>\
-      <p><a href="https://npmjs.com/package/react-native-swipeable-rating">View on NPM</a></p>',
+      <p>Stars can be either tapped or swiped through to select the desired rating.</p>',
   },
   {
     id: 3,
@@ -77,8 +75,7 @@ export const projects: Project[] = [
     tags: ['WordPress', 'Bootstrap', 'Jquery', 'SCSS', 'grunt'],
     category: 'website',
     details:
-      '<p>Fully custom WordPress theme + plugins + widgets. Uses the RealestateView API for Australian Realestate listing data. Listings search with map view. Virtual pages for property listings. PDFJS based print edition browser.</p>\
-      <a href="https://propertyweekly.net.au">https://propertyweekly.net.au</a>',
+      '<p>Fully custom WordPress theme + plugins + widgets. Uses the RealestateView API for Australian Realestate listing data. Listings search with map view. Virtual pages for property listings. PDFJS based print edition browser.</p>',
   },
   {
     id: 6,
@@ -90,21 +87,20 @@ export const projects: Project[] = [
     tags: ['Bootstrap', 'Jquery', 'SCSS', 'grunt'],
     category: 'website',
     details:
-      '<p>Online & print subscriptions website built with membership framework Amember. Uses Stripe for payments with recurring subscriptions. Grants digital access to apps & online epaper through an API.</p>\
-      <p><a href="https://subscribe.jewishnews.net.au">https://subscribe.jewishnews.net.au</a></p>',
+      '<p>Online & print subscriptions website built with membership framework Amember. Uses Stripe for payments with recurring subscriptions. Grants digital access to apps & online epaper through an API.</p>',
   },
   {
     id: 7,
     slug: 'pdfs-jewishnews',
     coverImage: '/assets/projects/pdfs-screen.png',
     heading: 'Jewish News PDFs',
-    subHeading: 'Internal PDF repository for supplements & tear sheets.',
+    subHeading: 'PDF repository for finding & disseminating supplements & tear sheets.',
     link: '',
     tags: ['nodeJS', 'postgresQL', 'React', 'Apollo', 'graphql', 'AWS'],
     category: 'Website',
     details:
       '<p>React PWA with code splitting & server side rendering.</p>\
-      <p>PDF viewer & catalog, S3 storage, server side pdf processing/compression/collation, postgresql -> graphql schema via Postgraphile, JWT authentication, link shortening.</p>',
+      <p>PDF viewer & catalog, S3 storage, server side pdf processing/compression/collation, thumbnail generation, postgresql -> graphql schema via Postgraphile, JWT authentication, link shortening.</p>',
   },
   {
     id: 8,
@@ -115,8 +111,6 @@ export const projects: Project[] = [
     link: 'https://github.com/renrizzolo/light-gallery-for-gutenberg',
     tags: ['WordPress', 'PHP', 'React', 'Gutenberg'],
     category: 'library',
-    details:
-      '<p>Slider and full screen gallery plugin for Wordpress Gutenberg editor. </p>\
-      <p><a href="https://github.com/renrizzolo/light-gallery-for-gutenberg">View repository</a></p>',
+    details: '<p>Slider and full screen gallery plugin for Wordpress Gutenberg editor. </p>',
   },
 ];
