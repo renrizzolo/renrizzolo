@@ -106,8 +106,8 @@ export class AppPageProjects {
 
             <transition-group
               trail={true}
-              keys={(item) =>
-                item ? (item.$ ? item.$.key : item.h ? item.h.key : item.$key$) : false
+              keys={(item, i) =>
+                item ? (item.$ ? item.$.key : item.h ? item.h.key : item.$key$) : i
               } // production build elements are different... prerender buld elements are different again
               items={this.getItems()}
               wrapper="ui-grid"
