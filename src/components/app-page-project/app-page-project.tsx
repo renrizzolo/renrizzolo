@@ -1,4 +1,4 @@
-import { Component, Prop, State, h } from '@stencil/core';
+import { Component, Prop, State, h, Build } from '@stencil/core';
 import { projects, Project } from '../app-page-projects/projects';
 import { MatchResults } from '@stencil/router';
 
@@ -23,6 +23,23 @@ export class AppPageProject {
   @State()
   prev: Project;
 
+  componentWillLoad() {
+    console.log('build isn browser');
+
+    if (Build.isBrowser) {
+      console.log('build is browser');
+
+      this.project = projects.filter((proj) => proj.slug === this.match.params.slug)[0];
+      this.next = this.project
+        ? projects.filter((proj) => proj.id === this.project.id + 1)[0]
+        : null;
+      this.prev = this.project
+        ? projects.filter((proj) => proj.id === this.project.id - 1)[0]
+        : null;
+    } else {
+      console.log('build isn browser');
+    }
+  }
   componentDidLoad() {
     this.isMounted = true;
   }
@@ -39,14 +56,6 @@ export class AppPageProject {
   // }
   render() {
     if (this.match && this.match.params.slug) {
-      this.project = projects.filter((proj) => proj.slug === this.match.params.slug)[0];
-      this.next = this.project
-        ? projects.filter((proj) => proj.id === this.project.id + 1)[0]
-        : null;
-      this.prev = this.project
-        ? projects.filter((proj) => proj.id === this.project.id - 1)[0]
-        : null;
-
       return (
         <div class="app-page-project">
           <app-background>
