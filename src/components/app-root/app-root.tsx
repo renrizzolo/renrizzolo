@@ -109,7 +109,7 @@ export class AppRoot {
                           <stencil-route
                             url="/projects"
                             component="app-page-projects"
-                            exact={true}
+                            exact={false}
                             componentProps={{ styles: {} }}
                             routeRender={(_) => (
                               <transition-mount-wrapper mounted={true} styles={style}>
