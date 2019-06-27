@@ -100,20 +100,19 @@ export class AppPageProjects {
                 </ui-button>
               ))}
             </div>
-            {items && (
-              <transition-group
-                trail={true}
-                keys={(item) => item.$key$}
-                items={items}
-                wrapper="ui-grid"
-                wrapperProps={{ cols: 3, gap: 2 }}
-                config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}
-                from={{ opacity: '0', transform: 'translateY(5px)' }}
-                enter={{ opacity: '1', transform: 'translateY(0px)' }}
-                leave={{ opacity: '0', transform: 'translateY(-5px)' }}
-                mounted={this.isMounted}
-              />
-            )}
+
+            <transition-group
+              trail={true}
+              keys={(item) => (item.$ ? item.$.key : item.$key$)} // production build elements are different...
+              items={items}
+              wrapper="ui-grid"
+              wrapperProps={{ cols: 3, gap: 3 }}
+              config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}
+              from={{ opacity: '0', transform: 'translateY(5px)' }}
+              enter={{ opacity: '1', transform: 'translateY(0px)' }}
+              leave={{ opacity: '0', transform: 'translateY(-5px)' }}
+              mounted={items && items.length && this.isMounted}
+            />
           </ui-container>
         </app-background>
       </div>

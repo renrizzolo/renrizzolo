@@ -33,7 +33,7 @@ export class ProjectItem {
     const post = this.post;
     const url = !this.fullSize && post ? `/project/${post.slug}` : null;
     return post ? (
-      <div
+      <article
         class={`project-item--container ${this.fullSize ? 'full-size' : ''}`}
         key={`post-${post.id}`}
       >
@@ -69,7 +69,7 @@ export class ProjectItem {
           <transition-group
             wrapper={'span'}
             wrapperProps={{ class: 'tags-container' }}
-            keys={(item) => item.$key$}
+            keys={(item) => (item.$ ? item.$.key : item.$key$)}
             config={{ duration: 550, timing: 'ease', delay: 150 }}
             mounted={this.ready}
             trail
@@ -104,10 +104,21 @@ export class ProjectItem {
 
           <div>
             <p class="project-item--subheading">{post.subHeading}</p>
-            {this.fullSize && <div innerHTML={post.details} />}
+            {this.fullSize && (
+              <section>
+                <div innerHTML={post.details} />
+                {post.link && (
+                  <ui-button external href={post.link}>
+                    View
+                  </ui-button>
+                )}
+              </section>
+            )}
           </div>
         </section>
-      </div>
-    ) : 'loading';
+      </article>
+    ) : (
+      'loading'
+    );
   }
 }
