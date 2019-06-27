@@ -151,10 +151,10 @@ a {
   flex-wrap: wrap;
 }
 .tag {
-  font-size: 0.73rem;
+  font-size: 0.67rem;
   background-color: var(--color-g-2);
   border-radius: 12px;
-  padding: 0.25rem 0.75rem;
+  padding: 0.35rem 0.65rem;
   font-weight: bold;
   color: var(--color-primary);
   /* border: 1px solid var(--color-primary); */
