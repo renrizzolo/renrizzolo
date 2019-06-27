@@ -20,11 +20,10 @@ export class AppPageProjects {
   @State()
   tags: string[] = [];
 
-  componentWillLoad() {
-    this.isMounted = false;
-  }
+  componentWillLoad() {}
 
   componentDidLoad() {
+    this.isMounted = false;
     this.items = [...projects];
     // get tags
     projects.map(
@@ -104,14 +103,14 @@ export class AppPageProjects {
             <transition-group
               trail={true}
               keys={(item) => (item.$ ? item.$.key : item.$key$)} // production build elements are different...
-              items={items}
+              items={this.items && items}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 3 }}
               config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}
               from={{ opacity: '0', transform: 'translateY(5px)' }}
               enter={{ opacity: '1', transform: 'translateY(0px)' }}
               leave={{ opacity: '0', transform: 'translateY(-5px)' }}
-              mounted={items && items.length && this.isMounted}
+              mounted={this.items && this.items.length && this.isMounted}
             />
           </ui-container>
         </app-background>
