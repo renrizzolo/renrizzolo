@@ -106,7 +106,7 @@ export class TransitionGroup implements ComponentInterface {
   }
 
   @Watch('items')
-  itemsWatch(newValue: [], oldValue: []) {
+  itemsWatch(newValue: any[], oldValue: any[]) {
     if (newValue) {
       const oldKeys = this.getKeysFromItems(oldValue);
       const newKeys = this.getKeysFromItems(newValue);
@@ -144,10 +144,10 @@ export class TransitionGroup implements ComponentInterface {
               this.style = { ...this.enter };
             }
         
-        //     if (this.wrapper === 'ui-grid') {
-        //    throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)}`)
-        //  }
             this.settingStyle = false;
+              if (this.wrapper === 'ui-grid') {
+                throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0])}`)
+           }
           }, 50);
         }, timeout);
       } else {
