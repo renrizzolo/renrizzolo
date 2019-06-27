@@ -162,13 +162,13 @@ export class TransitionGroup implements ComponentInterface {
      if( typeof this.keys === 'function' && items ) {
 
     
-      const keys = items.map((item, _) => {
+      const keys = items.map((item, index) => {
           let itemRes = item;
           if (typeof item === 'function') {
             itemRes = item();
           }
          
-          return itemRes;
+          return this.keys(itemRes, index);
         })
        if (this.wrapper === 'ui-grid') {
          throw new Error(
