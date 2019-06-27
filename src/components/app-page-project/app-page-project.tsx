@@ -12,6 +12,8 @@ export class AppPageProject {
   styles?: { [key: string]: string };
   @Prop()
   match: MatchResults;
+  @Prop()
+  mounted: boolean;
   @State()
   isMounted: boolean = false;
   @State()
@@ -105,7 +107,8 @@ export class AppPageProject {
                   leave={{ opacity: '0' }}
                   config={{ duration: 500, delay: 200, timing: 'ease-in' }}
                   mounted={true}
-                  items={[<project-item post={this.project} fullSize />]}
+                  keys={(item) => (item.$ ? item.$.key : item.$key$)}
+                  items={[<project-item key={this.project.id} post={this.project} fullSize />]}
                 />
               </ui-container>
             </app-background>
