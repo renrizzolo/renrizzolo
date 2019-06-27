@@ -81,7 +81,9 @@ export namespace Components {
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
     'trail': boolean;
     'wrapper': string;
-    'wrapperProps': object;
+    'wrapperProps': {
+      [key: string]: any
+    };
   }
   interface TransitionMountWrapper {
     'mounted': boolean;
@@ -284,7 +286,9 @@ declare namespace LocalJSX {
     'renderFunction'?: (style: { [key: string]: string }, loc: []) => any;
     'trail'?: boolean;
     'wrapper'?: string;
-    'wrapperProps'?: object;
+    'wrapperProps'?: {
+      [key: string]: any
+    };
   }
   interface TransitionMountWrapper extends JSXBase.HTMLAttributes<HTMLTransitionMountWrapperElement> {
     'mounted'?: boolean;
