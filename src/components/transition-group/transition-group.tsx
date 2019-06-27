@@ -36,7 +36,9 @@ export class TransitionGroup implements ComponentInterface {
   @Prop()
   itemComponent?: string;
   @Prop()
-  wrapperProps: object = {};
+  wrapperProps: {
+    [key: string]: any
+  };
   @Prop()
   keys: any;
   @Prop()
@@ -91,9 +93,13 @@ export class TransitionGroup implements ComponentInterface {
     if (newValue !== oldValue) {
       this.isMounted = newValue;
       if (newValue === true) {
+        console.log(this.wrapperProps, 'mountWatcch > from > enter');
+
         this.setStyle(this.from, this.enter);
       }
       if (newValue === false) {
+        console.log(this.wrapperProps, '!mountWatcch > leave');
+
         this.setStyle(null, this.leave);
       }
     }
@@ -107,11 +113,19 @@ export class TransitionGroup implements ComponentInterface {
 
       // compare the keys
 
-      if (newKeys && !shallowEqual(newKeys, oldKeys)) {
+      if (newKeys && newKeys.length && !shallowEqual(newKeys, oldKeys)) {
+        console.log(this.wrapperProps,  newKeys, oldKeys);
+        
+        if (this.settingStyle) return;
+
         this.settingStyle = true;
         if (this.isMounted) {
+          console.log(this.wrapperProps, 'is mounted > leave');
+          
           this.style = { ...this.leave };
         } else {
+          console.log(this.wrapperProps, '!is mounted > from');
+
           this.style = { ...this.from };
         }
 
@@ -121,7 +135,8 @@ export class TransitionGroup implements ComponentInterface {
         // all the items to leave
         const timeout =
           this.config.duration - this.config.delay + this.config.delay * oldKeys.length;
-
+        console.log(this.wrapperProps, timeout, this.config.delay, this.config.duration, oldKeys.length);
+        
         setTimeout(() => {
           this.initialItems = [...this.items];
           setTimeout(() => {
@@ -202,6 +217,8 @@ export class TransitionGroup implements ComponentInterface {
       <this.wrapper {...this.wrapperProps}>
         {this.initialItems.map((item, i) => {
           const style = this.getStyle();
+          this.wrapperProps && console.log(this.wrapperProps, 'applying', style);
+          
           // this was for not delaying when
           // adding a single item
           // e.g to a todo list
@@ -212,7 +229,7 @@ export class TransitionGroup implements ComponentInterface {
               key={typeof this.keys === 'function' ? this.keys(item, i) : toArray(this.keys)[i]}
               style={{
                 ...style,
-                transitionDelay: shouldNotDelay ? '0ms' : `${this.config.delay * i}ms`,
+                transitionDelay: shouldNotDelay ? '0ms' : `${this.config.delay * i + 1}ms`,
                 visibility: this.mounted ? 'visible' : 'hidden',
               }}
             >
