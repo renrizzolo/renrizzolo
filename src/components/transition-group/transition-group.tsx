@@ -152,7 +152,7 @@ export class TransitionGroup implements ComponentInterface {
         }, timeout);
       } else {
         if (this.wrapper === 'ui-grid'){
-          throw new Error(`${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)}`)
+          throw new Error(`outside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0])}`)
         }
       }
     }
