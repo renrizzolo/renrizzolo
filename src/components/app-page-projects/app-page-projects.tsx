@@ -20,9 +20,7 @@ export class AppPageProjects {
   @State()
   tags: string[] = [];
 
-  componentWillLoad() {}
-
-  componentDidLoad() {
+  componentWillLoad() {
     this.isMounted = false;
     this.items = [...projects];
     // get tags
@@ -36,6 +34,8 @@ export class AppPageProjects {
       this.isMounted = true;
     }, 400);
   }
+
+  componentDidLoad() {}
 
   resetFilter = () => {
     this.filteredBy = '';
