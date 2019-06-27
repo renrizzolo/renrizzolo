@@ -107,8 +107,8 @@ export class AppPageProject {
                   leave={{ opacity: '0' }}
                   config={{ duration: 500, delay: 200, timing: 'ease-in' }}
                   mounted={true}
-                  keys={(item) => (item.$ ? item.$.key : item.$key$)}
-                  items={[<project-item key={this.project.id} post={this.project} fullSize />]}
+                  keys={(item) =>  (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
+                  items={[(mounted, delay) => <project-item key={this.project.id} post={this.project} fullSize mounted={mounted} delay={delay} />]}
                 />
               ) : (
                 <h1>
