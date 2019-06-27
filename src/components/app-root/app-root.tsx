@@ -3,13 +3,13 @@ import { themes } from './themes';
 
 const transitionConfig = {
   config: {
-    duration: 500,
+    duration: 600,
     timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
-    delay: 100,
+    delay: 50,
   },
-  from: { opacity: '0', transform: 'translateY(-20px)' },
+  from: { opacity: '0', transform: 'translateY(-3%)' },
   enter: { opacity: '1', transform: 'translateY(0px)' },
-  leave: { opacity: '0', transform: 'translateY(20px)' },
+  leave: { opacity: '0', transform: 'translateY(2%)' },
 };
 
 @Component({
@@ -111,11 +111,13 @@ export class AppRoot {
                             component="app-page-projects"
                             exact={false}
                             componentProps={{ styles: {} }}
-                            routeRender={(_) => (
+                            routeRender={(props) => (
                               <transition-mount-wrapper mounted={true} styles={style}>
                                 <transition-group
+                                  wrapperProps={{ id: '/projects' }} 
                                   {...transitionConfig}
-                                  mounted={lastEvent === 'pageEntered'}
+                                  mounted={lastEvent === 'pageEntered' &&
+                                    props.history.location.key === loc.key}
                                   items={[<app-page-projects />]}
                                 />
                               </transition-mount-wrapper>
@@ -136,18 +138,19 @@ export class AppRoot {
                                       lastEvent === 'pageEntered' &&
                                       props.history.location.key === loc.key
                                     }
+                                    wrapperProps={{id: `/project/${match.params.slug}`}}
                                     // if trail is false
                                     // the item doesn't update
                                     // when its key changes
                                     // trail
-                                    keys={(item) => (item.$ ? item.$.key : item.$key$)}
+                                    keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
                                     items={
                                       props.history.location.key === loc.key
                                         ? [
                                             <app-page-project
                                               match={match}
                                               key={match.params.slug}
-                                              mounted={props.history.location.key === loc.key}
+                                            mounted={props.history.location.key === loc.key}
                                             />,
                                           ]
                                         : []
