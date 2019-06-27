@@ -98,3 +98,9 @@ a:not(.link).active {
   align-items: center;
   justify-content: center;
 }
+
+.link-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 6px;
+}
