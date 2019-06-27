@@ -73,6 +73,7 @@ export namespace Components {
     };
     'enter': { [key: string]: string };
     'from': { [key: string]: string };
+    'itemComponent'?: string;
     'items': any[];
     'keys': any;
     'leave': { [key: string]: string };
@@ -275,6 +276,7 @@ declare namespace LocalJSX {
     };
     'enter'?: { [key: string]: string };
     'from'?: { [key: string]: string };
+    'itemComponent'?: string;
     'items'?: any[];
     'keys'?: any;
     'leave'?: { [key: string]: string };

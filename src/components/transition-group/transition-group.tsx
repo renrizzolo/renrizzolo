@@ -34,6 +34,8 @@ export class TransitionGroup implements ComponentInterface {
   @Prop()
   wrapper: string = 'div';
   @Prop()
+  itemComponent?: string;
+  @Prop()
   wrapperProps: object = {};
   @Prop()
   keys: any;
@@ -98,10 +100,10 @@ export class TransitionGroup implements ComponentInterface {
   }
 
   @Watch('items')
-  itemsWatch(newValue: []) {
+  itemsWatch(newValue: [], oldValue: []) {
     if (newValue) {
-      const oldKeys = this.getKeysFromItems(this.initialItems);
-      const newKeys = this.getKeysFromItems(this.items);
+      const oldKeys = this.getKeysFromItems(oldValue);
+      const newKeys = this.getKeysFromItems(newValue);
 
       // compare the keys
       if (this.wrapper === 'ui-grid') {

@@ -53,11 +53,15 @@ export class AppPageProjects {
     });
     this.items = [...temp];
   };
-
-  render() {
-    const items = this.items.map((project) => (mounted, delay) => (
+  getItems() {
+    return this.items.map((project) => (mounted, delay) => (
       <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
     ));
+  }
+  render() {
+    // const items = this.items.map((project) => (mounted, delay) => (
+    //   <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
+    // ));
     return (
       <div style={this.styles} class="app-page-projects">
         <app-background>
@@ -102,8 +106,8 @@ export class AppPageProjects {
 
             <transition-group
               trail={true}
-              keys={(item) => (item.$ ? item.$.key : item.$key$)} // production build elements are different...
-              items={this.items && items}
+              keys={(item) => (item && item.$ ? item.$.key : item.$key$)} // production build elements are different...
+              items={this.getItems()}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 3 }}
               config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}
