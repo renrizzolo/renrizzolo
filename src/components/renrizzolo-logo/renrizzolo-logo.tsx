@@ -3,7 +3,7 @@ import { Component, h } from '@stencil/core';
 @Component({
   tag: 'renrizzolo-logo',
   styleUrl: 'renrizzolo-logo.css',
-  shadow: true,
+  shadow: false,
 })
 export class RenrizzoloLogo {
   render() {
