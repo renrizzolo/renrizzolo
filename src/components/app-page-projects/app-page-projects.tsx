@@ -129,22 +129,22 @@ export class AppPageProjects {
                 //   throw new Error(`${fn} item: ${JSON.stringify(res)} ${typeof res}`);
                 // }
 
-                const actual =
-                  res && typeof res === 'object'
-                    ? res.$
-                      ? res.$.key
-                      : res.h
-                      ? res.h.key
-                      : res.$attrs$
-                      ? res.$attrs$.key
-                      : res.$key$
-                    : 'NOOOOO';
+                // const actual =
+                //   res && typeof res === 'object'
+                //     ? res.$
+                //       ? res.$.key
+                //       : res.h
+                //       ? res.h.key
+                //       : res.$attrs$
+                //       ? res.$attrs$.key
+                //       : res.$key$
+                //     : 'NOOOOO';
                 // if (res) {
                 //   throw new Error(
                 //     `${fn} item:  ${actual} res: ${JSON.stringify(res)} typeof res: ${typeof res} `
                 //   );
                 // }
-                return `${actual}`;
+                return `${JSON.stringify(res)}`;
               }} // production build elements are different... prerender buld elements are different again
               items={this.itemElements}
               wrapper="ui-grid"
