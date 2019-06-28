@@ -125,11 +125,17 @@ export class AppPageProjects {
                 } else {
                   res = item;
                 }
-                if (res) {
-                  throw new Error(`${fn} item: ${JSON.stringify(res)} ${typeof res}`);
-                }
+                // if (res) {
+                //   throw new Error(`${fn} item: ${JSON.stringify(res)} ${typeof res}`);
+                // }
 
-                return res.$ ? res.$.key : res.h ? res.h.key : res.$key$;
+                return res.$
+                  ? res.$.key
+                  : res.h
+                  ? res.h.key
+                  : res.$attrs$
+                  ? res.$attrs$.key
+                  : res.$key$;
               }} // production build elements are different... prerender buld elements are different again
               items={this.itemElements}
               wrapper="ui-grid"
