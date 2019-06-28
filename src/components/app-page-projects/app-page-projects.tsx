@@ -16,6 +16,8 @@ export class AppPageProjects {
   @State()
   items: Project[] = [...projects];
   @State()
+  itemElements: any[];
+  @State()
   filteredBy: string = '';
   @State()
   tags: string[] = [];
@@ -23,6 +25,8 @@ export class AppPageProjects {
   componentWillLoad() {
     this.isMounted = false;
     this.items = [...projects];
+    this.getItems();
+
     // get tags
     projects.map(
       (proj) =>
@@ -40,6 +44,7 @@ export class AppPageProjects {
   resetFilter = () => {
     this.filteredBy = '';
     this.items = [...projects];
+    this.getItems();
   };
 
   filterItems = (k: string, v: string) => {
@@ -52,12 +57,15 @@ export class AppPageProjects {
       }
     });
     this.items = [...temp];
+    this.getItems();
   };
   getItems() {
-    return this.items.map((project) => (mounted, delay) => (
+    const items = this.items.map((project) => (mounted, delay) => (
       <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
     ));
+    this.itemElements = [...items];
   }
+
   render() {
     // const items = this.items.map((project) => (mounted, delay) => (
     //   <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
@@ -106,13 +114,13 @@ export class AppPageProjects {
 
             <transition-group
               trail={true}
-              keys={(item, i) => {
-                console.log(i);
-                // throw new Error(`item: ${JSON.stringify(item)}`);
+              keys={(item, i, fn) => {
+                console.log(i, fn);
+                // throw new Error(`${fn} item: ${JSON.stringify(item)}`);
 
-                return item ? (item.$ ? item.$.key : item.h ? item.h.key : item.$key$) : i + 100;
+                return item.$ ? item.$.key : item.h ? item.h.key : item.$key$;
               }} // production build elements are different... prerender buld elements are different again
-              items={this.getItems()}
+              items={this.itemElements}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 3 }}
               config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}

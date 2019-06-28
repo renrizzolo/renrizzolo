@@ -108,8 +108,8 @@ export class TransitionGroup implements ComponentInterface {
   @Watch('items')
   itemsWatch(newValue: any[], oldValue: any[]) {
     if (newValue) {
-      const oldKeys = this.getKeysFromItems(oldValue);
-      const newKeys = this.getKeysFromItems(newValue);
+      const newKeys = this.getKeysFromItems(newValue, 'new');
+      const oldKeys = this.getKeysFromItems(oldValue, 'old');
 
       // compare the keys
 
@@ -164,20 +164,24 @@ export class TransitionGroup implements ComponentInterface {
     }
   }
 
-  getKeysFromItems = (items) => {
+  getKeysFromItems = (items, fn) => {
+    // if (this.wrapper === 'ui-grid') {
+    //   throw new Error(`old, new ${JSON.stringify(items[0]())} ${JSON.stringify(fn)}`);
+    // }
     if (typeof this.keys === 'function' && items) {
-      const keys = items.map((item, index) => {
+      let keys = [];
+      items.forEach((item, index) => {
         let itemRes = item;
         if (typeof item === 'function') {
           itemRes = item();
         }
-
-        return this.keys(itemRes, index);
+        const key = this.keys(itemRes, index, fn);
+        keys.push(key);
       });
-      if (this.wrapper === 'ui-grid') {
-        throw new Error(`keys ${JSON.stringify(keys)}`);
-        // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
-      }
+      // if (this.wrapper === 'ui-grid') {
+      //   throw new Error(`keys ${JSON.stringify(keys)}`);
+      //   // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
+      // }
       return keys;
     } else {
       return toArray(this.keys);
