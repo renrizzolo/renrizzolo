@@ -176,7 +176,7 @@ export class TransitionGroup implements ComponentInterface {
           itemRes = item();
         }
         const key = this.keys(itemRes, index, fn);
-        keys.push(key);
+        key && keys.push(key);
       });
       if (this.wrapper === 'ui-grid') {
         throw new Error(`keys ${JSON.stringify(keys)}`);
