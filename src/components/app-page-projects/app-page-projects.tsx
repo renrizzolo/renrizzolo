@@ -107,7 +107,9 @@ export class AppPageProjects {
             <transition-group
               trail={true}
               keys={(item, i) => {
+                console.log(i);
                 throw new Error(`item: ${JSON.stringify(item)}`);
+
                 // return item ? (item.$ ? item.$.key : item.h ? item.h.key : item.$key$) : i + 100;
               }} // production build elements are different... prerender buld elements are different again
               items={this.getItems()}
