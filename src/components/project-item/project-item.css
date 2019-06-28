@@ -1,7 +1,7 @@
 :host {
   --item-background: var(--color-secondary-transparent);
   --item-background--hover: var(--color-primary);
-  --item-text: var(--color-primary);
+  --item-text: var(--color-secondary);
   --item-text--hover: var(--color-text);
   --item-text-size: 0.85rem;
   --item-subheading-size: 1rem;
@@ -72,7 +72,7 @@ a {
   transition: transform 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 .project-item--subheading {
-  line-height: 1.4;
+  line-height: 1.36;
   font-size: var(--item-subheading-size);
   font-weight: normal;
   color: var(--item-text);

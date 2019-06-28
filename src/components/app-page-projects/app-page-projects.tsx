@@ -106,15 +106,10 @@ export class AppPageProjects {
 
             <transition-group
               trail={true}
-              keys={(item, i) =>
-                item[0]
-                  ? item[0].$
-                    ? item[0].$.key
-                    : item[0].h
-                    ? item[0].h.key
-                    : item[0].$key$
-                  : i + 100
-              } // production build elements are different... prerender buld elements are different again
+              keys={(item, i) => {
+                // throw new Error(`item: ${JSON.stringify(item)}`);
+                return item ? (item.$ ? item.$.key : item.h ? item.h.key : item.$key$) : i + 100;
+              }} // production build elements are different... prerender buld elements are different again
               items={this.getItems()}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 3 }}
