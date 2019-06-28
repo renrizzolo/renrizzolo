@@ -138,7 +138,7 @@ export class AppPageProjects {
                       : res.$attrs$
                       ? res.$attrs$.key
                       : res.$key$
-                    : 'NOOOOO';
+                    : 'NOOOOO' + i; // lol
                 // if (res) {
                 //   throw new Error(
                 //     `${fn} item:  ${actual} res: ${JSON.stringify(res)} typeof res: ${typeof res} `
