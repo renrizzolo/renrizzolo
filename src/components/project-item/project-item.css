@@ -1,5 +1,5 @@
 :host {
-  --item-background: var(--color-secondary-transparent);
+  --item-background: var(--color-primary);
   --item-background--hover: var(--color-primary);
   --item-text: var(--color-secondary);
   --item-text--hover: var(--color-text);
