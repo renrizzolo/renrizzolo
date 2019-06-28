@@ -178,10 +178,10 @@ export class TransitionGroup implements ComponentInterface {
         const key = this.keys(itemRes, index, fn);
         key && keys.push(key);
       });
-      if (this.wrapper === 'ui-grid') {
-        throw new Error(`keys ${JSON.stringify(keys)}`);
-        // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
-      }
+      // if (this.wrapper === 'ui-grid') {
+      //   throw new Error(`keys ${JSON.stringify(keys)}`);
+      //   // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
+      // }
       return keys;
     } else {
       return toArray(this.keys);
