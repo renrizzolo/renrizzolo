@@ -116,11 +116,20 @@ export class AppPageProjects {
               trail={true}
               keys={(item, i, fn) => {
                 console.log(i, fn);
-                if (item) {
-                  throw new Error(`${fn} item: ${JSON.stringify(item)} ${typeof item}`);
+                // if (item) {
+                //   throw new Error(`${fn} item: ${JSON.stringify(item)} ${typeof item}`);
+                // }
+                let res;
+                if (typeof item === 'function') {
+                  res = item();
+                } else {
+                  res = item;
+                }
+                if (res) {
+                  throw new Error(`${fn} item: ${JSON.stringify(res)} ${typeof res}`);
                 }
 
-                return item.$ ? item.$.key : item.h ? item.h.key : item.$key$;
+                return res.$ ? res.$.key : res.h ? res.h.key : res.$key$;
               }} // production build elements are different... prerender buld elements are different again
               items={this.itemElements}
               wrapper="ui-grid"
