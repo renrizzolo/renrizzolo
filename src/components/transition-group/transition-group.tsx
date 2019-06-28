@@ -172,10 +172,8 @@ export class TransitionGroup implements ComponentInterface {
       let keys = [];
       items.forEach((item, index) => {
         let itemRes = item;
-        if (typeof itemRes === 'function') {
-          itemRes = item();
-        }
-        const key = this.keys(itemRes, index, fn);
+
+        const key = this.keys(typeof itemRes === 'function' ? itemRes() : itemRes, index, fn);
         key && keys.push(key);
       });
       // if (this.wrapper === 'ui-grid') {
