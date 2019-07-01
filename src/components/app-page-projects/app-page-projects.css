@@ -4,6 +4,8 @@
 }
 
 .app-page-projects--filters {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
   display: flex;
   flex-direction: row;
   margin-bottom: 1rem;
