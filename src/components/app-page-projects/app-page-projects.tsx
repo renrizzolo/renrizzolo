@@ -16,6 +16,8 @@ export class AppPageProjects {
   @State()
   items: Project[] = [...projects];
   @State()
+  itemElements: any[];
+  @State()
   filteredBy: string = '';
   @State()
   tags: string[] = [];
@@ -23,6 +25,8 @@ export class AppPageProjects {
   componentWillLoad() {
     this.isMounted = false;
     this.items = [...projects];
+    this.getItems();
+
     // get tags
     projects.map(
       (proj) =>
@@ -40,6 +44,7 @@ export class AppPageProjects {
   resetFilter = () => {
     this.filteredBy = '';
     this.items = [...projects];
+    this.getItems();
   };
 
   filterItems = (k: string, v: string) => {
@@ -52,12 +57,15 @@ export class AppPageProjects {
       }
     });
     this.items = [...temp];
+    this.getItems();
   };
   getItems() {
-    return this.items.map((project) => (mounted, delay) => (
+    const items = this.items.map((project) => (mounted, delay) => (
       <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
     ));
+    this.itemElements = [...items];
   }
+
   render() {
     // const items = this.items.map((project) => (mounted, delay) => (
     //   <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
@@ -106,10 +114,39 @@ export class AppPageProjects {
 
             <transition-group
               trail={true}
-              keys={(item, i) =>
-                item[0] ? (item[0].$ ? item[0].$.key : item[0].h ? item[0].h.key : item[0].$key$) : i
-              } // production build elements are different... prerender buld elements are different again
-              items={this.getItems()}
+              keys={(item, i, fn) => {
+                console.log(i, fn);
+                // if (item) {
+                //   throw new Error(`${fn} item: ${JSON.stringify(item)} ${typeof item}`);
+                // }
+                let res;
+                if (typeof item === 'function') {
+                  res = item();
+                } else {
+                  res = item;
+                }
+                // if (res) {
+                //   throw new Error(`${fn} item: ${JSON.stringify(res)} ${typeof res}`);
+                // }
+                /// should just use Build.isProduciotn or something.
+                const actual =
+                  res && typeof res === 'object'
+                    ? res.h
+                      ? res.h.key
+                      : res.$
+                      ? res.$.key
+                      : res.$attrs$
+                      ? res.$attrs$.key
+                      : res.$key$
+                    : 'NOOOOO' + i; // lol
+                // if (res) {
+                //   throw new Error(
+                //     `${fn} item:  ${actual} res: ${JSON.stringify(res)} typeof res: ${typeof res} `
+                //   );
+                // }
+                return `${JSON.stringify(actual)}`;
+              }} // production build elements are different... prerender buld elements are different again
+              items={this.itemElements}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 3 }}
               config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}

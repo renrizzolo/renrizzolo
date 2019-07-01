@@ -37,7 +37,7 @@ export class TransitionGroup implements ComponentInterface {
   itemComponent?: string;
   @Prop()
   wrapperProps: {
-    [key: string]: any
+    [key: string]: any;
   };
   @Prop()
   keys: any;
@@ -108,20 +108,20 @@ export class TransitionGroup implements ComponentInterface {
   @Watch('items')
   itemsWatch(newValue: any[], oldValue: any[]) {
     if (newValue) {
-      const oldKeys = this.getKeysFromItems(oldValue);
-      const newKeys = this.getKeysFromItems(newValue);
+      const newKeys = this.getKeysFromItems(newValue, 'new');
+      const oldKeys = this.getKeysFromItems(oldValue, 'old');
 
       // compare the keys
 
       if (newKeys && newKeys.length && !shallowEqual(newKeys, oldKeys)) {
-        console.log(this.wrapperProps,  newKeys, oldKeys);
-     
+        console.log(this.wrapperProps, newKeys, oldKeys);
+
         // if (this.settingStyle) return;
 
         this.settingStyle = true;
         if (this.isMounted) {
           console.log(this.wrapperProps, 'is mounted > leave');
-          
+
           this.style = { ...this.leave };
         } else {
           console.log(this.wrapperProps, '!is mounted > from');
@@ -135,19 +135,25 @@ export class TransitionGroup implements ComponentInterface {
         // all the items to leave
         const timeout =
           this.config.duration - this.config.delay + this.config.delay * oldKeys.length;
-        console.log(this.wrapperProps, timeout, this.config.delay, this.config.duration, oldKeys.length);
-        
+        console.log(
+          this.wrapperProps,
+          timeout,
+          this.config.delay,
+          this.config.duration,
+          oldKeys.length
+        );
+
         setTimeout(() => {
           this.initialItems = [...this.items];
           setTimeout(() => {
             if (this.mounted) {
               this.style = { ...this.enter };
             }
-        
+
             this.settingStyle = false;
-          //     if (this.wrapper === 'ui-grid') {
-          //       throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
-          //  }
+            //     if (this.wrapper === 'ui-grid') {
+            //       throw new Error(`inside ${JSON.stringify(oldKeys)} ${JSON.stringify(newKeys)} ${JSON.stringify(newValue[0]())}`)
+            //  }
           }, 50);
         }, timeout);
       } else {
@@ -158,28 +164,24 @@ export class TransitionGroup implements ComponentInterface {
     }
   }
 
-  getKeysFromItems = (items) => {
-     if( typeof this.keys === 'function' && items ) {
-
-    
+  getKeysFromItems = (items, fn) => {
+    if (typeof this.keys === 'function' && items) {
       const keys = items.map((item, index) => {
-          let itemRes = item;
-          if (typeof item === 'function') {
-            itemRes = item();
-          }
-         
-          return this.keys(itemRes, index);
-        })
-      //  if (this.wrapper === 'ui-grid') {
-      //    throw new Error(
-      //      `keys ${JSON.stringify(keys)}`
-      //    );
-      //    // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
-      //  }
-        return keys;
-       } else {
-        return toArray(this.keys);
-         }
+        let itemRes = item;
+        if (typeof item === 'function') {
+          itemRes = item();
+        }
+
+        return this.keys(itemRes, index, fn);
+      });
+      // if (this.wrapper === 'ui-grid') {
+      //   throw new Error(`keys ${fn} ${JSON.stringify(keys)}`);
+      //   // console.log('keys', this.wrapper, this.items, oldKeys, newKeys);
+      // }
+      return keys;
+    } else {
+      return toArray(this.keys);
+    }
   };
 
   setStyle = (from, to, timeout = 0) => {
@@ -232,7 +234,7 @@ export class TransitionGroup implements ComponentInterface {
         {this.initialItems.map((item, i) => {
           const style = this.getStyle();
           this.wrapperProps && console.log(this.wrapperProps, 'applying', style);
-          
+
           // this was for not delaying when
           // adding a single item
           // e.g to a todo list

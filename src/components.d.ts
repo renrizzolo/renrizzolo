@@ -82,7 +82,7 @@ export namespace Components {
     'trail': boolean;
     'wrapper': string;
     'wrapperProps': {
-      [key: string]: any
+      [key: string]: any;
     };
   }
   interface TransitionMountWrapper {
@@ -287,7 +287,7 @@ declare namespace LocalJSX {
     'trail'?: boolean;
     'wrapper'?: string;
     'wrapperProps'?: {
-      [key: string]: any
+      [key: string]: any;
     };
   }
   interface TransitionMountWrapper extends JSXBase.HTMLAttributes<HTMLTransitionMountWrapperElement> {
