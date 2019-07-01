@@ -139,10 +139,6 @@ export class AppRoot {
                                       props.history.location.key === loc.key
                                     }
                                     wrapperProps={{id: `/project/${match.params.slug}`}}
-                                    // if trail is false
-                                    // the item doesn't update
-                                    // when its key changes
-                                    // trail
                                     keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
                                     items={
                                       props.history.location.key === loc.key
