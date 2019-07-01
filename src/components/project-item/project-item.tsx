@@ -66,31 +66,19 @@ export class ProjectItem {
         )}
         <div class={'project-item--heading__overlay'} />
         <section class="project-item--info">
-          <transition-group
-            wrapper={'span'}
-            wrapperProps={{ class: 'tags-container' }}
-            keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
-            config={{ duration: 550, timing: 'ease', delay: 150 }}
-            mounted={this.ready}
-            trail
-            from={{ opacity: '0', transform: 'translateX(5px)' }}
-            enter={{ opacity: '1', transform: 'translateX(0px)' }}
-            leave={{ opacity: '0', transform: 'translateX(5px)' }}
-            items={
-              post.tags &&
-              post.tags.map((tag) => (
+
+          {post.tags &&
+      post.tags.map((tag) => (
                 <span key={tag} class="tag">
-                  {tag}
-                </span>
-              ))
-            }
-          />
+            {tag}
+          </span>
+              ))}
           <transition-group
             config={{ duration: 250, timing: 'woosh', delay: 150 }}
             mounted={this.ready}
-            from={{ opacity: '0', transform: 'translateX(15px)' }}
+            from={{ opacity: '0', transform: 'translateX(7px)' }}
             enter={{ opacity: '1', transform: 'translateX(0px)' }}
-            leave={{ opacity: '0', transform: 'translateX(15px)' }}
+            leave={{ opacity: '0', transform: 'translateX(7px)' }}
             items={[
               this.fullSize ? (
                 <h1 class="project-item--heading">{post.heading}</h1>
@@ -103,7 +91,21 @@ export class ProjectItem {
           />
 
           <div>
-            <p class="project-item--subheading">{post.subHeading}</p>
+            <transition-group
+              wrapper={'span'}
+              wrapperProps={{ class: 'tags-container' }}
+              keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
+              config={{ duration: 550, timing: 'ease', delay: 150 }}
+              mounted={this.ready}
+              trail
+              from={{ opacity: '0', transform: 'translateX(5px)' }}
+              enter={{ opacity: '1', transform: 'translateX(0px)' }}
+              leave={{ opacity: '0', transform: 'translateX(5px)' }}
+              items={
+                [<p class="project-item--subheading">{post.subHeading}</p>]
+              }
+            />
+            
             {this.fullSize && (
               <section>
                 <div innerHTML={post.details} />
