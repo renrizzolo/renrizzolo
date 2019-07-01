@@ -1,0 +1,80 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+p {
+  line-height: 1.5;
+  font-size: 16px;
+}
+a {
+  color: #00B7FF;
+  cursor: pointer;
+}
+a:hover {
+  color: rgb(9, 85, 116);
+}
+li {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}
+ul {
+  padding: 0;
+}
+h1, h2, h3, h4 {
+  color: rgb(11, 131, 179);
+}
+
+.tagButton {
+  padding: 4px;
+  text-align: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  margin-bottom: 0.75rem;
+  margin-right: 0.25rem;
+  background-color: #00B7FF;
+  color: white;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+input, select {
+  width: 100%;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid silver;
+  margin-bottom: 0.75rem;
+}
+label {
+  font-size: 16px;
+  display: inline-block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: rgb(11, 131, 179);
+}
+section {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.projects-list li a {
+  font-size: 18px;
+  margin-bottom: 5px;
+  text-decoration: none;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #00B7FF;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.button:hover {
+  background-color: rgb(9, 85, 116);
+  color: white;
+}

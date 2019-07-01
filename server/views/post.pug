@@ -1,0 +1,121 @@
+extends layout
+block content
+
+  h1= title
+  form(action=action method='post')
+    section
+      input( type="hidden" name="id" id="id" value=post.id)
+      label(for="coverImage") coverImage
+      input(name="coverImage" id="coverImage" value=post.coverImage)
+      label(for="heading") heading
+      input(name="heading" id="heading" value=post.heading)
+      br
+      label(for="subHeading") subHeading
+      input(name="subHeading" id="subHeading" value=post.subHeading)
+      br
+      label(for="slug") slug
+      input(type="text" name="slug" id="slug" value=post.slug  pattern=("^[a-z0-9]+(?:-[a-z0-9]+)*$") title="slug-must-look-like-this")
+      br
+      label(for="link") link
+      input(name="link" id="link" value=post.link)
+      br
+      label(for="category") category
+      select(name="category" id="category")
+        option( value="website" selected= post.category === "website" ) website
+        option( value="library"  selected= post.category === "library" ) library
+
+    section
+      h3 tags
+
+      ul(id="tags")
+        each tag, index in post.tags
+          li(id="li-" + index)
+            a(onClick="removeTag(" + index + ")" class="tagButton") X
+            input( name="tags[]" value=tag) 
+
+        else
+          li there are no tags
+          
+      ul
+        li
+          a(onClick="addTag()" class="tagButton") +
+          input(name="newTag" id="newTag")
+
+    section
+      h3 Details
+      div(id="html-content") !{post.details}
+      br
+      label [actual html content that will be saved]
+      br
+      textarea( id="html" name="html")
+    script.
+      // init quill rich text editor
+      var toolbarOptions = [[{ 'font': [] }, { 'header': [1, 2, 3, 4, 5, 6, false] }, 'bold', 'italic',  { 'align': [] }, ], ['blockquote', 'code-block'], ['link', 'image']];
+      var quill = new Quill('#html-content', {
+        theme: 'snow',
+        modules: {
+          toolbar:  toolbarOptions,
+          imageUpload: {
+            url: '/api/upload', // server url. If the url is empty then the base64 returns
+            method: 'POST', // change query method, default 'POST'
+            name: 'image', // custom form name
+            withCredentials: false, // withCredentials
+            headers: {}, // add custom headers, example { token: 'your-token'}
+            // personalize successful callback and call next function to insert new url to the editor
+            callbackOK: (serverResponse, next) => {
+                next(serverResponse.image);
+            },
+            // personalize failed callback
+            callbackKO: serverError => {
+              console.log('serverError =', serverError)            }
+          }
+        }
+      });
+
+      
+        var html = document.getElementById('html')
+        html.innerText = quill.root.innerHTML;
+
+      quill.on('text-change', function(delta, oldDelta, source) {
+        console.log(quill.root.innerHTML);
+        html.innerText = quill.root.innerHTML;
+      });
+
+      var ul = document.getElementById('tags')
+      var tags = !{JSON.stringify(post.tags)}
+      console.log(!{JSON.stringify(post.details)})
+
+      function addTag() {
+        var tagEl = document.getElementById('newTag')
+        const index = ul.getElementsByTagName("li").length
+        console.log(tagEl.value)
+        if (tagEl.value) {
+          // create list item, input & anchor
+          var li = document.createElement("li");
+          li.setAttribute('id', 'li-' + index)
+
+          var input = document.createElement("input");
+          input.setAttribute('name', "tags[]")
+          input.setAttribute('value', tagEl.value)
+
+          var a = document.createElement("a");
+          a.text = 'X';
+          a.setAttribute('onClick', "removeTag(" + index + ")")
+          a.setAttribute('value', tagEl.value)
+          a.setAttribute('class', 'tagButton')
+
+          // append input/a to li
+          li.appendChild(a);
+          li.appendChild(input);
+          // append li to ul
+          ul.appendChild(li);
+        }
+      }
+
+      function removeTag(i) {
+        console.log('X', i, document.getElementById("li-" + i))
+        var tagToRemove =  document.getElementById("li-" + i);
+        tagToRemove.remove();
+      }
+
+    input(type="submit")

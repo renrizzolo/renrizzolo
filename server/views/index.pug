@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  p Here are all of the projects.
+  ul.projects-list
+    each val in posts
+      li
+        a(href='/post/update/' + val.id)= val.id + ' ' +  val.heading
+    else
+      li There are no values
+  a.button(href="/post/new") + Add new
