@@ -14,18 +14,8 @@
   grid-template-columns: repeat(5, max-content);
   grid-gap: 0.5rem;
 }
-.drip {
-  align-self: center;
-  justify-self: center;
 
-  width: 18px;
-  fill: var(--color-secondary);
-}
 @media screen and (max-width: 420px) {
-  .drip {
-    grid-column: 3;
-    grid-row: span 2 / 2;
-  }
   .theme-buttons {
     grid-template-columns: repeat(3, max-content);
   }
