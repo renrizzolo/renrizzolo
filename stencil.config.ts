@@ -16,7 +16,7 @@ export const config: Config = {
   },
   plugins: [
     
-    // nodePolyfills(),
+    nodePolyfills(),
     // autoExternal({
     //   // builtins: false,
     //   // dependencies: false,
