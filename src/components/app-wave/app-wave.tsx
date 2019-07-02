@@ -1,5 +1,5 @@
 import { Component, h, Prop, Element, State } from '@stencil/core';
-import lottie from 'lottie-web';
+import Lottie from 'lottie-web/build/player/lottie_light';
 
 @Component({
   tag: 'app-wave',
@@ -43,7 +43,7 @@ export class AppWave {
     const elements = this.el.querySelectorAll('.wave');
     console.log(elements[0], elements[1], elements[2]);
     
-    const wave1 = lottie.loadAnimation({
+    const wave1 = Lottie.loadAnimation({
       container: elements[0],
       renderer: 'svg',
       loop: true,
@@ -52,7 +52,7 @@ export class AppWave {
     });
 
     wave1.setSpeed(0.5);
-    const wave2 = lottie.loadAnimation({
+    const wave2 = Lottie.loadAnimation({
       container: elements[1],
       renderer: 'svg',
       loop: true,
@@ -61,7 +61,7 @@ export class AppWave {
     });
     wave2.setSpeed(0.45);
 
-    const wave3 = lottie.loadAnimation({
+    const wave3 = Lottie.loadAnimation({
       container: elements[2],
       renderer: 'svg',
       loop: true,

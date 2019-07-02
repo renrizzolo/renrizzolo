@@ -1,5 +1,6 @@
 import { Component, h, Prop, Element, State, Watch } from '@stencil/core';
-import lottie, { AnimationItem } from 'lottie-web';
+import  { AnimationItem } from 'lottie-web';
+import Lottie from 'lottie-web/build/player/lottie_light';
 
 @Component({
   tag: 'drip-icon',
@@ -22,7 +23,7 @@ export class DripIcon {
     const container = this.el.querySelector('.drip');
 
     console.log(container)
-    this.animation = lottie.loadAnimation({
+    this.animation = Lottie.loadAnimation({
       container: container,
       renderer: 'svg',
       loop: true,
@@ -33,7 +34,7 @@ export class DripIcon {
   }
 
   componentWillUnload() {
-    lottie.destroy();
+    Lottie.destroy();
   }
 
   render() {
