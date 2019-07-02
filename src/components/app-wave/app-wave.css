@@ -1,36 +1,45 @@
 :host {
-  --wave-size: 300;
+  --wave-size: 600;
   --intro-text-translate: 25;
   z-index: 1;
 }
 .wave.wave--flipped {
-  top: 0;
+  top: -10px;
+  bottom: unset;
   transform: rotate(180deg);
 }
 .wave {
-  width: 100%;
-  height: calc(var(--wave-size) * 1px);
+  /* width: 100%; */
+  /* height: calc(var(--wave-size) * 1px); */
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
   left: 0;
-  background-size: calc(var(--wave-size) * 1px * 5);
-  background-repeat: repeat-x;
+  right: 0;
   mix-blend-mode: screen;
-  animation: bg-pos 15s linear forwards infinite;
+  /* background-size: calc(var(--wave-size) * 1px * 5); */
+  /* background-repeat: repeat-x; */
+  /* animation: bg-pos 15s linear forwards infinite; */
 }
-
+.wave svg {
+  min-width: 1000px;
+  width: 100%;
+  height: 100%;
+}
+.wave svg path {
+  fill: var(--color-secondary);
+  stroke: var(--color-secondary);
+}
 .wave:nth-of-type(1) {
   mix-blend-mode: hue;
-
-  height: calc(var(--wave-size) * 1.1px);
+  /* height: calc(var(--wave-size) * 1.1px); */
 }
 .wave:nth-of-type(2) {
   mix-blend-mode: screen;
-  background-size: calc(var(--wave-size) * 1.2px * 5);
-  animation: bg-pos-2 15s linear forwards infinite;
-
-  height: calc(var(--wave-size) * 1.2px);
+  /* width: calc(var(--wave-size) * 1.2px); */
+  /* background-size: calc(var(--wave-size) * 1.2px * 5); */
+  /* animation: bg-pos-2 15s linear forwards infinite; */
 }
+
 @keyframes bg-pos {
   0% {
     background-position: 0% 75%;
