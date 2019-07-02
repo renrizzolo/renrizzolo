@@ -40,12 +40,10 @@ export class AppPageProject {
   render() {
     if (this.match && this.match.params.slug) {
       this.project = projects.filter((proj) => proj.slug === this.match.params.slug)[0];
-      this.next = this.project
-        ? projects.filter((proj) => proj.id === this.project.id + 1)[0]
-        : null;
-      this.prev = this.project
-        ? projects.filter((proj) => proj.id === this.project.id - 1)[0]
-        : null;
+      const index = projects.findIndex((proj) => proj.id === this.project.id);
+
+      this.next = index !== -1 ? projects[index + 1] : null;
+      this.prev = index !== -1 ? projects[index - 1] : null;
 
       return (
         <div class="app-page-project">
@@ -101,15 +99,30 @@ export class AppPageProject {
                 </ui-button>
               )}
               {this.project ? (
-                <transition-group
-                  from={{ opacity: '0' }}
-                  enter={{ opacity: '1' }}
-                  leave={{ opacity: '0' }}
-                  config={{ duration: 500, delay: 200, timing: 'ease-in' }}
-                  mounted={true}
-                  keys={(item) =>  (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
-                  items={[(mounted, delay) => <project-item key={this.project.id} post={this.project} fullSize mounted={mounted} delay={delay} />]}
-                />
+                <div>
+                  <h1>{this.project.heading}</h1>
+                  <h3>{this.project.subHeading}</h3>
+
+                  <transition-group
+                    from={{ opacity: '0' }}
+                    enter={{ opacity: '1' }}
+                    leave={{ opacity: '0' }}
+                    config={{ duration: 500, delay: 200, timing: 'ease-in' }}
+                    mounted={true}
+                    keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
+                    items={[
+                      (mounted, delay) => (
+                        <project-item
+                          key={this.project.id}
+                          post={this.project}
+                          fullSize
+                          mounted={mounted}
+                          delay={delay}
+                        />
+                      ),
+                    ]}
+                  />
+                </div>
               ) : (
                 <h1>
                   <code>404: not found.</code>
