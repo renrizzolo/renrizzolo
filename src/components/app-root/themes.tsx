@@ -5,7 +5,7 @@ const serif = '"Palatino Linotype", "Book Antiqua", Palatino, Times New Roman, s
 export const themes = {
   //default
   florence: [
-    { key: '--font-primary', value: `Helvetica, ${sans}` },
+    { key: '--font-primary', value: `Muli, ${sans}` },
     { key: '--color-primary', value: '#f9c7c7' },
     { key: '--color-primary-transparent', value: '#ffd4c333' },
     { key: '--color-primary-light', value: '#fff7f3' },
