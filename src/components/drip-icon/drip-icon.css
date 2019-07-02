@@ -1,0 +1,16 @@
+drip-icon {
+  align-self: center;
+  justify-self: center;
+
+  width: 36px;
+  fill: var(--color-secondary);
+}
+drip-icon path {
+  fill: var(--color-secondary);
+}
+@media screen and (max-width: 420px) {
+  drip-icon {
+    grid-column: 3;
+    grid-row: span 2 / 2;
+  }
+}
