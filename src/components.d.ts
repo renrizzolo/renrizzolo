@@ -32,6 +32,9 @@ export namespace Components {
   interface AppWave {
     'class': string;
   }
+  interface DripIcon {
+    'play': boolean;
+  }
   interface ProjectItem {
     'delay': number;
     'fullSize': boolean;
@@ -151,6 +154,12 @@ declare global {
     new (): HTMLAppWaveElement;
   };
 
+  interface HTMLDripIconElement extends Components.DripIcon, HTMLStencilElement {}
+  var HTMLDripIconElement: {
+    prototype: HTMLDripIconElement;
+    new (): HTMLDripIconElement;
+  };
+
   interface HTMLProjectItemElement extends Components.ProjectItem, HTMLStencilElement {}
   var HTMLProjectItemElement: {
     prototype: HTMLProjectItemElement;
@@ -206,6 +215,7 @@ declare global {
     'app-page-projects': HTMLAppPageProjectsElement;
     'app-root': HTMLAppRootElement;
     'app-wave': HTMLAppWaveElement;
+    'drip-icon': HTMLDripIconElement;
     'project-item': HTMLProjectItemElement;
     'renrizzolo-logo': HTMLRenrizzoloLogoElement;
     'route-transition': HTMLRouteTransitionElement;
@@ -236,6 +246,9 @@ declare namespace LocalJSX {
   }
   interface AppWave extends JSXBase.HTMLAttributes<HTMLAppWaveElement> {
     'class'?: string;
+  }
+  interface DripIcon extends JSXBase.HTMLAttributes<HTMLDripIconElement> {
+    'play'?: boolean;
   }
   interface ProjectItem extends JSXBase.HTMLAttributes<HTMLProjectItemElement> {
     'delay'?: number;
@@ -318,6 +331,7 @@ declare namespace LocalJSX {
     'app-page-projects': AppPageProjects;
     'app-root': AppRoot;
     'app-wave': AppWave;
+    'drip-icon': DripIcon;
     'project-item': ProjectItem;
     'renrizzolo-logo': RenrizzoloLogo;
     'route-transition': RouteTransition;
