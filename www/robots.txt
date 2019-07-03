@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://elastic-hodgkin-a279cc.netlify.com/sitemap.xml

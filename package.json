@@ -14,6 +14,7 @@
   "dependencies": {
     "@stencil/core": "1.1.2",
     "@stencil/router": "1.0.1",
+    "canvas-prebuilt": "^2.0.0-alpha.14",
     "lottie-web": "^5.5.5",
     "quill-image-upload": "^0.1.3"
   },
