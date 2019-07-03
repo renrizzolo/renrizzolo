@@ -10945,6 +10945,8 @@ function createElement(ownerDocument, tagName) {
         case 'svg':
         case 'symbol':
             return new MockElement(ownerDocument, tagName);
+        case 'canvas':
+        return createCanvas();
     }
     if (ownerDocument != null && tagName.includes('-')) {
         const win = ownerDocument.defaultView;
@@ -12214,15 +12216,12 @@ function polyfillDocumentImplementation(win, doc) {
             win.CustomEvent = CustomEvent;
         }
     }
-    win.document.createElement = function (tagName) {
+    doc.createElement = function (tagName) {
         if (tagName === "#document" /* DOCUMENT_NODE */) {
             const doc = new MockDocument(false);
             doc.nodeName = tagName;
             doc.parentNode = null;
             return doc;
-        }
-        if (tagName === 'canvas') {
-            return createCanvas()
         }
         return createElement(this, tagName);
     }
