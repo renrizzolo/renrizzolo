@@ -10946,7 +10946,7 @@ function createElement(ownerDocument, tagName) {
         case 'symbol':
             return new MockElement(ownerDocument, tagName);
         case 'canvas':
-        return createCanvas();
+        return createCanvas(1, 1);
     }
     if (ownerDocument != null && tagName.includes('-')) {
         const win = ownerDocument.defaultView;
