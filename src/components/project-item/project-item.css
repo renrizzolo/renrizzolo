@@ -54,6 +54,9 @@ a {
 }
 .project-item--container.full-size .project-item--info {
   padding: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 .project-item--heading {
   margin-top: 1rem;
@@ -180,6 +183,10 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+.details {
+  max-width: 700px;
+  margin: 0 auto;
 }
 .details img {
   height: auto;
