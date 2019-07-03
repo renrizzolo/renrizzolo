@@ -9,7 +9,7 @@
     "start.prod": "stencil build --prod --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "start.server": "node ./bin/www"
+    "start.server": "node ./server/bin/www"
   },
   "dependencies": {
     "@stencil/core": "1.1.2",

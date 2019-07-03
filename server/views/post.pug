@@ -2,11 +2,16 @@ extends layout
 block content
 
   h1= title
+  //- separate form for the cover image
+  //- will add succesful upload to
+  //- coverImage input
+  //- (originally was just using a string)
   form(action='/api/upload' method="post" id="image-upload" enctype="multipart/form-data" onsubmit="submitUpload(event)")
     label Upload new cover image
     input(type="file" accept="image/*" name="image" id="image-upload-input")
     button(type="submit") Upload
 
+  //- main form
   form(action=action method='post')
     section
       input( type="hidden" name="id" id="id" value=post.id)
@@ -31,7 +36,6 @@ block content
 
     section
       h3 tags
-
       ul(id="tags")
         each tag, index in post.tags
           li(id="li-" + index)
@@ -41,7 +45,6 @@ block content
         else
           li(id="li-" + index)
             input( type="hidden" name="tags[]" value='') 
-          
       ul
         li
           a(onClick="addTag()" class="tagButton") +
@@ -54,8 +57,8 @@ block content
       label [actual html content that will be saved]
       br
       textarea( id="html" name="html")
-    script.
 
+    script.
       // image form submission
       function submitUpload(e) {
         e.preventDefault();
@@ -89,6 +92,7 @@ block content
           xhr.send(data);
         }
       }
+
       // init quill rich text editor
       var toolbarOptions = [[{ 'font': [] }, { 'header': [1, 2, 3, 4, 5, 6, false] }, 'bold', 'italic',  { 'align': [] }, ], ['blockquote', 'code-block'], ['link', 'image']];
       var quill = new Quill('#html-content', {
@@ -113,14 +117,15 @@ block content
       });
 
       
-        var html = document.getElementById('html')
-        html.innerText = quill.root.innerHTML;
+      var html = document.getElementById('html')
+      html.innerText = quill.root.innerHTML;
 
       quill.on('text-change', function(delta, oldDelta, source) {
         console.log(quill.root.innerHTML);
         html.innerText = quill.root.innerHTML;
       });
 
+      // tags
       var ul = document.getElementById('tags')
       var tags = !{JSON.stringify(post.tags)}
       console.log(!{JSON.stringify(post.details)})
