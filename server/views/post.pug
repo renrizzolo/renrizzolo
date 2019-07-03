@@ -2,6 +2,11 @@ extends layout
 block content
 
   h1= title
+  form(action='/api/upload' method="post" id="image-upload" enctype="multipart/form-data" onsubmit="submitUpload(event)")
+    label Upload new cover image
+    input(type="file" accept="image/*" name="image" id="image-upload-input")
+    button(type="submit") Upload
+
   form(action=action method='post')
     section
       input( type="hidden" name="id" id="id" value=post.id)
@@ -34,7 +39,8 @@ block content
             input( name="tags[]" value=tag) 
 
         else
-          li there are no tags
+          li(id="li-" + index)
+            input( type="hidden" name="tags[]" value='') 
           
       ul
         li
@@ -49,6 +55,40 @@ block content
       br
       textarea( id="html" name="html")
     script.
+
+      // image form submission
+      function submitUpload(e) {
+        e.preventDefault();
+        var form = document.getElementById('image-upload');
+        console.log('submitted', e)
+        var input = document.getElementById('image-upload-input');
+        var file = input.files[0];
+        console.log('submitted', file)
+         var data = new FormData();
+
+        if (file) {
+          data.append('image', file);
+
+          const xhr = new XMLHttpRequest();
+          // init http query
+          xhr.open('post', '/api/upload', true);
+
+          // listen callback
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              var result = JSON.parse(xhr.responseText);
+              var coverImage = document.getElementById('coverImage')
+              coverImage.setAttribute('value', result.image);
+
+              console.log('upload res', result)
+            } else {
+              console.log(xhr.status, xhr.statusText, xhr.responseText)
+            }
+          };
+
+          xhr.send(data);
+        }
+      }
       // init quill rich text editor
       var toolbarOptions = [[{ 'font': [] }, { 'header': [1, 2, 3, 4, 5, 6, false] }, 'bold', 'italic',  { 'align': [] }, ], ['blockquote', 'code-block'], ['link', 'image']];
       var quill = new Quill('#html-content', {
@@ -118,4 +158,13 @@ block content
         tagToRemove.remove();
       }
 
-    input(type="submit")
+    input(type="submit" class="button")
+  br  
+  br  
+  br  
+  br  
+  br
+  h3 Danger z0ne
+  form(action="/api/delete" method="post")
+    input( type="hidden" name="id" id="id" value=post.id)
+    button DELETE
