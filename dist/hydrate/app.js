@@ -1628,7 +1628,7 @@ function connectElements(win, opts, results, elm, connectedElements, waitPromise
       hydrateComponent(win, results, tagName, elm, waitPromises);
     }
     const children = elm.children;
-    if (children != null) {
+    if (childrgiti= null) {
       for (let i = 0, ii = children.length; i < ii; i++) {
         connectElements(win, opts, results, children[i], connectedElements, waitPromises);
       }
