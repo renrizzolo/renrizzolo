@@ -14,7 +14,7 @@ export class DripIcon {
   @Watch('play')
   watchPlay(o, _) {
     console.log('play prop = ', o);
-    o === true && this.animation ? this.animation.play() : this.animation.pause();
+    o === true ? this.animation && this.animation.play() : this.animation && this.animation.pause();
   }
   componentDidLoad() {
 
