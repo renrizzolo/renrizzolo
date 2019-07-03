@@ -27,6 +27,7 @@ export class ProjectItem {
     setTimeout(() => {
       this.ready = true;
     }, this.delay);
+    window.scrollTo(0, 0);
   }
 
   render() {
@@ -66,12 +67,14 @@ export class ProjectItem {
         )}
         <div class={'project-item--heading__overlay'} />
         <section class="project-item--info">
-          {post.tags &&
-            post.tags.map((tag) => (
-              <span key={tag} class="tag">
-                {tag}
-              </span>
-            ))}
+          <div class="tags-container">
+            {post.tags &&
+              post.tags.map((tag) => (
+                <span key={tag} class="tag">
+                  {tag}
+                </span>
+              ))}
+          </div>
           {!this.fullSize && (
             <transition-group
               config={{ duration: 250, timing: 'woosh', delay: 150 }}
