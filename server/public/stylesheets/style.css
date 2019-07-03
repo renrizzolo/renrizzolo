@@ -1,13 +1,17 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+}
+main {
+  max-width: 800px;
+  margin: 0 auto;
 }
 p {
   line-height: 1.5;
   font-size: 16px;
 }
 a {
-  color: #00B7FF;
+  color: #00b7ff;
   cursor: pointer;
 }
 a:hover {
@@ -21,7 +25,10 @@ li {
 ul {
   padding: 0;
 }
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: rgb(11, 131, 179);
 }
 
@@ -33,13 +40,14 @@ h1, h2, h3, h4 {
   border-radius: 2px;
   margin-bottom: 0.75rem;
   margin-right: 0.25rem;
-  background-color: #00B7FF;
+  background-color: #00b7ff;
   color: white;
   font-weight: bold;
   font-family: monospace;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   display: block;
   padding: 5px 10px;
@@ -69,7 +77,7 @@ section {
 .button {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background-color: #00B7FF;
+  background-color: #00b7ff;
   color: white;
   border-radius: 6px;
   text-decoration: none;
