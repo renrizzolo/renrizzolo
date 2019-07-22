@@ -93,10 +93,13 @@ export namespace Components {
     'styles': {};
   }
   interface UiButton {
+    'button'?: boolean;
     'class'?: string;
     'clickHandler'?: (event: MouseEvent) => any;
     'external'?: boolean;
     'href'?: string;
+    'icon'?: object;
+    'iconClass'?: string;
     'url'?: string;
   }
   interface UiContainer {
@@ -308,10 +311,13 @@ declare namespace LocalJSX {
     'styles'?: {};
   }
   interface UiButton extends JSXBase.HTMLAttributes<HTMLUiButtonElement> {
+    'button'?: boolean;
     'class'?: string;
     'clickHandler'?: (event: MouseEvent) => any;
     'external'?: boolean;
     'href'?: string;
+    'icon'?: object;
+    'iconClass'?: string;
     'url'?: string;
   }
   interface UiContainer extends JSXBase.HTMLAttributes<HTMLUiContainerElement> {
