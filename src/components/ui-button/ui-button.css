@@ -1,12 +1,12 @@
 a {
-  transition: all 150ms ease-in;
+  transition: all 350ms ease-out;
   display: inline-block;
   user-select: none;
 }
 a:hover {
-  transition: all 200ms ease-out;
+  transition: all 250ms ease-in;
 }
-a.link {
+a {
   color: var(--color-button);
   text-decoration: none;
   border-bottom: 2px solid;
@@ -14,14 +14,17 @@ a.link {
   font-size: 0.9rem;
   cursor: pointer;
 }
-a.link.active {
+a.active {
   color: var(--color-text);
 }
-a.link:hover {
+a:hover {
   color: var(--color-text);
 }
 
-a:not(.link) {
+a.button,
+.route-link-button a {
+  border-bottom: 0px;
+
   background-color: var(--color-button);
   cursor: pointer;
   color: var(--color-secondary);
@@ -35,9 +38,14 @@ a:not(.link) {
   background-color: var(--color-button);
   box-shadow: inset 0px 0 0 0 rgba(0, 0, 0, 0.1);
   background-position: left bottom;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
 }
-a:not(.link):hover,
-a:not(.link).active {
+a.button:hover,
+a.button.active,
+.route-link-button a:hover,
+.route-link-button a.active {
   background-color: var(--color-secondary);
   box-shadow: inset -2px -2px 0 0 rgba(0, 0, 0, 0.2);
   color: var(--color-button);
@@ -80,11 +88,28 @@ a:not(.link).active {
 }
 @media screen and (max-width: 1200px) {
   .link-next.abs--right {
-    right: -0.5rem;
+    right: -3px;
+  }
+  .link-next.abs--right a {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
   }
   .link-prev.abs--left {
-    left: -0.5rem;
+    left: -3px;
   }
+  .link-prev.abs--left a {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+  }
+}
+.link-next span {
+  width: 24px;
+  height: 24px;
+}
+.link-prev span {
+  width: 24px;
+  height: 24px;
+  transform: rotate(180deg);
 }
 .abs--bottom-left {
   bottom: 2rem;
@@ -100,8 +125,19 @@ a:not(.link).active {
   justify-content: center;
 }
 
-.link-icon {
-  width: 12px;
-  height: 12px;
-  margin-left: 6px;
+.icon {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  margin-left: 3px;
+}
+a:hover .icon svg path {
+  transition: fill 250ms ease-in;
+
+  fill: var(--color-button);
+}
+.icon svg path {
+  transition: fill 250ms ease-in;
+
+  fill: currentColor;
 }
