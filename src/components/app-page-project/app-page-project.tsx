@@ -40,7 +40,7 @@ export class AppPageProject {
   // }
   render() {
     if (this.match && this.match.params.slug) {
-      this.project = projects.filter((proj) => proj.slug === this.match.params.slug)[0];
+      this.project = projects.sort(({ id }, { id: idb }) => (id < idb ? 1 : -1)).filter((proj) => proj.slug === this.match.params.slug)[0];
       const index = projects.findIndex((proj) => proj.id === this.project.id);
 
       this.next = index !== -1 ? projects[index + 1] : null;
