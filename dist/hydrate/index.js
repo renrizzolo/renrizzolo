@@ -1,12 +1,12 @@
 'use strict';
+
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const hydrateAppFileName = 'app-hydrate.js';
+const hydrateAppPackageName = 'renrizzolo/hydrate';
 const requireFunc = typeof __webpack_require__ === 'function' ? __non_webpack_require__ : require;
 const vm = requireFunc('vm');
-const { createCanvas } = require('canvas-prebuilt')
-
 function createHydrateAppSandbox(win) {
-
     const appScript = loadHydrateAppScript();
     const sandbox = createSandbox(win);
     const context = vm.createContext(sandbox);
@@ -18,10 +18,20 @@ function loadHydrateAppScript() {
     if (cachedAppScript == null) {
         const fs = requireFunc('fs');
         const path = requireFunc('path');
-        const filePath = path.join(__dirname, 'app.js');
-        const appCode = fs.readFileSync(filePath, 'utf8');
-        const code = `StencilHydrateApp = (exports => {${appCode};return exports; })({});`;
-        cachedAppScript = new vm.Script(code, { filename: filePath });
+        let hydrateAppFilePath;
+        let hydrateAppCode;
+        try {
+            hydrateAppFilePath = path.join(__dirname, hydrateAppFileName);
+            hydrateAppCode = fs.readFileSync(hydrateAppFilePath, 'utf8');
+        }
+        catch (e) {
+            const hydrateAppPackageIndex = requireFunc.resolve(hydrateAppPackageName);
+            const hydrateAppPackageDir = path.dirname(hydrateAppPackageIndex);
+            hydrateAppFilePath = path.join(hydrateAppPackageDir, hydrateAppFileName);
+            hydrateAppCode = fs.readFileSync(hydrateAppFilePath, 'utf8');
+        }
+        const code = `StencilHydrateApp = (exports => {${hydrateAppCode};return exports; })({});`;
+        cachedAppScript = new vm.Script(code, { filename: hydrateAppFilePath });
     }
     return cachedAppScript;
 }
@@ -2338,7 +2348,7 @@ const WHITESPACE_SENSITIVE = new Set(['CODE', 'OUTPUT', 'PLAINTEXT', 'PRE', 'TEM
 const EMPTY_ELEMENTS = new Set(['area', 'base', 'basefont', 'bgsound', 'br', 'col', 'embed', 'frame', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'trace', 'wbr']);
 const REMOVE_EMPTY_ATTR = new Set(['class', 'dir', 'id', 'lang', 'name', 'title']);
 const BOOLEAN_ATTR = new Set(['allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'compact', 'controls', 'declare', 'default', 'defaultchecked', 'defaultmuted', 'defaultselected', 'defer', 'disabled', 'enabled', 'formnovalidate', 'hidden', 'indeterminate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nohref', 'nomodule', 'noresize', 'noshade', 'novalidate', 'nowrap', 'open', 'pauseonexit', 'readonly', 'required', 'reversed', 'scoped', 'seamless', 'selected', 'sortable', 'truespeed', 'typemustmatch', 'visible']);
-const STRUCTURE_ELEMENTS = new Set(['html', 'body', 'head', 'iframe', 'meta', 'link', 'title', 'script', 'style']);
+const STRUCTURE_ELEMENTS = new Set(['html', 'body', 'head', 'iframe', 'meta', 'link', 'base', 'title', 'script', 'style']);
 
 const UNDEFINED_CODE_POINTS = [
     0xfffe,
@@ -7456,7 +7466,6 @@ class Parser {
 
     // API
     parse(html) {
-
         const document = this.treeAdapter.createDocument();
 
         this._bootstrap(document, null);
@@ -10388,6 +10397,13 @@ MockNode.COMMENT_NODE = 8;
 MockNode.DOCUMENT_NODE = 9;
 MockNode.DOCUMENT_TYPE_NODE = 10;
 MockNode.DOCUMENT_FRAGMENT_NODE = 11;
+class MockNodeList {
+    constructor(ownerDocument, childNodes, length) {
+        this.ownerDocument = ownerDocument;
+        this.childNodes = childNodes;
+        this.length = length;
+    }
+}
 const attrsMap = new WeakMap();
 const shadowRootMap = new WeakMap();
 const stylesMap = new WeakMap();
@@ -10916,6 +10932,14 @@ class MockDocumentFragment extends MockHTMLElement {
     }
 }
 
+class MockDocumentTypeNode extends MockHTMLElement {
+    constructor(ownerDocument) {
+        super(ownerDocument, '!DOCTYPE');
+        this.nodeType = 10;
+        this.setAttribute('html', '');
+    }
+}
+
 function createElement(ownerDocument, tagName) {
     if (typeof tagName !== 'string' || tagName === '' || !(/^[a-z0-9-_:]+$/i.test(tagName))) {
         throw new Error(`The tag name provided (${tagName}) is not a valid name.`);
@@ -10924,6 +10948,8 @@ function createElement(ownerDocument, tagName) {
     switch (tagName) {
         case 'a':
             return new MockAnchorElement(ownerDocument);
+        case 'base':
+            return new MockBaseElement(ownerDocument);
         case 'button':
             return new MockButtonElement(ownerDocument);
         case 'form':
@@ -10942,11 +10968,11 @@ function createElement(ownerDocument, tagName) {
             return new MockTemplateElement(ownerDocument);
         case 'title':
             return new MockTitleElement(ownerDocument);
-        case 'svg':
-        case 'symbol':
-            return new MockElement(ownerDocument, tagName);
         case 'canvas':
             return new MockCanvasElement(ownerDocument);
+    }
+    if (SVG_TAGS.has(tagName)) {
+        return new MockSVGElement(ownerDocument, tagName);
     }
     if (ownerDocument != null && tagName.includes('-')) {
         const win = ownerDocument.defaultView;
@@ -10956,6 +10982,18 @@ function createElement(ownerDocument, tagName) {
     }
     return new MockHTMLElement(ownerDocument, tagName);
 }
+function createElementNS(ownerDocument, namespaceURI, tagName) {
+    if (namespaceURI === 'http://www.w3.org/1999/xhtml') {
+        return createElement(ownerDocument, tagName);
+    }
+    else if (namespaceURI === 'http://www.w3.org/2000/svg') {
+        return new MockSVGElement(ownerDocument, tagName);
+    }
+    else {
+        return new MockElement(ownerDocument, tagName);
+    }
+}
+const SVG_TAGS = new Set(['circle', 'line', 'g', 'path', 'svg', 'symbol', 'viewbox']);
 class MockAnchorElement extends MockHTMLElement {
     constructor(ownerDocument) {
         super(ownerDocument, 'a');
@@ -10984,45 +11022,6 @@ class MockImgElement extends MockHTMLElement {
     }
     set src(value) {
         this.setAttribute('src', value);
-    }
-}
-class MockCanvasElement extends MockHTMLElement {
-    constructor(ownerDocument) {
-        super(ownerDocument, 'canvas');
-    }
-    getContext() {
-        return {
-            fillRect: function () { },
-            clearRect: function () { },
-            getImageData: function (x, y, w, h) {
-                return {
-                    data: new Array(w * h * 4)
-                };
-            },
-            putImageData: function () { },
-            createImageData: function () { return [] },
-            setTransform: function () { },
-            drawImage: function () { },
-            save: function () { },
-            fillText: function () { },
-            restore: function () { },
-            beginPath: function () { },
-            moveTo: function () { },
-            lineTo: function () { },
-            closePath: function () { },
-            stroke: function () { },
-            translate: function () { },
-            scale: function () { },
-            rotate: function () { },
-            arc: function () { },
-            fill: function () { },
-            measureText: function () {
-                return { width: 0 };
-            },
-            transform: function () { },
-            rect: function () { },
-            clip: function () { },
-        }
     }
 }
 patchPropAttributes(MockImgElement.prototype, {
@@ -11117,6 +11116,27 @@ class MockScriptElement extends MockHTMLElement {
 patchPropAttributes(MockScriptElement.prototype, {
     type: String
 });
+class MockSVGElement extends MockElement {
+    get ownerSVGElement() { return null; }
+    get viewportElement() { return null; }
+    focus() { }
+    onunload() { }
+    get pathLength() { return 0; }
+    isPointInFill(_pt) { return false; }
+    isPointInStroke(_pt) { return false; }
+    getTotalLength() { return 0; }
+}
+class MockBaseElement extends MockHTMLElement {
+    constructor(ownerDocument) {
+        super(ownerDocument, 'base');
+    }
+    get href() {
+        return fullUrl(this, 'href');
+    }
+    set href(value) {
+        this.setAttribute('href', value);
+    }
+}
 class MockTemplateElement extends MockHTMLElement {
     constructor(ownerDocument) {
         super(ownerDocument, 'template');
@@ -11154,6 +11174,45 @@ class MockTitleElement extends MockHTMLElement {
     }
     set text(value) {
         this.textContent = value;
+    }
+}
+class MockCanvasElement extends MockHTMLElement {
+    constructor(ownerDocument) {
+        super(ownerDocument, 'canvas');
+    }
+    getContext() {
+        return {
+            fillRect: function () { },
+            clearRect: function () { },
+            getImageData: function (_, __, w, h) {
+                return {
+                    data: new Array(w * h * 4)
+                };
+            },
+            putImageData: function () { },
+            createImageData: function () { return []; },
+            setTransform: function () { },
+            drawImage: function () { },
+            save: function () { },
+            fillText: function () { },
+            restore: function () { },
+            beginPath: function () { },
+            moveTo: function () { },
+            lineTo: function () { },
+            closePath: function () { },
+            stroke: function () { },
+            translate: function () { },
+            scale: function () { },
+            rotate: function () { },
+            arc: function () { },
+            fill: function () { },
+            measureText: function () {
+                return { width: 0 };
+            },
+            transform: function () { },
+            rect: function () { },
+            clip: function () { },
+        };
     }
 }
 function fullUrl(elm, attrName) {
@@ -11226,14 +11285,6 @@ MockElement.prototype.cloneNode = function (deep) {
     }
     return cloned;
 };
-
-class MockDocumentTypeNode extends MockHTMLElement {
-    constructor(ownerDocument) {
-        super(ownerDocument, '!DOCTYPE');
-        this.nodeType = 10;
-        this.setAttribute('html', '');
-    }
-}
 
 const consoleNoop = () => { };
 function createConsole() {
@@ -11424,6 +11475,7 @@ class MockStorage {
 const historyMap = new WeakMap();
 const elementCstrMap = new WeakMap();
 const htmlElementCstrMap = new WeakMap();
+const nodeListCstrMap = new WeakMap();
 const localStorageMap = new WeakMap();
 const locMap = new WeakMap();
 const navMap = new WeakMap();
@@ -11564,6 +11616,19 @@ class MockWindow {
             elementCstrMap.set(this, ElementCstr);
         }
         return ElementCstr;
+    }
+    get NodeList() {
+        let NodeListCstr = nodeListCstrMap.get(this);
+        if (NodeListCstr == null) {
+            const ownerDocument = this.document;
+            NodeListCstr = class extends MockNodeList {
+                constructor() {
+                    super(ownerDocument, [], 0);
+                    throw (new Error('Illegal constructor: cannot constructor'));
+                }
+            };
+            return NodeListCstr;
+        }
     }
     get HTMLElement() {
         let HtmlElementCstr = htmlElementCstrMap.get(this);
@@ -11745,6 +11810,7 @@ function resetWindow(win) {
         historyMap.delete(win);
         htmlElementCstrMap.delete(win);
         elementCstrMap.delete(win);
+        nodeListCstrMap.delete(win);
         localStorageMap.delete(win);
         locMap.delete(win);
         navMap.delete(win);
@@ -11828,15 +11894,14 @@ class MockDocument extends MockHTMLElement {
         }
     }
     get baseURI() {
-        if (this.defaultView != null) {
-            return this.defaultView.location.href;
+        const baseNode = this.head.childNodes.find(node => node.nodeName === 'BASE');
+        if (baseNode) {
+            return baseNode.href;
         }
-        return '';
+        return this.URL;
     }
-    set baseURI(value) {
-        if (this.defaultView != null) {
-            this.defaultView.location.href = value;
-        }
+    get URL() {
+        return this.location.href;
     }
     get documentElement() {
         for (let i = this.childNodes.length - 1; i >= 0; i--) {
@@ -11930,7 +11995,7 @@ class MockDocument extends MockHTMLElement {
         return createElement(this, tagName);
     }
     createElementNS(namespaceURI, tagName) {
-        const elmNs = new MockElement(this, tagName);
+        const elmNs = createElementNS(this, namespaceURI, tagName);
         elmNs.namespaceURI = namespaceURI;
         return elmNs;
     }
@@ -12077,6 +12142,64 @@ function setOwnerDocument(elm, ownerDocument) {
         }
     }
 }
+
+function patchWindow(winToBePatched) {
+    const mockWin = new MockWindow(false);
+    WINDOW_FUNCTIONS.forEach(fnName => {
+        if (typeof winToBePatched[fnName] !== 'function') {
+            winToBePatched[fnName] = mockWin[fnName].bind(mockWin);
+        }
+    });
+    WINDOW_PROPS$1.forEach(propName => {
+        if (winToBePatched === undefined) {
+            Object.defineProperty(winToBePatched, propName, {
+                get() { return mockWin[propName]; },
+                set(val) { mockWin[propName] = val; },
+                configurable: true,
+                enumerable: true
+            });
+        }
+    });
+}
+const WINDOW_FUNCTIONS = [
+    'addEventListener',
+    'cancelAnimationFrame',
+    'cancelIdleCallback',
+    'dispatchEvent',
+    'matchMedia',
+    'removeEventListener',
+    'requestAnimationFrame',
+    'requestIdleCallback',
+    'URL'
+];
+const WINDOW_PROPS$1 = [
+    'customElements',
+    'devicePixelRatio',
+    'document',
+    'history',
+    'innerHeight',
+    'innerWidth',
+    'localStorage',
+    'location',
+    'navigator',
+    'pageXOffset',
+    'pageYOffset',
+    'performance',
+    'screenLeft',
+    'screenTop',
+    'screenX',
+    'screenY',
+    'scrollX',
+    'scrollY',
+    'sessionStorage',
+    'CSS',
+    'CustomEvent',
+    'Event',
+    'Element',
+    'HTMLElement',
+    'NodeList',
+    'KeyboardEvent'
+];
 
 function initializeWindow(win, doc, opts, results) {
     try {
@@ -12242,7 +12365,21 @@ const SKIP_ATTRS = new Set([
     's-id', 'c-id'
 ]);
 
-function polyfillDocumentImplementation(win, doc) {
+function patchDomImplementation(doc) {
+    let win;
+    if (doc.defaultView != null) {
+        patchWindow(doc.defaultView);
+        win = doc.defaultView;
+    }
+    else {
+        win = new MockWindow(false);
+    }
+    if (win.document !== doc) {
+        win.document = doc;
+    }
+    if (doc.defaultView !== win) {
+        doc.defaultView = win;
+    }
     const HTMLElement = doc.documentElement.constructor.prototype;
     if (typeof HTMLElement.getRootNode !== 'function') {
         const elm = doc.createElement('unknown-element');
@@ -12255,15 +12392,7 @@ function polyfillDocumentImplementation(win, doc) {
             win.CustomEvent = CustomEvent;
         }
     }
-    doc.createElement = function (tagName) {
-        if (tagName === "#document" /* DOCUMENT_NODE */) {
-            const doc = new MockDocument(false);
-            doc.nodeName = tagName;
-            doc.parentNode = null;
-            return doc;
-        }
-        return createElement(this, tagName);
-    }
+    return win;
 }
 function getRootNode(opts) {
     const isComposed = (opts != null && opts.composed === true);
@@ -12342,15 +12471,8 @@ async function hydrateDocument(doc, opts = {}) {
         return results;
     }
     try {
-        const win = doc.defaultView || new MockWindow(false);
-        if (win.document !== doc) {
-            win.document = doc;
-        }
-        if (doc.defaultView !== win) {
-            doc.defaultView = win;
-        }
-        polyfillDocumentImplementation(win, doc);
-        await render(win, doc, opts, results);
+        const win = patchDomImplementation(doc);
+        await render(win, win.document, opts, results);
     }
     catch (e) {
         renderCatchError(results, e);
@@ -12358,7 +12480,6 @@ async function hydrateDocument(doc, opts = {}) {
     return results;
 }
 async function render(win, doc, opts, results) {
-    
     catchUnhandledErrors(results);
     initializeWindow(win, doc, opts, results);
     await new Promise(resolve => {
@@ -12368,13 +12489,11 @@ async function render(win, doc, opts, results) {
         }, opts.timeout);
         try {
             const sandbox = createHydrateAppSandbox(win);
-
             sandbox.bootstrapHydrate(win, opts, (bootstrapResults) => {
                 clearTimeout(tmr);
                 try {
                     results.hydratedCount = bootstrapResults.hydratedCount;
                     bootstrapResults.hydratedComponents.forEach(component => {
-
                         results.components.push({
                             tag: component.tag,
                             mode: component.mode,
@@ -12384,7 +12503,6 @@ async function render(win, doc, opts, results) {
                     });
                 }
                 catch (e) {
-
                     renderCatchError(results, e);
                 }
                 bootstrapResults = null;

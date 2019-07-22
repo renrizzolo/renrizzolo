@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a3a00651-2be0-4851-a6e3-e68780dc29f6/deploy-status)](https://app.netlify.com/sites/elastic-hodgkin-a279cc/deploys)
+
 # Stencil App Starter
 
 Stencil is a compiler for building fast web apps using Web Components.
@@ -9,18 +11,6 @@ Stencil components are just Web Components, so they work in any major framework 
 Stencil also enables a number of key capabilities on top of Web Components, in particular Server Side Rendering (SSR) without the need to run a headless browser, pre-rendering, and objects-as-properties (instead of just strings).
 
 ## Getting Started
-
-To start a new project using Stencil, clone this repo to a new directory:
-
-```bash
-npm init stencil app
-```
-
-and run:
-
-```bash
-npm start
-```
 
 To build the app for production, run:
 
