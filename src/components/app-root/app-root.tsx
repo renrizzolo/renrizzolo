@@ -12,6 +12,17 @@ const transitionConfig = {
   leave: { opacity: '0', transform: 'translateY(2%)' },
 };
 
+const projectTransitionConfig = {
+  config: {
+    duration: 600,
+    timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
+    delay: 50,
+  },
+  from: { opacity: '0', transform: 'translateX(-3%)' },
+  enter: { opacity: '1', transform: 'translateX(0px)' },
+  leave: { opacity: '0', transform: 'translateX(2%)' },
+};
+
 @Component({
   tag: 'app-root',
   styleUrl: 'app-root.css',
@@ -151,7 +162,7 @@ export class AppRoot {
                                 return (
                                   <transition-mount-wrapper mounted={true} styles={style}>
                                     <transition-group
-                                      {...transitionConfig}
+                                      {...projectTransitionConfig}
                                       mounted={
                                         lastEvent === 'pageEntered' &&
                                         props.history.location.key === loc.key
