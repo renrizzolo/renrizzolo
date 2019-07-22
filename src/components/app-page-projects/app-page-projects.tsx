@@ -60,34 +60,37 @@ export class AppPageProjects {
     this.getItems();
   };
   getItems() {
-    const items = this.items.map((project) => (mounted, delay) => (
+    const items = this.items
+    //sort in reverse order (oldest post last)
+    .sort(({ id }, { id: idb }) => (id < idb ? 1 : -1))
+    .map((project) => (mounted, delay) => (
       <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
     ));
     this.itemElements = [...items];
   }
 
   render() {
-    // const items = this.items.map((project) => (mounted, delay) => (
-    //   <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
-    // ));
+
     return (
       <div style={this.styles} class="app-page-projects">
         <app-background>
           <app-wave class="wave--flipped" />
 
           <ui-container>
-            <ui-button url="/" class="abs abs--top-left">
+            <ui-button button url="/" class="abs abs--top-left">
               Back
             </ui-button>
             <h1>Projects</h1>
             <div class="app-page-projects--filters">
               <ui-button
+                button
                 class={`${this.filteredBy === '' ? 'active' : ''}`}
                 clickHandler={() => this.resetFilter()}
               >
                 All
               </ui-button>
               <ui-button
+                button
                 class={`${this.filteredBy === 'category|library' ? 'active' : ''}`}
                 clickHandler={() => this.filterItems('category', 'library')}
               >
@@ -95,6 +98,7 @@ export class AppPageProjects {
               </ui-button>
 
               <ui-button
+                button
                 class={`${this.filteredBy === 'category|website' ? 'active' : ''}`}
                 clickHandler={() => this.filterItems('category', 'website')}
               >
@@ -116,19 +120,15 @@ export class AppPageProjects {
               trail={true}
               keys={(item, i, fn) => {
                 console.log(i, fn);
-                // if (item) {
-                //   throw new Error(`${fn} item: ${JSON.stringify(item)} ${typeof item}`);
-                // }
                 let res;
                 if (typeof item === 'function') {
                   res = item();
                 } else {
                   res = item;
                 }
-                // if (res) {
-                //   throw new Error(`${fn} item: ${JSON.stringify(res)} ${typeof res}`);
-                // }
-                /// should just use Build.isProduciotn or something.
+                // dev, production and prerender elements store
+                // keys in different places
+                // so check for all possibilities...
                 const actual =
                   res && typeof res === 'object'
                     ? res.h
@@ -139,13 +139,9 @@ export class AppPageProjects {
                       ? res.$attrs$.key
                       : res.$key$
                     : 'NOOOOO' + i; // lol
-                // if (res) {
-                //   throw new Error(
-                //     `${fn} item:  ${actual} res: ${JSON.stringify(res)} typeof res: ${typeof res} `
-                //   );
-                // }
+
                 return `${JSON.stringify(actual)}`;
-              }} // production build elements are different... prerender buld elements are different again
+              }} 
               items={this.itemElements}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 3 }}
