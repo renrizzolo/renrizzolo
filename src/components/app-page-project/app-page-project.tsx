@@ -1,6 +1,7 @@
 import { Component, Prop, State, h } from '@stencil/core';
 import { projects, Project } from '../app-page-projects/projects';
 import { MatchResults } from '@stencil/router';
+import arrow from '../../icons/arrow.json';
 
 @Component({
   tag: 'app-page-project',
@@ -51,52 +52,24 @@ export class AppPageProject {
             <app-wave class="wave--flipped" />
 
             <ui-container>
-              <ui-button url="/projects" class="abs abs--top-left">
+              <ui-button url="/projects" button class="abs abs--top-left">
                 Back
               </ui-button>
               {this.next && (
                 <ui-button
+                  button
+                  icon={arrow}
                   url={`/project/${this.next.slug}`}
                   class="link-next color--alt abs abs--right abs--middle flex-center"
-                >
-                  <svg
-                    version="1.1"
-                    id="Layer_1"
-                    x="0px"
-                    y="0px"
-                    viewBox="0 0 50 50"
-                    style={{ width: '18', height: '18' }}
-                  >
-                    <path
-                      d="M48,25c0-0.6-0.2-1.1-0.6-1.4l0,0L37,13.3l0,0c-0.4-0.4-0.9-0.6-1.4-0.6c-1.1,0-2,0.9-2,2c0,0.6,0.2,1.1,0.6,1.4l0,0
-	l6.9,6.9H4c-1.1,0-2,0.9-2,2s0.9,2,2,2h37.2l-6.9,6.9l0,0c-0.4,0.4-0.6,0.9-0.6,1.4c0,1.1,0.9,2,2,2c0.6,0,1.1-0.2,1.4-0.6l0,0
-	l10.3-10.3l0,0C47.8,26.1,48,25.6,48,25z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </ui-button>
+                />
               )}
               {this.prev && (
                 <ui-button
+                  button
+                  icon={arrow}
                   url={`/project/${this.prev.slug}`}
                   class="link-prev color--alt abs abs--left  abs--middle flex-center"
-                >
-                  <svg
-                    version="1.1"
-                    id="Layer_1"
-                    x="0px"
-                    y="0px"
-                    viewBox="0 0 50 50"
-                    style={{ width: '18', height: '18', transform: 'rotate(180deg)' }}
-                  >
-                    <path
-                      d="M48,25c0-0.6-0.2-1.1-0.6-1.4l0,0L37,13.3l0,0c-0.4-0.4-0.9-0.6-1.4-0.6c-1.1,0-2,0.9-2,2c0,0.6,0.2,1.1,0.6,1.4l0,0
-	l6.9,6.9H4c-1.1,0-2,0.9-2,2s0.9,2,2,2h37.2l-6.9,6.9l0,0c-0.4,0.4-0.6,0.9-0.6,1.4c0,1.1,0.9,2,2,2c0.6,0,1.1-0.2,1.4-0.6l0,0
-	l10.3-10.3l0,0C47.8,26.1,48,25.6,48,25z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </ui-button>
+                />
               )}
               {this.project ? (
                 <div>
