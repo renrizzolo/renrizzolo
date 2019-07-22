@@ -17,6 +17,7 @@ export const themes = {
     { key: '--color-g-3', value: '#130b3c' },
     { key: '--color-g-4', value: '#261c57' },
     { key: '--color-logo', value: '#282828' },
+    { key: '--color-dark', value: 'var(--color-g-2)' },
   ],
   brune: [
     { key: '--font-primary', value: `Muli, ${sans}` },
@@ -31,6 +32,7 @@ export const themes = {
     { key: '--color-g-3', value: '#EDAFB8' },
     { key: '--color-g-4', value: '#a0405f' },
     { key: '--color-logo', value: '#6c6c6c' },
+    { key: '--color-dark', value: 'var(--color-secondary)' },
   ],
   flatline: [
     { key: '--font-primary', value: `Helvetica, ${sans}` },
@@ -45,6 +47,7 @@ export const themes = {
     { key: '--color-g-3', value: '#9197AE' },
     { key: '--color-g-4', value: '#787E96' },
     { key: '--color-logo', value: '#8e8b8b' },
+    { key: '--color-dark', value: 'var(--color-secondary)' },
   ],
   blanche: [
     { key: '--font-primary', value: `${serif}` },
@@ -59,5 +62,6 @@ export const themes = {
     { key: '--color-g-3', value: '#fff' },
     { key: '--color-g-4', value: '#f7f7f7' },
     { key: '--color-logo', value: '#fbfbfb' },
+    { key: '--color-dark', value: 'var(--color-primary)' },
   ],
 };
