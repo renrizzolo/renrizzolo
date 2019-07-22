@@ -82,10 +82,35 @@ a.button.active,
 .abs--left {
   left: 2rem;
 }
+.abs--bottom-left {
+  bottom: 2rem;
+  left: 2rem;
+}
+.abs--bottom-right {
+  bottom: 2rem;
+  right: 2rem;
+}
+
+@media screen and (max-width: 420px) {
+  .abs--right, .abs--top-right, .abs--bottom-right {
+    right: 1rem;
+  }
+  .abs--bottom-left, .abs--left, .abs--top-left {
+    left: 1rem;
+  }
+  .abs--bottom-left, .abs--bottom-right {
+    bottom: 1rem;
+  }
+  .abs--top-left, .abs--top-right {
+    top: 1rem;
+  }
+}
+
 .abs--middle {
   top: 50%;
   transform: translateY(-50%);
 }
+
 @media screen and (max-width: 1200px) {
   .link-next.abs--right {
     right: -3px;
@@ -102,6 +127,15 @@ a.button.active,
     border-top-left-radius: 0px;
   }
 }
+@media screen and (max-width: 420px) {
+  .link-next.abs--right {
+    right: -10px;
+  }
+  .link-prev.abs--left {
+    left: -10px;
+  }
+}
+
 .link-next span {
   width: 24px;
   height: 24px;
@@ -111,14 +145,7 @@ a.button.active,
   height: 24px;
   transform: rotate(180deg);
 }
-.abs--bottom-left {
-  bottom: 2rem;
-  left: 2rem;
-}
-.abs--bottom-right {
-  bottom: 2rem;
-  right: 2rem;
-}
+
 .flex-center a {
   display: flex;
   align-items: center;

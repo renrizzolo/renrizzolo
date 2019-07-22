@@ -10,14 +10,10 @@ ui-container {
   padding-bottom: 50px;
   box-sizing: border-box;
 }
-@media screen and (max-width: 600px) {
-  ui-container {
-    padding-top: 50px;
-  }
-}
+
 /* theme buttons go to 2 rows here */
 @media screen and (max-width: 420px) {
   ui-container {
-    padding-top: 70px;
+    padding-top: 130px;
   }
 }

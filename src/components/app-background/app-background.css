@@ -18,7 +18,11 @@
   transition: background 1200ms ease;
   animation: gradient 10s ease 0s alternate infinite;
 }
-
+@media screen and (max-width: 420px) {
+  .app-background {
+    padding: 1.5rem;
+  } 
+}
 @keyframes gradient {
   0% {
     background-position: 0% 0%;

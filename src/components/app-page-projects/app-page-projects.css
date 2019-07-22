@@ -9,7 +9,9 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 1rem;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 .app-page-projects--filters ui-button {
   margin: 0.5rem;
