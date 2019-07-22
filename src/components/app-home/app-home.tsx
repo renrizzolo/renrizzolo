@@ -18,12 +18,19 @@ export class AppHome implements ComponentInterface {
             <renrizzolo-logo />
             <div class="intro-text">
               <p>I'm a front-end developer from Melbourne, Australia ✌️</p>
-              <ui-button url="/projects">Projects</ui-button>
+              <ui-button button url="/projects">
+                Projects
+              </ui-button>
             </div>
 
             <div class="footer">
-              <ui-button href="https://twitter.com/ren_riz">Twitter</ui-button>&nbsp;
-              <ui-button href="https://github.com/renrizzolo">GitHub</ui-button>
+              <ui-button button href="https://twitter.com/ren_riz">
+                Twitter
+              </ui-button>
+              &nbsp;
+              <ui-button button href="https://github.com/renrizzolo">
+                GitHub
+              </ui-button>
             </div>
           </div>
         </app-background>
