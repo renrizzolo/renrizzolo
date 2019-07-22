@@ -106,14 +106,16 @@ export class ProjectItem {
             )}
 
             {this.fullSize && (
-              <section class="details">
-                <div innerHTML={post.details} />
+              <div>
+                <section class="details">
+                  <div innerHTML={post.details} />
+                </section>
                 {post.link && (
-                  <ui-button external href={post.link}>
+                  <ui-button button external icon={{}} href={post.link}>
                     View
                   </ui-button>
                 )}
-              </section>
+              </div>
             )}
           </div>
         </section>
