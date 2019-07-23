@@ -39,7 +39,9 @@ export namespace Components {
     'delay': number;
     'fullSize': boolean;
     'mounted': boolean;
+    'next': Project;
     'post': Project;
+    'prev': Project;
   }
   interface RenrizzoloLogo {}
   interface RouteTransition {
@@ -257,7 +259,9 @@ declare namespace LocalJSX {
     'delay'?: number;
     'fullSize'?: boolean;
     'mounted'?: boolean;
+    'next'?: Project;
     'post'?: Project;
+    'prev'?: Project;
   }
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
   interface RouteTransition extends JSXBase.HTMLAttributes<HTMLRouteTransitionElement> {
