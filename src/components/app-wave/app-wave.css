@@ -8,10 +8,15 @@
   bottom: unset;
   transform: rotate(180deg);
 }
+.wave-container {
+  will-change: opacity;
+}
 .wave {
   /* width: 100%; */
   /* height: calc(var(--wave-size) * 1px); */
   position: absolute;
+    will-change: opacity;
+
   bottom: -10px;
   left: 0;
   right: 0;
@@ -25,7 +30,8 @@
   width: 100%;
   height: 100%;
   /* fix some weird mobile only overflow problem */
-  transform: unset!important;
+  /* (mix blend mode + transform) */
+  /* transform: unset!important; */
 }
 .wave svg path {
   fill: var(--color-secondary);

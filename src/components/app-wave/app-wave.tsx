@@ -76,7 +76,7 @@ export class AppWave {
     console.log('waverenders');
 
     return (
-      <div>
+      <div class={'wave-container'}>
         <div class={`wave ${this.class}`} />
         <div class={`wave ${this.class}`} />
         <div class={`wave ${this.class}`} />
