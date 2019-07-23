@@ -13,6 +13,7 @@ a {
   font-weight: bold;
   font-size: 0.9rem;
   cursor: pointer;
+  line-height: 1.25;
 }
 a.active {
   color: var(--color-text);
@@ -111,28 +112,44 @@ a.button.active,
   transform: translateY(-50%);
 }
 
+.link-next.abs--right {
+  right: -4rem;
+}
+.link-prev.abs--left {
+  left: -4rem;
+}
+
+
 @media screen and (max-width: 1200px) {
   .link-next.abs--right {
-    right: -3px;
+    right: 0px;
   }
   .link-next.abs--right a {
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
   }
   .link-prev.abs--left {
-    left: -3px;
+    left: 0px;
   }
   .link-prev.abs--left a {
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
   }
 }
+
 @media screen and (max-width: 420px) {
   .link-next.abs--right {
-    right: -10px;
+    right: -20px;
+    
+  }
+  .link-next.abs--right a {
+    padding-left: 0.35rem;
+  }
+  .link-prev.abs--left a {
+    padding-right: 0.35rem;
   }
   .link-prev.abs--left {
-    left: -10px;
+    left: -20px;
   }
 }
 
