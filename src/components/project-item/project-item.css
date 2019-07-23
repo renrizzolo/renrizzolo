@@ -136,6 +136,13 @@ a {
   transform: translateY(100%);
   transition: transform 400ms 0ms ease;
 }
+.project-item--container.full-size .project-item--image__overlay {
+  display: none;
+}
+.project-item--container.full-size .project-item--heading__overlay {
+  display: none;
+}
+
 .project-item--container:not(.full-size):hover .project-item--image__overlay {
   transform: translateY(0%);
   transition: transform 400ms 100ms ease;
