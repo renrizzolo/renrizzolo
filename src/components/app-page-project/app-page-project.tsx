@@ -1,7 +1,6 @@
 import { Component, Prop, State, h } from '@stencil/core';
 import { projects, Project } from '../app-page-projects/projects';
 import { MatchResults } from '@stencil/router';
-import arrow from '../../icons/arrow.json';
 
 @Component({
   tag: 'app-page-project',
@@ -55,7 +54,7 @@ export class AppPageProject {
               <ui-button url="/projects" button class="abs abs--top-left">
                 Back
               </ui-button>
-              {this.next && (
+       {/*        {this.next && (
                 <ui-button
                   button
                   icon={arrow}
@@ -70,7 +69,7 @@ export class AppPageProject {
                   url={`/project/${this.prev.slug}`}
                   class="link-prev color--alt abs abs--left  abs--middle flex-center"
                 />
-              )}
+              )} */}
               {this.project ? (
                 <div>
                   <h1>{this.project.heading}</h1>
@@ -89,6 +88,8 @@ export class AppPageProject {
                           key={this.project.id}
                           post={this.project}
                           fullSize
+                          next={this.next}
+                          prev={this.prev}
                           mounted={mounted}
                           delay={delay}
                         />

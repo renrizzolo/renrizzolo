@@ -1,5 +1,6 @@
 import { Component, h, Prop, State } from '@stencil/core';
 import { Project } from '../app-page-projects/projects';
+import arrow from '../../icons/arrow.json';
 
 @Component({
   tag: 'project-item',
@@ -15,6 +16,10 @@ export class ProjectItem {
   mounted: boolean;
   @Prop()
   delay: number;
+  @Prop()
+  next: Project;
+  @Prop()
+  prev: Project;
   @State()
   ready: boolean = false;
 
@@ -38,6 +43,7 @@ export class ProjectItem {
         class={`project-item--container ${this.fullSize ? 'full-size' : ''}`}
         key={`post-${post.id}`}
       >
+    
         {post.coverImage && (
           <div class="project-item--image__wrapper">
             {!this.fullSize ? (
@@ -53,12 +59,12 @@ export class ProjectItem {
               </stencil-route-link>
             ) : (
               <div>
-                <div class="project-item--image__overlay" />
                 <figure
                   itemprop="image"
                   itemtype="https://schema.org/ImageObject"
                   class="project-item--figure"
                 >
+                  
                   <img class="project-item--image" alt={post.heading} src={post.coverImage} />
                 </figure>
               </div>
@@ -67,6 +73,22 @@ export class ProjectItem {
         )}
         <div class={'project-item--heading__overlay'} />
         <section class="project-item--info">
+          {this.prev && (
+            <ui-button
+              button
+              icon={arrow}
+              url={`/project/${this.prev.slug}`}
+              class="link-prev abs abs--left flex-center"
+            />
+          )}
+          {this.next && (
+            <ui-button
+              button
+              icon={arrow}
+              url={`/project/${this.next.slug}`}
+              class="link-next abs abs--right flex-center"
+            />
+          )}
           <div class="tags-container">
             {post.tags &&
               post.tags.map((tag) => (
