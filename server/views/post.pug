@@ -10,8 +10,8 @@ block content
     label Upload new cover image
     input(type="file" accept="image/*" name="image" id="image-upload-input")
     button(type="submit") Upload
-    p Dev server image (stencil must be running with npm run start):
-    img(class="thumb" src="http://localhost:3333/" + post.coverImage)
+    p Dev (local) server image:
+    img(class="thumb" src="http://localhost:3000" + post.coverImage)
     p Live server image:
     img(class="thumb" src=(process.env.url + post.coverImage))
 
