@@ -7,8 +7,8 @@ var indexRouter = require('./routes/index');
 var postRouter = require('./routes/post');
 var Api = require('./api');
 
-// this is just used for displaying
-// the current cover image on the server
+// this is the remote url used for showing
+// the 'live' cover image on the server
 process.env['url'] = 'https://elastic-hodgkin-a279cc.netlify.com/';
 
 var app = express();
@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, '../src/')));
 
 app.post('/api/create', api.createProject);
 app.post('/api/update', api.updateProject);
@@ -34,6 +33,9 @@ app.post('/api/upload', api.uploadImage);
 app.use('/', indexRouter);
 app.use('/post', postRouter);
 
+// serve front-end static assets so there
+// aren't broken images for projects
+app.use(express.static(path.join(__dirname, '../src/')));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
