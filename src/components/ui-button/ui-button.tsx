@@ -23,6 +23,8 @@ export class UiButton {
   @Prop()
   icon?: object;
   @Prop()
+  iconPos?: string = 'right';
+  @Prop()
   iconClass?: string;
 
   @State()
@@ -61,10 +63,12 @@ export class UiButton {
   render() {
     return this.url ? (
       <stencil-route-link class={`${this.button && 'route-link-button'} ${this.class}`} url={this.url} onClick={this.clickHandler} onMouseEnter={this.enter} onMouseLeave={this.exit}>
+        {this.iconPos === 'left' && this.icon && <span class={`icon ${this.iconClass} ${this.external && 'link-icon'}`} />}
         <slot>
 
         </slot>
-          {this.icon && <span class={`icon ${this.iconClass} ${this.external && 'link-icon'}`} />}
+        {this.iconPos === 'right' && this.icon && <span class={`icon ${this.iconClass} ${this.external && 'link-icon'}`} />}
+
       </stencil-route-link>
     ) : (
       <a
