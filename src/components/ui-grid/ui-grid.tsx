@@ -3,7 +3,7 @@ import { Component, h, Prop } from '@stencil/core';
 @Component({
   tag: 'ui-grid',
   styleUrl: 'ui-grid.css',
-  shadow: true,
+  shadow: false,
 })
 export class UiGrid {
   @Prop()

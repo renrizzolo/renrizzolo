@@ -1,6 +1,11 @@
 .grid {
   display: grid;
 }
+@media screen and (min-width:700px){
+  .first-span-2 > div:nth-child(1) {
+    grid-column: span 2;
+  }
+}
 .grid--cols-1 {
   grid-template-columns: repeat(1, 1fr);
 }
