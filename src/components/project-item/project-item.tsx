@@ -76,6 +76,7 @@ export class ProjectItem {
           {this.prev && (
             <ui-button
               button
+              title={`Previous: ${this.prev.heading}`}
               iconPos={'left'}
               icon={arrow}
               url={`/project/${this.prev.slug}`}
@@ -88,6 +89,7 @@ export class ProjectItem {
             <ui-button
               button
               icon={arrow}
+              title={`Next: ${this.next.heading}`}
               url={`/project/${this.next.slug}`}
               class="link-next abs abs--right flex-center"
             >
