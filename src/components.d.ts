@@ -77,6 +77,7 @@ export namespace Components {
       delay?: number;
     };
     'enter': { [key: string]: string };
+    'extraStyle'?: (item: any, i: number) => any;
     'from': { [key: string]: string };
     'itemComponent'?: string;
     'items': any[];
@@ -298,6 +299,7 @@ declare namespace LocalJSX {
       delay?: number;
     };
     'enter'?: { [key: string]: string };
+    'extraStyle'?: (item: any, i: number) => any;
     'from'?: { [key: string]: string };
     'itemComponent'?: string;
     'items'?: any[];
