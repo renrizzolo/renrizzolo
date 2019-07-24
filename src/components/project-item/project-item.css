@@ -117,7 +117,7 @@ a {
 }
 
 .project-item--image {
-  max-height: 224px;
+  /* max-height: 224px; */
   object-fit: cover;
   vertical-align: middle;
   width: 100%;
@@ -173,11 +173,14 @@ a {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
+}
+.full-size .tags-container {
   margin-left: 2rem;
   margin-right: 2rem;
 }
 @media screen and (max-width:420px) {
-  .tags-container {
+.full-size .tags-container {
     margin-left: 0rem;
     margin-right: 0rem;
   }
