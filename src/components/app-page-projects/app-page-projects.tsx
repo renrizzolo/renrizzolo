@@ -59,6 +59,17 @@ export class AppPageProjects {
     this.items = [...temp];
     this.getItems();
   };
+  getKeyFromH(res, i) {
+    return res && typeof res === 'object'
+      ? res.h
+        ? res.h.key
+        : res.$
+          ? res.$.key
+          : res.$attrs$
+            ? res.$attrs$.key
+            : res.$key$
+      : 'undefined' + i;
+  }
   getItems() {
     const items = this.items
     //sort in reverse order (oldest post last)
@@ -129,20 +140,13 @@ export class AppPageProjects {
                 // dev, production and prerender elements store
                 // keys in different places
                 // so check for all possibilities...
-                const actual =
-                  res && typeof res === 'object'
-                    ? res.h
-                      ? res.h.key
-                      : res.$
-                      ? res.$.key
-                      : res.$attrs$
-                      ? res.$attrs$.key
-                      : res.$key$
-                    : 'NOOOOO' + i; // lol
-
+                const actual = this.getKeyFromH(res, i)
+           
+                console.log('actual key', actual, res)
                 return `${JSON.stringify(actual)}`;
               }} 
               items={this.itemElements}
+              // extraStyle={(_, i) => (i === 0 && {gridColumn: 'span 2'})}
               wrapper="ui-grid"
               wrapperProps={{ cols: 3, gap: 3 }}
               config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}
