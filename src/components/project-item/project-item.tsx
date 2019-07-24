@@ -76,10 +76,13 @@ export class ProjectItem {
           {this.prev && (
             <ui-button
               button
+              iconPos={'left'}
               icon={arrow}
               url={`/project/${this.prev.slug}`}
               class="link-prev abs abs--left flex-center"
-            />
+            >
+              <div class="link-info">Previous: {this.prev.heading}</div>
+            </ui-button>
           )}
           {this.next && (
             <ui-button
@@ -87,7 +90,9 @@ export class ProjectItem {
               icon={arrow}
               url={`/project/${this.next.slug}`}
               class="link-next abs abs--right flex-center"
-            />
+            >
+              <div class="link-info">Next: {this.next.heading}</div>
+              </ui-button>
           )}
           <div class="tags-container">
             {post.tags &&
@@ -132,7 +137,7 @@ export class ProjectItem {
                   <div innerHTML={post.details} />
                 </section>
                 {post.link && (
-                  <ui-button button external icon={{}} href={post.link}>
+                  <ui-button class="color--dark" external icon={{}} href={post.link}>
                     View
                   </ui-button>
                 )}
