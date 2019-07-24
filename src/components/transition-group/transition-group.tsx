@@ -42,6 +42,8 @@ export class TransitionGroup implements ComponentInterface {
   @Prop()
   keys: any;
   @Prop()
+  extraStyle?: (item: any, i: number) => any = () => {};
+  @Prop()
   class?: string;
   @Prop()
   mounted: boolean;
@@ -247,6 +249,7 @@ export class TransitionGroup implements ComponentInterface {
                 ...style,
                 transitionDelay: shouldNotDelay ? '0ms' : `${this.config.delay * i + 1}ms`,
                 visibility: this.mounted ? 'visible' : 'hidden',
+                ...this.extraStyle(item, i)
               }}
             >
               {typeof item === 'function'
