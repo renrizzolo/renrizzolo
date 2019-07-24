@@ -148,7 +148,7 @@ export class AppPageProjects {
               items={this.itemElements}
               // extraStyle={(_, i) => (i === 0 && {gridColumn: 'span 2'})}
               wrapper="ui-grid"
-              wrapperProps={{ cols: 3, gap: 3 }}
+              wrapperProps={{ cols: 3, gap: 3, class: 'first-span-2' }}
               config={{ duration: 350, timing: 'ease-in-out', delay: 100 }}
               from={{ opacity: '0', transform: 'translateY(5px)' }}
               enter={{ opacity: '1', transform: 'translateY(0px)' }}
