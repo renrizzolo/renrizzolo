@@ -13,7 +13,9 @@ a {
   font-weight: bold;
   font-size: 0.9rem;
   cursor: pointer;
-  line-height: 1.25;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 a.active {
   color: var(--color-text);
@@ -74,73 +76,73 @@ a.button.active,
   background-color: var(--color-primary-transparent);
   color: var(--color-primary);
 }
-.abs {
+ ui-button.abs {
   position: absolute;
   z-index: 1;
 }
-.abs--top-left {
+ ui-button.abs--top-left {
   top: 2rem;
   left: 2rem;
 }
-.abs--top-right {
+ ui-button.abs--top-right {
   top: 2rem;
   right: 2rem;
 }
-.abs--right {
+ ui-button.abs--right {
   right: 2rem;
 }
-.abs--left {
+ ui-button.abs--left {
   left: 2rem;
 }
-.abs--bottom-left {
+ ui-button.abs--bottom-left {
   bottom: 2rem;
   left: 2rem;
 }
-.abs--bottom-right {
+ ui-button.abs--bottom-right {
   bottom: 2rem;
   right: 2rem;
 }
 
 @media screen and (max-width: 420px) {
-  .abs--right, .abs--top-right, .abs--bottom-right {
-    right: 1rem;
+  ui-button.abs--right,  ui-button.abs--top-right,  ui-button.abs--bottom-right {
+    right: 1.5rem;
   }
-  .abs--bottom-left, .abs--left, .abs--top-left {
-    left: 1rem;
+   ui-button.abs--bottom-left,  ui-button.abs--left,  ui-button.abs--top-left {
+    left: 1.5rem;
   }
-  .abs--bottom-left, .abs--bottom-right {
-    bottom: 1rem;
+   ui-button.abs--bottom-left,  ui-button.abs--bottom-right {
+    bottom: 1.5rem;
   }
-  .abs--top-left, .abs--top-right {
-    top: 1rem;
+   ui-button.abs--top-left,  ui-button.abs--top-right {
+    top: 1.5rem;
   }
 }
 
-.abs--middle {
+ ui-button.abs--middle {
   top: 50%;
   transform: translateY(-50%);
 }
 
-.link-next.abs--right {
+ ui-button.link-next.abs--right {
   right: -4rem;
 }
-.link-prev.abs--left {
+ ui-button.link-prev.abs--left {
   left: -4rem;
 }
 
 
 @media screen and (max-width: 1200px) {
-  .link-next.abs--right {
+   ui-button.link-next.abs--right {
     right: 0px;
   }
-  .link-next.abs--right a {
+   ui-button.link-next.abs--right a {
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
   }
-  .link-prev.abs--left {
+   ui-button.link-prev.abs--left {
     left: 0px;
   }
-  .link-prev.abs--left a {
+   ui-button.link-prev.abs--left a {
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
   }
@@ -149,7 +151,7 @@ a.button.active,
     display: none;
   }
 @media screen and (max-width: 420px) {
-  .link-next .link-info, .link-prev .link-info {
+   ui-button.link-next .link-info,  ui-button.link-prev .link-info {
     display: block;
     text-overflow: ellipsis;
     max-width: 100%;
@@ -157,25 +159,18 @@ a.button.active,
     overflow: hidden;
     flex-basis: 100%;
   }
-  .link-next.abs--right {
+   ui-button.link-next.abs--right {
     position: relative;
-    margin-bottom: 1rem;
-    bottom: -1.5rem;
-    right: -1rem;
+    bottom: -1rem;
+    right: -1.5rem;
     position: absolute;
     width: calc(100% - 1.5em);
   }
-  /* .link-next.abs--right a {
-    padding-left: 0.35rem;
-  }
-  .link-prev.abs--left a {
-    padding-right: 0.35rem;
-  } */
-  .link-prev.abs--left {
+
+   ui-button.link-prev.abs--left {
     position: relative;
-    margin-bottom: 1rem;
-    bottom: 0.5rem;
-    left: -1rem;
+    bottom: 2rem;
+    left: -1.5rem;
     position: absolute;
     width: calc(100% - 1.5em);
 
@@ -199,7 +194,7 @@ a.button.active,
 }
 
 .icon {
-  display: inline-block;
+  display: inline-flex;
   width: 17px;
   height: 17px;
   margin-left: 3px;
