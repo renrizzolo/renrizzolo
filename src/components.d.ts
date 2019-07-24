@@ -102,6 +102,7 @@ export namespace Components {
     'href'?: string;
     'icon'?: object;
     'iconClass'?: string;
+    'iconPos'?: string;
     'url'?: string;
   }
   interface UiContainer {
@@ -322,6 +323,7 @@ declare namespace LocalJSX {
     'href'?: string;
     'icon'?: object;
     'iconClass'?: string;
+    'iconPos'?: string;
     'url'?: string;
   }
   interface UiContainer extends JSXBase.HTMLAttributes<HTMLUiContainerElement> {
