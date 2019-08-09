@@ -124,10 +124,10 @@ a.button.active,
 }
 
  ui-button.link-next.abs--right {
-  right: -4rem;
+  right: -8rem;
 }
  ui-button.link-prev.abs--left {
-  left: -4rem;
+  left: -8rem;
 }
 
 
