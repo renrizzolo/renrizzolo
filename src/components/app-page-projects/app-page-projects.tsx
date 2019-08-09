@@ -72,10 +72,10 @@ export class AppPageProjects {
   }
   getItems() {
     const items = this.items
-    //sort in reverse order (oldest post last)
-    .sort(({ id }, { id: idb }) => (id < idb ? 1 : -1))
-    .map((project) => (mounted, delay) => (
-      <project-item mounted={mounted} delay={delay} key={project.id} post={project} />
+    //sort by date published, don't show items > today's date
+    .sort(({ datePublished }, { datePublished: datePublishedB }) => (new Date(datePublishedB).getTime() < new Date(datePublished).getTime() ? -1 : 1 ))
+      .map((project) => (mounted, delay) => (
+        new Date(project.datePublished).getTime() < new Date().getTime() && <project-item mounted={mounted} delay={delay} key={Number(project.id)} post={project} />
     ));
     this.itemElements = [...items];
   }
@@ -91,7 +91,10 @@ export class AppPageProjects {
             <ui-button button url="/" class="abs abs--top-left">
               Back
             </ui-button>
-            <h1>Projects</h1>
+            <div class="app-page-projects--header">
+              <h1>Projects</h1>
+              <p>A selection of projects I've designed & developed.</p>
+            </div>
             <div class="app-page-projects--filters">
               <ui-button
                 button
