@@ -58,6 +58,7 @@ module.exports = class Api {
     const project = {
       id: id,
       slug: post.slug,
+      datePublished: post.datePublished,
       coverImage: post.coverImage,
       heading: post.heading,
       subHeading: post.subHeading,
@@ -92,6 +93,7 @@ module.exports = class Api {
         id: post.id, // hmm, this will be a string (should ids be forced to be a number or string?)
         slug: post.slug,
         coverImage: post.coverImage,
+        datePublished: post.datePublished,
         heading: post.heading,
         subHeading: post.subHeading,
         link: post.link,

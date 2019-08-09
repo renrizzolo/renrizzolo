@@ -30,6 +30,9 @@ block content
       label(for="slug") slug
       input(type="text" name="slug" id="slug" value=post.slug  pattern=("^[a-z0-9]+(?:-[a-z0-9]+)*$") title="slug-must-look-like-this")
       br
+      label(for="datePublished") date published
+      input(type="datetime-local" name="datePublished" id="datePublished" required value=post.datePublished)
+      br
       label(for="link") link
       input(name="link" id="link" value=post.link)
       br
