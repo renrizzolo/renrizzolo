@@ -39,13 +39,22 @@ export class AppPageProject {
   // }
   render() {
     if (this.match && this.match.params.slug) {
-      this.project = projects.sort(({ id }, { id: idb }) => (id < idb ? 1 : -1)).filter((proj) => proj.slug === this.match.params.slug)[0];
-      const index = projects.findIndex((proj) => proj.id === this.project.id);
+      const published = projects
+        .filter((project) => new Date(project.datePublished).getTime() < new Date().getTime())
+        .sort(({ datePublished }, { datePublished: datePublishedB }) =>
+        (new Date(datePublishedB).getTime() - new Date(datePublished).getTime()));
 
-      this.next = index !== -1 ? projects[index + 1] : null;
-      this.prev = index !== -1 ? projects[index - 1] : null;
+      this.project = published
+        .filter((proj) => proj.slug === this.match.params.slug)[0];
+      console.log(published)
+      const index = this.project ? published
 
-      return (
+            .findIndex((proj) => proj.id === this.project.id) : null;
+      console.log('imdex', index)
+      this.next = index !== -1 ? published[index + 1] : null;
+      this.prev = index !== -1 ? published[index - 1] : null;
+
+      return this.project ? (
         <div class="app-page-project">
           <app-background>
             <app-wave class="wave--flipped" />
@@ -105,7 +114,7 @@ export class AppPageProject {
             </ui-container>
           </app-background>
         </div>
-      );
+      ) : <app-page-404 />;
     } else {
       return <app-page-404 />;
     }

@@ -16,6 +16,8 @@ export class AppPageProjects {
   @State()
   items: Project[] = [...projects];
   @State()
+  initialItems: Project[] = [...projects];
+  @State()
   itemElements: any[];
   @State()
   filteredBy: string = '';
@@ -24,11 +26,12 @@ export class AppPageProjects {
 
   componentWillLoad() {
     this.isMounted = false;
-    this.items = [...projects];
+    this.initialItems = this.sortByDate(projects);
+    this.items = [...this.initialItems];
     this.getItems();
 
     // get tags
-    projects.map(
+    this.initialItems.map(
       (proj) =>
         proj.tags && proj.tags.map((tag) => this.tags.indexOf(tag) === -1 && this.tags.push(tag))
     );
@@ -38,18 +41,23 @@ export class AppPageProjects {
       this.isMounted = true;
     }, 400);
   }
-
-  componentDidLoad() {}
-
+  
+  sortByDate = (projects) => {
+    //sort by date published
+    return projects.sort(({ datePublished }, { datePublished: datePublishedB }) => {
+      console.log('srt', datePublished, datePublishedB, datePublished < datePublishedB);
+      return new Date(datePublishedB).getTime() - new Date(datePublished).getTime();
+    })
+  }
   resetFilter = () => {
     this.filteredBy = '';
-    this.items = [...projects];
+    this.items = this.initialItems;
     this.getItems();
   };
 
   filterItems = (k: string, v: string) => {
     this.filteredBy = `${k}|${v}`;
-    const temp = projects.filter((item) => {
+    const temp = this.initialItems.filter((item) => {
       if (Array.isArray(item[k])) {
         return item[k].indexOf(v) !== -1;
       } else {
@@ -59,6 +67,7 @@ export class AppPageProjects {
     this.items = [...temp];
     this.getItems();
   };
+
   getKeyFromH(res, i) {
     return res && typeof res === 'object'
       ? res.h
@@ -72,10 +81,10 @@ export class AppPageProjects {
   }
   getItems() {
     const items = this.items
-    //sort by date published, don't show items > today's date
-    .sort(({ datePublished }, { datePublished: datePublishedB }) => (new Date(datePublishedB).getTime() < new Date(datePublished).getTime() ? -1 : 1 ))
+      .filter((project) => new Date(project.datePublished).getTime() < new Date().getTime() )
       .map((project) => (mounted, delay) => (
-        new Date(project.datePublished).getTime() < new Date().getTime() && <project-item mounted={mounted} delay={delay} key={Number(project.id)} post={project} />
+        //don't show items > today's date
+        <project-item mounted={mounted} delay={delay} key={Number(project.id)} post={project} />
     ));
     this.itemElements = [...items];
   }
