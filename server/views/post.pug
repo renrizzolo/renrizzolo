@@ -22,13 +22,13 @@ block content
       label(for="coverImage") coverImage
       input(name="coverImage" id="coverImage" value=post.coverImage)
       label(for="heading") heading
-      input(name="heading" id="heading" value=post.heading)
+      input(name="heading" id="heading" required value=post.heading)
       br
       label(for="subHeading") subHeading
       input(name="subHeading" id="subHeading" value=post.subHeading)
       br
       label(for="slug") slug
-      input(type="text" name="slug" id="slug" value=post.slug  pattern=("^[a-z0-9]+(?:-[a-z0-9]+)*$") title="slug-must-look-like-this")
+      input(type="text" name="slug" id="slug" value=post.slug required pattern=("^[a-z0-9]+(?:-[a-z0-9]+)*$") title="slug-must-look-like-this")
       br
       label(for="datePublished") date published
       input(type="datetime-local" name="datePublished" id="datePublished" required value=post.datePublished)
