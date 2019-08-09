@@ -103,7 +103,7 @@ export class ProjectItem {
                   {tag}
                 </span>
               ))}
-          </div>
+          </div>          
           {!this.fullSize && (
             <transition-group
               config={{ duration: 250, timing: 'woosh', delay: 150 }}
