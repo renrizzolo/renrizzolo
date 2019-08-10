@@ -12,7 +12,7 @@
     "start.server": "node ./server/bin/www"
   },
   "dependencies": {
-    "@stencil/core": "^1.1.7",
+    "@stencil/core": "^1.2.4",
     "@stencil/router": "1.0.1",
     "lottie-web": "^5.5.5"
   },
