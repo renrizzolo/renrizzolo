@@ -71,7 +71,17 @@ export class ProjectItem {
             )}
           </div>
         )}
-        <div class={'project-item--heading__overlay'} />
+        <div class={'project-item--heading__overlay'}>
+         
+          </div>
+        <svg width="0" height="0">
+          <defs>
+            <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
+              <path transform="scale(0.0013, 0.00254)"
+                d="M0,109.5c0,0,96.9-26.7,329.5,6.6C492,139.4,625.1,160,775.7,150.8c144.9-8.9,248.3-33.7,248.3-33.7V512H0L0,109.5z" />
+            </clipPath>
+          </defs>
+        </svg>
         <section class="project-item--info">
           {this.prev && (
             <ui-button
