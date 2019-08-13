@@ -37,11 +37,11 @@ export namespace Components {
   }
   interface ProjectItem {
     'delay': number;
-    'fullSize': boolean;
     'mounted': boolean;
     'next': Project;
     'post': Project;
     'prev': Project;
+    'type': string;
   }
   interface RenrizzoloLogo {}
   interface RouteTransition {
@@ -259,11 +259,11 @@ declare namespace LocalJSX {
   }
   interface ProjectItem extends JSXBase.HTMLAttributes<HTMLProjectItemElement> {
     'delay'?: number;
-    'fullSize'?: boolean;
     'mounted'?: boolean;
     'next'?: Project;
     'post'?: Project;
     'prev'?: Project;
+    'type'?: string;
   }
   interface RenrizzoloLogo extends JSXBase.HTMLAttributes<HTMLRenrizzoloLogoElement> {}
   interface RouteTransition extends JSXBase.HTMLAttributes<HTMLRouteTransitionElement> {
