@@ -150,6 +150,24 @@ a.button.active,
  .link-next .link-info, .link-prev .link-info {
     display: none;
   }
+  @media screen and (min-width: 420px) {
+  .link-next a:hover, .link-prev a:hover {
+    background-color: transparent;
+  }
+  .link-next a:hover .project-item--preview-container {
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+    transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.35);
+  }
+
+  .link-prev a:hover .project-item--preview-container  {
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+    transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.35);
+  }
+}
 @media screen and (max-width: 420px) {
    ui-button.link-next .link-info,  ui-button.link-prev .link-info {
     display: block;
@@ -198,6 +216,7 @@ a.button.active,
   width: 17px;
   height: 17px;
   margin-left: 3px;
+  z-index: 1;
 }
 a:hover .icon svg path {
   transition: fill 250ms ease-in;

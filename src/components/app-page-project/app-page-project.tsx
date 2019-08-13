@@ -96,7 +96,7 @@ export class AppPageProject {
                         <project-item
                           key={this.project.id}
                           post={this.project}
-                          fullSize
+                          type="full-size"
                           next={this.next}
                           prev={this.prev}
                           mounted={mounted}

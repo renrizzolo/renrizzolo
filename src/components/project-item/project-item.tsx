@@ -9,7 +9,7 @@ import arrow from '../../icons/arrow.json';
 })
 export class ProjectItem {
   @Prop()
-  fullSize: boolean = false;
+  type: string = '';
   @Prop()
   post: Project;
   @Prop()
@@ -37,16 +37,16 @@ export class ProjectItem {
 
   render() {
     const post = this.post;
-    const url = !this.fullSize && post ? `/project/${post.slug}` : null;
+    const url = !this.type &&  post ? `/project/${post.slug}` : null;
     return post ? (
       <article
-        class={`project-item--container ${this.fullSize ? 'full-size' : ''}`}
+        class={`project-item--container ${this.type}`}
         key={`post-${post.id}`}
       >
     
         {post.coverImage && (
           <div class="project-item--image__wrapper">
-            {!this.fullSize ? (
+            {!this.type ? (
               <stencil-route-link url={url}>
                 <div class="project-item--image__overlay" />
                 <figure
@@ -74,7 +74,7 @@ export class ProjectItem {
         <div class={'project-item--heading__overlay'}>
          
           </div>
-        <svg width="0" height="0">
+        <svg class="wave-clip-svg" width="0" height="0">
           <defs>
             <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
               <path transform="scale(0.0013, 0.00254)"
@@ -93,6 +93,9 @@ export class ProjectItem {
               class="link-prev abs abs--left flex-center"
             >
               <div class="link-info">Previous: {this.prev.heading}</div>
+              <div class="project-item--preview-container prev">
+                <project-item type="preview" post={this.prev} mounted={true} />
+              </div>
             </ui-button>
           )}
           {this.next && (
@@ -104,17 +107,20 @@ export class ProjectItem {
               class="link-next abs abs--right flex-center"
             >
               <div class="link-info">Next: {this.next.heading}</div>
+              <div class="project-item--preview-container next">
+                <project-item type="preview" post={this.next} mounted={true} />
+              </div>
               </ui-button>
           )}
           <div class="tags-container">
             {post.tags &&
               post.tags.map((tag) => (
-                <span key={tag} class="tag">
-                  {tag}
+                <span key={tag} class="hash-tag">
+                  #{tag}
                 </span>
               ))}
           </div>          
-          {!this.fullSize && (
+          {this.type !== 'full-size' && (
             <transition-group
               config={{ duration: 250, timing: 'woosh', delay: 150 }}
               mounted={this.ready}
@@ -129,7 +135,7 @@ export class ProjectItem {
             />
           )}
           <div>
-            {!this.fullSize && (
+            {this.type !== 'full-size' && (
               <transition-group
                 wrapper={'span'}
                 keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
@@ -143,13 +149,13 @@ export class ProjectItem {
               />
             )}
 
-            {this.fullSize && (
+            {this.type === 'full-size' &&  (
               <div>
                 <section class="details">
                   <div innerHTML={post.details} />
                 </section>
                 {post.link && (
-                  <ui-button class="color--dark" external icon={{}} href={post.link}>
+                  <ui-button class="color--dark project-link" external icon={{}} href={post.link}>
                     View
                   </ui-button>
                 )}
