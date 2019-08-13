@@ -1356,278 +1356,333 @@ function checkAttributeChanged(node) {
 }
 const tempDisableCallbacks = new Set();
 
-var cssWhat = parse;
+function unwrapExports (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
 
-var re_name = /^(?:\\.|[\w\-\u00b0-\uFFFF])+/,
-    re_escape = /\\([\da-f]{1,6}\s?|(\s)|.)/ig,
-    //modified version of https://github.com/jquery/sizzle/blob/master/src/sizzle.js#L87
-    re_attr = /^\s*((?:\\.|[\w\u00b0-\uFFFF\-])+)\s*(?:(\S?)=\s*(?:(['"])([^]*?)\3|(#?(?:\\.|[\w\u00b0-\uFFFF\-])*)|)|)\s*(i)?\]/;
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
 
+var parse_1 = createCommonjsModule(function (module, exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = parse;
+var reName = /^(?:\\.|[\w\-\u00b0-\uFFFF])+/, reEscape = /\\([\da-f]{1,6}\s?|(\s)|.)/gi, 
+//modified version of https://github.com/jquery/sizzle/blob/master/src/sizzle.js#L87
+reAttr = /^\s*((?:\\.|[\w\u00b0-\uFFFF-])+)\s*(?:(\S?)=\s*(?:(['"])([^]*?)\3|(#?(?:\\.|[\w\u00b0-\uFFFF-])*)|)|)\s*(i)?\]/;
 var actionTypes = {
-	__proto__: null,
-	"undefined": "exists",
-	"":  "equals",
-	"~": "element",
-	"^": "start",
-	"$": "end",
-	"*": "any",
-	"!": "not",
-	"|": "hyphen"
+    undefined: "exists",
+    "": "equals",
+    "~": "element",
+    "^": "start",
+    $: "end",
+    "*": "any",
+    "!": "not",
+    "|": "hyphen"
 };
-
-var simpleSelectors = {
-	__proto__: null,
-	">": "child",
-	"<": "parent",
-	"~": "sibling",
-	"+": "adjacent"
+var Traversals = {
+    ">": "child",
+    "<": "parent",
+    "~": "sibling",
+    "+": "adjacent"
 };
-
 var attribSelectors = {
-	__proto__: null,
-	"#": ["id", "equals"],
-	".": ["class", "element"]
+    "#": ["id", "equals"],
+    ".": ["class", "element"]
 };
-
 //pseudos, whose data-property is parsed as well
-var unpackPseudos = {
-	__proto__: null,
-	"has": true,
-	"not": true,
-	"matches": true
+var unpackPseudos = new Set(["has", "not", "matches"]);
+var stripQuotesFromPseudos = new Set(["contains", "icontains"]);
+var quotes = new Set(['"', "'"]);
+//unescape function taken from https://github.com/jquery/sizzle/blob/master/src/sizzle.js#L152
+function funescape(_, escaped, escapedWhitespace) {
+    var high = parseInt(escaped, 16) - 0x10000;
+    // NaN means non-codepoint
+    return high !== high || escapedWhitespace
+        ? escaped
+        : high < 0
+            ? // BMP codepoint
+                String.fromCharCode(high + 0x10000)
+            : // Supplemental Plane codepoint (surrogate pair)
+                String.fromCharCode((high >> 10) | 0xd800, (high & 0x3ff) | 0xdc00);
+}
+function unescapeCSS(str) {
+    return str.replace(reEscape, funescape);
+}
+function isWhitespace(c) {
+    return c === " " || c === "\n" || c === "\t" || c === "\f" || c === "\r";
+}
+function parse(selector, options) {
+    var subselects = [];
+    selector = parseSelector(subselects, selector + "", options);
+    if (selector !== "") {
+        throw new Error("Unmatched selector: " + selector);
+    }
+    return subselects;
+}
+function parseSelector(subselects, selector, options) {
+    var tokens = [], sawWS = false;
+    function getName() {
+        var match = selector.match(reName);
+        if (!match) {
+            throw new Error("Expected name, found " + selector);
+        }
+        var sub = match[0];
+        selector = selector.substr(sub.length);
+        return unescapeCSS(sub);
+    }
+    function stripWhitespace(start) {
+        while (isWhitespace(selector.charAt(start)))
+            start++;
+        selector = selector.substr(start);
+    }
+    function isEscaped(pos) {
+        var slashCount = 0;
+        while (selector.charAt(--pos) === "\\")
+            slashCount++;
+        return (slashCount & 1) === 1;
+    }
+    stripWhitespace(0);
+    while (selector !== "") {
+        var firstChar = selector.charAt(0);
+        if (isWhitespace(firstChar)) {
+            sawWS = true;
+            stripWhitespace(1);
+        }
+        else if (firstChar in Traversals) {
+            tokens.push({ type: Traversals[firstChar] });
+            sawWS = false;
+            stripWhitespace(1);
+        }
+        else if (firstChar === ",") {
+            if (tokens.length === 0) {
+                throw new Error("Empty sub-selector");
+            }
+            subselects.push(tokens);
+            tokens = [];
+            sawWS = false;
+            stripWhitespace(1);
+        }
+        else {
+            if (sawWS) {
+                if (tokens.length > 0) {
+                    tokens.push({ type: "descendant" });
+                }
+                sawWS = false;
+            }
+            if (firstChar === "*") {
+                selector = selector.substr(1);
+                tokens.push({ type: "universal" });
+            }
+            else if (firstChar in attribSelectors) {
+                var _a = attribSelectors[firstChar], name_1 = _a[0], action = _a[1];
+                selector = selector.substr(1);
+                tokens.push({
+                    type: "attribute",
+                    name: name_1,
+                    action: action,
+                    value: getName(),
+                    ignoreCase: false
+                });
+            }
+            else if (firstChar === "[") {
+                selector = selector.substr(1);
+                var data = selector.match(reAttr);
+                if (!data) {
+                    throw new Error("Malformed attribute selector: " + selector);
+                }
+                selector = selector.substr(data[0].length);
+                var name_2 = unescapeCSS(data[1]);
+                if (!options ||
+                    ("lowerCaseAttributeNames" in options
+                        ? options.lowerCaseAttributeNames
+                        : !options.xmlMode)) {
+                    name_2 = name_2.toLowerCase();
+                }
+                tokens.push({
+                    type: "attribute",
+                    name: name_2,
+                    action: actionTypes[data[2]],
+                    value: unescapeCSS(data[4] || data[5] || ""),
+                    ignoreCase: !!data[6]
+                });
+            }
+            else if (firstChar === ":") {
+                if (selector.charAt(1) === ":") {
+                    selector = selector.substr(2);
+                    tokens.push({
+                        type: "pseudo-element",
+                        name: getName().toLowerCase()
+                    });
+                    continue;
+                }
+                selector = selector.substr(1);
+                var name_3 = getName().toLowerCase();
+                var data = null;
+                if (selector.charAt(0) === "(") {
+                    if (unpackPseudos.has(name_3)) {
+                        var quot = selector.charAt(1);
+                        var quoted = quotes.has(quot);
+                        selector = selector.substr(quoted ? 2 : 1);
+                        data = [];
+                        selector = parseSelector(data, selector, options);
+                        if (quoted) {
+                            if (selector.charAt(0) !== quot) {
+                                throw new Error("Unmatched quotes in :" + name_3);
+                            }
+                            else {
+                                selector = selector.substr(1);
+                            }
+                        }
+                        if (selector.charAt(0) !== ")") {
+                            throw new Error("Missing closing parenthesis in :" + name_3 + " (" + selector + ")");
+                        }
+                        selector = selector.substr(1);
+                    }
+                    else {
+                        var pos = 1, counter = 1;
+                        for (; counter > 0 && pos < selector.length; pos++) {
+                            if (selector.charAt(pos) === "(" && !isEscaped(pos))
+                                counter++;
+                            else if (selector.charAt(pos) === ")" &&
+                                !isEscaped(pos))
+                                counter--;
+                        }
+                        if (counter) {
+                            throw new Error("Parenthesis not matched");
+                        }
+                        data = selector.substr(1, pos - 2);
+                        selector = selector.substr(pos);
+                        if (stripQuotesFromPseudos.has(name_3)) {
+                            var quot = data.charAt(0);
+                            if (quot === data.slice(-1) && quotes.has(quot)) {
+                                data = data.slice(1, -1);
+                            }
+                            data = unescapeCSS(data);
+                        }
+                    }
+                }
+                tokens.push({ type: "pseudo", name: name_3, data: data });
+            }
+            else if (reName.test(selector)) {
+                var name_4 = getName();
+                if (!options ||
+                    ("lowerCaseTags" in options
+                        ? options.lowerCaseTags
+                        : !options.xmlMode)) {
+                    name_4 = name_4.toLowerCase();
+                }
+                tokens.push({ type: "tag", name: name_4 });
+            }
+            else {
+                if (tokens.length &&
+                    tokens[tokens.length - 1].type === "descendant") {
+                    tokens.pop();
+                }
+                addToken(subselects, tokens);
+                return selector;
+            }
+        }
+    }
+    addToken(subselects, tokens);
+    return selector;
+}
+function addToken(subselects, tokens) {
+    if (subselects.length > 0 && tokens.length === 0) {
+        throw new Error("Empty sub-selector");
+    }
+    subselects.push(tokens);
+}
+});
+
+unwrapExports(parse_1);
+
+var stringify_1 = createCommonjsModule(function (module, exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var actionTypes = {
+    equals: "",
+    element: "~",
+    start: "^",
+    end: "$",
+    any: "*",
+    not: "!",
+    hyphen: "|"
 };
-
-var stripQuotesFromPseudos = {
-	__proto__: null,
-	"contains": true,
-	"icontains": true
+var simpleSelectors = {
+    child: " > ",
+    parent: " < ",
+    sibling: " ~ ",
+    adjacent: " + ",
+    descendant: " ",
+    universal: "*"
 };
-
-var quotes = {
-	__proto__: null,
-	"\"": true,
-	"'": true
-};
-
-//unescape function taken from https://github.com/jquery/sizzle/blob/master/src/sizzle.js#L139
-function funescape( _, escaped, escapedWhitespace ) {
-	var high = "0x" + escaped - 0x10000;
-	// NaN means non-codepoint
-	// Support: Firefox
-	// Workaround erroneous numeric interpretation of +"0x"
-	return high !== high || escapedWhitespace ?
-		escaped :
-		// BMP codepoint
-		high < 0 ?
-			String.fromCharCode( high + 0x10000 ) :
-			// Supplemental Plane codepoint (surrogate pair)
-			String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
+function stringify(token) {
+    return token.map(stringifySubselector).join(", ");
 }
-
-function unescapeCSS(str){
-	return str.replace(re_escape, funescape);
+exports.default = stringify;
+function stringifySubselector(token) {
+    return token.map(stringifyToken).join("");
 }
-
-function isWhitespace(c){
-	return c === " " || c === "\n" || c === "\t" || c === "\f" || c === "\r";
+function stringifyToken(token) {
+    if (token.type in simpleSelectors)
+        return simpleSelectors[token.type];
+    if (token.type === "tag")
+        return escapeName(token.name);
+    if (token.type === "pseudo-element")
+        return "::" + escapeName(token.name);
+    if (token.type === "attribute") {
+        if (token.action === "exists")
+            return "[" + escapeName(token.name) + "]";
+        if (token.name === "id" &&
+            token.action === "equals" &&
+            !token.ignoreCase)
+            return "#" + escapeName(token.value);
+        if (token.name === "class" &&
+            token.action === "element" &&
+            !token.ignoreCase)
+            return "." + escapeName(token.value);
+        return ("[" +
+            escapeName(token.name) +
+            actionTypes[token.action] +
+            "='" +
+            escapeName(token.value) +
+            "'" +
+            (token.ignoreCase ? "i" : "") +
+            "]");
+    }
+    if (token.type === "pseudo") {
+        if (token.data === null)
+            return ":" + escapeName(token.name);
+        if (typeof token.data === "string") {
+            return ":" + escapeName(token.name) + "(" + token.data + ")";
+        }
+        return ":" + escapeName(token.name) + "(" + stringify(token.data) + ")";
+    }
+    throw new Error("Unknown type");
 }
-
-function parse(selector, options){
-	var subselects = [];
-
-	selector = parseSelector(subselects, selector + "", options);
-
-	if(selector !== ""){
-		throw new SyntaxError("Unmatched selector: " + selector);
-	}
-
-	return subselects;
+function escapeName(str) {
+    //TODO
+    return str;
 }
+});
 
-function parseSelector(subselects, selector, options){
-	var tokens = [],
-		sawWS = false,
-		data, firstChar, name, quot;
+unwrapExports(stringify_1);
 
-	function getName(){
-		var sub = selector.match(re_name)[0];
-		selector = selector.substr(sub.length);
-		return unescapeCSS(sub);
-	}
-
-	function stripWhitespace(start){
-		while(isWhitespace(selector.charAt(start))) start++;
-		selector = selector.substr(start);
-	}
-
-	function isEscaped(pos) {
-		var slashCount = 0;
-
-		while (selector.charAt(--pos) === "\\") slashCount++;
-		return (slashCount & 1) === 1;
-	}
-
-	stripWhitespace(0);
-
-	while(selector !== ""){
-		firstChar = selector.charAt(0);
-
-		if(isWhitespace(firstChar)){
-			sawWS = true;
-			stripWhitespace(1);
-		} else if(firstChar in simpleSelectors){
-			tokens.push({type: simpleSelectors[firstChar]});
-			sawWS = false;
-
-			stripWhitespace(1);
-		} else if(firstChar === ","){
-			if(tokens.length === 0){
-				throw new SyntaxError("empty sub-selector");
-			}
-			subselects.push(tokens);
-			tokens = [];
-			sawWS = false;
-			stripWhitespace(1);
-		} else {
-			if(sawWS){
-				if(tokens.length > 0){
-					tokens.push({type: "descendant"});
-				}
-				sawWS = false;
-			}
-
-			if(firstChar === "*"){
-				selector = selector.substr(1);
-				tokens.push({type: "universal"});
-			} else if(firstChar in attribSelectors){
-				selector = selector.substr(1);
-				tokens.push({
-					type: "attribute",
-					name: attribSelectors[firstChar][0],
-					action: attribSelectors[firstChar][1],
-					value: getName(),
-					ignoreCase: false
-				});
-			} else if(firstChar === "["){
-				selector = selector.substr(1);
-				data = selector.match(re_attr);
-				if(!data){
-					throw new SyntaxError("Malformed attribute selector: " + selector);
-				}
-				selector = selector.substr(data[0].length);
-				name = unescapeCSS(data[1]);
-
-				if(
-					!options || (
-						"lowerCaseAttributeNames" in options ?
-							options.lowerCaseAttributeNames :
-							!options.xmlMode
-					)
-				){
-					name = name.toLowerCase();
-				}
-
-				tokens.push({
-					type: "attribute",
-					name: name,
-					action: actionTypes[data[2]],
-					value: unescapeCSS(data[4] || data[5] || ""),
-					ignoreCase: !!data[6]
-				});
-
-			} else if(firstChar === ":"){
-				if(selector.charAt(1) === ":"){
-					selector = selector.substr(2);
-					tokens.push({type: "pseudo-element", name: getName().toLowerCase()});
-					continue;
-				}
-
-				selector = selector.substr(1);
-
-				name = getName().toLowerCase();
-				data = null;
-
-				if(selector.charAt(0) === "("){
-					if(name in unpackPseudos){
-						quot = selector.charAt(1);
-						var quoted = quot in quotes;
-
-						selector = selector.substr(quoted + 1);
-
-						data = [];
-						selector = parseSelector(data, selector, options);
-
-						if(quoted){
-							if(selector.charAt(0) !== quot){
-								throw new SyntaxError("unmatched quotes in :" + name);
-							} else {
-								selector = selector.substr(1);
-							}
-						}
-
-						if(selector.charAt(0) !== ")"){
-							throw new SyntaxError("missing closing parenthesis in :" + name + " " + selector);
-						}
-
-						selector = selector.substr(1);
-					} else {
-						var pos = 1, counter = 1;
-
-						for(; counter > 0 && pos < selector.length; pos++){
-							if(selector.charAt(pos) === "(" && !isEscaped(pos)) counter++;
-							else if(selector.charAt(pos) === ")" && !isEscaped(pos)) counter--;
-						}
-
-						if(counter){
-							throw new SyntaxError("parenthesis not matched");
-						}
-
-						data = selector.substr(1, pos - 2);
-						selector = selector.substr(pos);
-
-						if(name in stripQuotesFromPseudos){
-							quot = data.charAt(0);
-
-							if(quot === data.slice(-1) && quot in quotes){
-								data = data.slice(1, -1);
-							}
-
-							data = unescapeCSS(data);
-						}
-					}
-				}
-
-				tokens.push({type: "pseudo", name: name, data: data});
-			} else if(re_name.test(selector)){
-				name = getName();
-
-				if(!options || ("lowerCaseTags" in options ? options.lowerCaseTags : !options.xmlMode)){
-					name = name.toLowerCase();
-				}
-
-				tokens.push({type: "tag", name: name});
-			} else {
-				if(tokens.length && tokens[tokens.length - 1].type === "descendant"){
-					tokens.pop();
-				}
-				addToken(subselects, tokens);
-				return selector;
-			}
-		}
-	}
-
-	addToken(subselects, tokens);
-
-	return selector;
+var lib = createCommonjsModule(function (module, exports) {
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(parse_1);
+var parse_1$1 = parse_1;
+exports.parse = parse_1$1.default;
 
-function addToken(subselects, tokens){
-	if(subselects.length > 0 && tokens.length === 0){
-		throw new SyntaxError("empty sub-selector");
-	}
+exports.stringify = stringify_1.default;
+});
 
-	subselects.push(tokens);
-}
+unwrapExports(lib);
+var lib_1 = lib.parse;
+var lib_2 = lib.stringify;
 
 function closest(selector, elm) {
     while (elm != null) {
@@ -1639,11 +1694,11 @@ function closest(selector, elm) {
     return null;
 }
 function matches(selector, elm) {
-    const selectors = cssWhat(selector);
+    const selectors = lib_1(selector);
     return matchesSelectors(selectors, elm);
 }
 function selectOne(selector, elm) {
-    const selectors = cssWhat(selector);
+    const selectors = lib_1(selector);
     return selectOneRecursion(selectors, elm);
 }
 function selectOneRecursion(selectors, elm) {
@@ -1660,7 +1715,7 @@ function selectOneRecursion(selectors, elm) {
     return null;
 }
 function selectAll(selector, elm) {
-    const selectors = cssWhat(selector);
+    const selectors = lib_1(selector);
     const foundElms = [];
     selectAllRecursion(selectors, elm, foundElms);
     return foundElms;
@@ -1836,10 +1891,12 @@ class MockClassList {
     constructor(elm) {
         this.elm = elm;
     }
-    add(...className) {
+    add(...classNames) {
         const clsNames = getItems(this.elm);
         let updated = false;
-        className.forEach(className => {
+        classNames.forEach(className => {
+            className = String(className);
+            validateClass(className);
             if (clsNames.includes(className) === false) {
                 clsNames.push(className);
                 updated = true;
@@ -1849,10 +1906,12 @@ class MockClassList {
             this.elm.setAttributeNS(null, 'class', clsNames.join(' '));
         }
     }
-    remove(...className) {
+    remove(...classNames) {
         const clsNames = getItems(this.elm);
         let updated = false;
-        className.forEach(className => {
+        classNames.forEach(className => {
+            className = String(className);
+            validateClass(className);
             const index = clsNames.indexOf(className);
             if (index > -1) {
                 clsNames.splice(index, 1);
@@ -1864,9 +1923,11 @@ class MockClassList {
         }
     }
     contains(className) {
+        className = String(className);
         return getItems(this.elm).includes(className);
     }
     toggle(className) {
+        className = String(className);
         if (this.contains(className) === true) {
             this.remove(className);
         }
@@ -1882,6 +1943,14 @@ class MockClassList {
     }
     toString() {
         return getItems(this.elm).join(' ');
+    }
+}
+function validateClass(className) {
+    if (className === '') {
+        throw new Error('The token provided must not be empty.');
+    }
+    if (/\s/.test(className)) {
+        throw new Error(`The token provided ('${className}') contains HTML space characters, which are not valid in tokens.`);
     }
 }
 function getItems(elm) {
@@ -2068,7 +2137,7 @@ function serializeNodeToHtml(elm, opts = {}) {
 }
 function serializeToHtml(node, opts, output, isShadowRoot) {
     if (node.nodeType === 1 || isShadowRoot) {
-        const tagName = isShadowRoot ? 'mock:shadow-root' : node.nodeName.toLowerCase();
+        const tagName = isShadowRoot ? 'mock:shadow-root' : getTagName(node);
         if (tagName === 'body') {
             output.isWithinBody = true;
         }
@@ -2227,7 +2296,8 @@ function serializeToHtml(node, opts, output, isShadowRoot) {
     else if (node.nodeType === 3) {
         let textContent = node.nodeValue;
         if (typeof textContent === 'string') {
-            if (textContent.trim() === '') {
+            const trimmedTextContent = textContent.trim();
+            if (trimmedTextContent === '') {
                 if (isWithinWhitespaceSensitive(node)) {
                     output.text.push(textContent);
                     output.currentLineWidth += textContent.length;
@@ -2259,7 +2329,13 @@ function serializeToHtml(node, opts, output, isShadowRoot) {
                 if (textContentLength > 0) {
                     const parentTagName = (node.parentNode != null && node.parentNode.nodeType === 1 ? node.parentNode.nodeName : null);
                     if (NON_ESCAPABLE_CONTENT.has(parentTagName)) {
-                        output.text.push(textContent);
+                        if (isWithinWhitespaceSensitive(node)) {
+                            output.text.push(textContent);
+                        }
+                        else {
+                            output.text.push(trimmedTextContent);
+                            textContentLength = trimmedTextContent.length;
+                        }
                         output.currentLineWidth += textContentLength;
                     }
                     else {
@@ -2327,6 +2403,14 @@ const DOUBLE_QUOTE_REGEX = /"/g;
 const LT_REGEX = /</g;
 const GT_REGEX = />/g;
 const CAN_REMOVE_ATTR_QUOTES = /^[^ \t\n\f\r"'`=<>\/\\-]+$/;
+function getTagName(element) {
+    if (element.namespaceURI === 'http://www.w3.org/1999/xhtml') {
+        return element.nodeName.toLowerCase();
+    }
+    else {
+        return element.nodeName;
+    }
+}
 function escapeString(str, attrMode) {
     str = str.replace(AMP_REGEX, '&amp;').replace(NBSP_REGEX, '&nbsp;');
     if (attrMode) {
@@ -2820,7 +2904,7 @@ const NUMERIC_CHARACTER_REFERENCE_END_STATE = 'NUMERIC_CHARACTER_REFERENCE_END_S
 //OPTIMIZATION: these utility functions should not be moved out of this module. V8 Crankshaft will not inline
 //this functions if they will be situated in another module due to context switch.
 //Always perform inlining check before modifying this functions ('node --trace-inlining').
-function isWhitespace$1(cp) {
+function isWhitespace(cp) {
     return cp === $$1.SPACE || cp === $$1.LINE_FEED || cp === $$1.TABULATION || cp === $$1.FORM_FEED;
 }
 
@@ -3171,7 +3255,7 @@ class Tokenizer {
     _emitCodePoint(cp) {
         let type = Tokenizer.CHARACTER_TOKEN;
 
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             type = Tokenizer.WHITESPACE_CHARACTER_TOKEN;
         } else if (cp === $$1.NULL) {
             type = Tokenizer.NULL_CHARACTER_TOKEN;
@@ -3406,7 +3490,7 @@ class Tokenizer {
     // Tag name state
     //------------------------------------------------------------------
     [TAG_NAME_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this.state = BEFORE_ATTRIBUTE_NAME_STATE;
         } else if (cp === $$1.SOLIDUS) {
             this.state = SELF_CLOSING_START_TAG_STATE;
@@ -3461,7 +3545,7 @@ class Tokenizer {
             this.tempBuff.push(cp);
         } else {
             if (this.lastStartTagName === this.currentToken.tagName) {
-                if (isWhitespace$1(cp)) {
+                if (isWhitespace(cp)) {
                     this.state = BEFORE_ATTRIBUTE_NAME_STATE;
                     return;
                 }
@@ -3519,7 +3603,7 @@ class Tokenizer {
             this.tempBuff.push(cp);
         } else {
             if (this.lastStartTagName === this.currentToken.tagName) {
-                if (isWhitespace$1(cp)) {
+                if (isWhitespace(cp)) {
                     this.state = BEFORE_ATTRIBUTE_NAME_STATE;
                     return;
                 }
@@ -3580,7 +3664,7 @@ class Tokenizer {
             this.tempBuff.push(cp);
         } else {
             if (this.lastStartTagName === this.currentToken.tagName) {
-                if (isWhitespace$1(cp)) {
+                if (isWhitespace(cp)) {
                     this.state = BEFORE_ATTRIBUTE_NAME_STATE;
                     return;
                 } else if (cp === $$1.SOLIDUS) {
@@ -3723,7 +3807,7 @@ class Tokenizer {
             this.tempBuff.push(cp);
         } else {
             if (this.lastStartTagName === this.currentToken.tagName) {
-                if (isWhitespace$1(cp)) {
+                if (isWhitespace(cp)) {
                     this.state = BEFORE_ATTRIBUTE_NAME_STATE;
                     return;
                 }
@@ -3749,7 +3833,7 @@ class Tokenizer {
     // Script data double escape start state
     //------------------------------------------------------------------
     [SCRIPT_DATA_DOUBLE_ESCAPE_START_STATE](cp) {
-        if (isWhitespace$1(cp) || cp === $$1.SOLIDUS || cp === $$1.GREATER_THAN_SIGN) {
+        if (isWhitespace(cp) || cp === $$1.SOLIDUS || cp === $$1.GREATER_THAN_SIGN) {
             this.state = this._isTempBufferEqualToScriptString()
                 ? SCRIPT_DATA_DOUBLE_ESCAPED_STATE
                 : SCRIPT_DATA_ESCAPED_STATE;
@@ -3846,7 +3930,7 @@ class Tokenizer {
     // Script data double escape end state
     //------------------------------------------------------------------
     [SCRIPT_DATA_DOUBLE_ESCAPE_END_STATE](cp) {
-        if (isWhitespace$1(cp) || cp === $$1.SOLIDUS || cp === $$1.GREATER_THAN_SIGN) {
+        if (isWhitespace(cp) || cp === $$1.SOLIDUS || cp === $$1.GREATER_THAN_SIGN) {
             this.state = this._isTempBufferEqualToScriptString()
                 ? SCRIPT_DATA_ESCAPED_STATE
                 : SCRIPT_DATA_DOUBLE_ESCAPED_STATE;
@@ -3866,7 +3950,7 @@ class Tokenizer {
     // Before attribute name state
     //------------------------------------------------------------------
     [BEFORE_ATTRIBUTE_NAME_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -3885,7 +3969,7 @@ class Tokenizer {
     // Attribute name state
     //------------------------------------------------------------------
     [ATTRIBUTE_NAME_STATE](cp) {
-        if (isWhitespace$1(cp) || cp === $$1.SOLIDUS || cp === $$1.GREATER_THAN_SIGN || cp === $$1.EOF) {
+        if (isWhitespace(cp) || cp === $$1.SOLIDUS || cp === $$1.GREATER_THAN_SIGN || cp === $$1.EOF) {
             this._leaveAttrName(AFTER_ATTRIBUTE_NAME_STATE);
             this._unconsume();
         } else if (cp === $$1.EQUALS_SIGN) {
@@ -3906,7 +3990,7 @@ class Tokenizer {
     // After attribute name state
     //------------------------------------------------------------------
     [AFTER_ATTRIBUTE_NAME_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -3929,7 +4013,7 @@ class Tokenizer {
     // Before attribute value state
     //------------------------------------------------------------------
     [BEFORE_ATTRIBUTE_VALUE_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -3987,7 +4071,7 @@ class Tokenizer {
     // Attribute value (unquoted) state
     //------------------------------------------------------------------
     [ATTRIBUTE_VALUE_UNQUOTED_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this._leaveAttrValue(BEFORE_ATTRIBUTE_NAME_STATE);
         } else if (cp === $$1.AMPERSAND) {
             this.returnState = ATTRIBUTE_VALUE_UNQUOTED_STATE;
@@ -4018,7 +4102,7 @@ class Tokenizer {
     // After attribute value (quoted) state
     //------------------------------------------------------------------
     [AFTER_ATTRIBUTE_VALUE_QUOTED_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this._leaveAttrValue(BEFORE_ATTRIBUTE_NAME_STATE);
         } else if (cp === $$1.SOLIDUS) {
             this._leaveAttrValue(SELF_CLOSING_START_TAG_STATE);
@@ -4249,7 +4333,7 @@ class Tokenizer {
     // DOCTYPE state
     //------------------------------------------------------------------
     [DOCTYPE_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this.state = BEFORE_DOCTYPE_NAME_STATE;
         } else if (cp === $$1.GREATER_THAN_SIGN) {
             this._reconsumeInState(BEFORE_DOCTYPE_NAME_STATE);
@@ -4268,7 +4352,7 @@ class Tokenizer {
     // Before DOCTYPE name state
     //------------------------------------------------------------------
     [BEFORE_DOCTYPE_NAME_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -4300,7 +4384,7 @@ class Tokenizer {
     // DOCTYPE name state
     //------------------------------------------------------------------
     [DOCTYPE_NAME_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this.state = AFTER_DOCTYPE_NAME_STATE;
         } else if (cp === $$1.GREATER_THAN_SIGN) {
             this.state = DATA_STATE;
@@ -4323,7 +4407,7 @@ class Tokenizer {
     // After DOCTYPE name state
     //------------------------------------------------------------------
     [AFTER_DOCTYPE_NAME_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -4352,7 +4436,7 @@ class Tokenizer {
     // After DOCTYPE public keyword state
     //------------------------------------------------------------------
     [AFTER_DOCTYPE_PUBLIC_KEYWORD_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this.state = BEFORE_DOCTYPE_PUBLIC_IDENTIFIER_STATE;
         } else if (cp === $$1.QUOTATION_MARK) {
             this._err(errorCodes.missingWhitespaceAfterDoctypePublicKeyword);
@@ -4382,7 +4466,7 @@ class Tokenizer {
     // Before DOCTYPE public identifier state
     //------------------------------------------------------------------
     [BEFORE_DOCTYPE_PUBLIC_IDENTIFIER_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -4458,7 +4542,7 @@ class Tokenizer {
     // After DOCTYPE public identifier state
     //------------------------------------------------------------------
     [AFTER_DOCTYPE_PUBLIC_IDENTIFIER_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this.state = BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS_STATE;
         } else if (cp === $$1.GREATER_THAN_SIGN) {
             this.state = DATA_STATE;
@@ -4486,7 +4570,7 @@ class Tokenizer {
     // Between DOCTYPE public and system identifiers state
     //------------------------------------------------------------------
     [BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -4514,7 +4598,7 @@ class Tokenizer {
     // After DOCTYPE system keyword state
     //------------------------------------------------------------------
     [AFTER_DOCTYPE_SYSTEM_KEYWORD_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             this.state = BEFORE_DOCTYPE_SYSTEM_IDENTIFIER_STATE;
         } else if (cp === $$1.QUOTATION_MARK) {
             this._err(errorCodes.missingWhitespaceAfterDoctypeSystemKeyword);
@@ -4544,7 +4628,7 @@ class Tokenizer {
     // Before DOCTYPE system identifier state
     //------------------------------------------------------------------
     [BEFORE_DOCTYPE_SYSTEM_IDENTIFIER_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -4620,7 +4704,7 @@ class Tokenizer {
     // After DOCTYPE system identifier state
     //------------------------------------------------------------------
     [AFTER_DOCTYPE_SYSTEM_IDENTIFIER_STATE](cp) {
-        if (isWhitespace$1(cp)) {
+        if (isWhitespace(cp)) {
             return;
         }
 
@@ -4881,10 +4965,6 @@ Tokenizer.getTokenAttr = function(token, attrName) {
 };
 
 var tokenizer = Tokenizer;
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
 
 var html = createCommonjsModule(function (module, exports) {
 
@@ -10089,7 +10169,7 @@ const $$5 = html.TAG_NAMES;
 const NS$2 = html.NAMESPACES;
 
 // Shorthands
-var parse$1 = function parse(html, options) {
+var parse = function parse(html, options) {
     const parser$1 = new parser(options);
 
     return parser$1.parse(html);
@@ -10109,7 +10189,7 @@ var parseFragment = function parseFragment(fragmentContext, html, options) {
 
 const docParser = new WeakMap();
 function parseDocumentUtil(ownerDocument, html) {
-    const doc = parse$1(html.trim(), getParser(ownerDocument));
+    const doc = parse(html.trim(), getParser(ownerDocument));
     doc.documentElement = doc.firstElementChild;
     doc.head = doc.documentElement.firstElementChild;
     doc.body = doc.head.nextElementSibling;
@@ -10140,8 +10220,7 @@ function getParser(ownerDocument) {
             return ownerDocument.createDocumentFragment();
         },
         createElement(tagName, namespaceURI, attrs) {
-            const elm = ownerDocument.createElement(tagName);
-            elm.namespaceURI = namespaceURI;
+            const elm = ownerDocument.createElementNS(namespaceURI, tagName);
             for (let i = 0; i < attrs.length; i++) {
                 const attr = attrs[i];
                 if (attr.namespace == null || attr.namespace === 'http://www.w3.org/1999/xhtml') {
@@ -10235,7 +10314,12 @@ function getParser(ownerDocument) {
             return attrs;
         },
         getTagName(element) {
-            return element.nodeName.toLowerCase();
+            if (element.namespaceURI === 'http://www.w3.org/1999/xhtml') {
+                return element.nodeName.toLowerCase();
+            }
+            else {
+                return element.nodeName;
+            }
         },
         getNamespaceURI(element) {
             return element.namespaceURI;
@@ -10409,7 +10493,7 @@ const shadowRootMap = new WeakMap();
 const stylesMap = new WeakMap();
 class MockElement extends MockNode {
     constructor(ownerDocument, nodeName) {
-        super(ownerDocument, 1, typeof nodeName === 'string' ? nodeName.toUpperCase() : null, null);
+        super(ownerDocument, 1, typeof nodeName === 'string' ? nodeName : null, null);
         this.namespaceURI = null;
     }
     addEventListener(type, handler) {
@@ -10656,7 +10740,7 @@ class MockElement extends MockNode {
                 if (attributes.caseInsensitive) {
                     attrName = attrName.toLowerCase();
                 }
-                attr = new MockAttr(attrName, value);
+                attr = new MockAttr(attrName, String(value));
                 attributes.items.push(attr);
                 if (checkAttrChanged === true) {
                     attributeChanged(this, attrName, null, attr.value);
@@ -10712,7 +10796,7 @@ class MockElement extends MockNode {
     get tabIndex() { return parseInt(this.getAttributeNS(null, 'tabindex') || '-1', 10); }
     set tabIndex(value) { this.setAttributeNS(null, 'tabindex', value); }
     get tagName() { return this.nodeName; }
-    set tagName(value) { this.nodeName = value.toUpperCase(); }
+    set tagName(value) { this.nodeName = value; }
     get textContent() {
         const text = [];
         getTextContent(this.childNodes, text);
@@ -10838,6 +10922,12 @@ function insertBefore(parentNode, newNode, referenceNode) {
     return newNode;
 }
 class MockHTMLElement extends MockElement {
+    constructor(ownerDocument, nodeName) {
+        super(ownerDocument, typeof nodeName === 'string' ? nodeName.toUpperCase() : null);
+        this.namespaceURI = 'http://www.w3.org/1999/xhtml';
+    }
+    get tagName() { return this.nodeName; }
+    set tagName(value) { this.nodeName = value; }
     get attributes() {
         let attrs = attrsMap.get(this);
         if (attrs == null) {
@@ -10971,9 +11061,6 @@ function createElement(ownerDocument, tagName) {
         case 'canvas':
             return new MockCanvasElement(ownerDocument);
     }
-    if (SVG_TAGS.has(tagName)) {
-        return new MockSVGElement(ownerDocument, tagName);
-    }
     if (ownerDocument != null && tagName.includes('-')) {
         const win = ownerDocument.defaultView;
         if (win != null && win.customElements != null) {
@@ -10993,7 +11080,6 @@ function createElementNS(ownerDocument, namespaceURI, tagName) {
         return new MockElement(ownerDocument, tagName);
     }
 }
-const SVG_TAGS = new Set(['circle', 'line', 'g', 'path', 'svg', 'symbol', 'viewbox']);
 class MockAnchorElement extends MockHTMLElement {
     constructor(ownerDocument) {
         super(ownerDocument, 'a');
@@ -12391,6 +12477,20 @@ function patchDomImplementation(doc) {
         if (win.CustomEvent !== CustomEvent) {
             win.CustomEvent = CustomEvent;
         }
+    }
+    try {
+        doc.baseURI;
+    }
+    catch (e) {
+        Object.defineProperty(doc, 'baseURI', {
+            get() {
+                const baseElm = doc.querySelector('base[href]');
+                if (baseElm) {
+                    return (new URL(baseElm.getAttribute('href'), win.location.href)).href;
+                }
+                return win.location.href;
+            }
+        });
     }
     return win;
 }

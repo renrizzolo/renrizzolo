@@ -37,7 +37,7 @@ export class ProjectItem {
 
   render() {
     const post = this.post;
-    const url = !this.type &&  post ? `/project/${post.slug}` : null;
+    const url = !this.type && post ? `/project/${post.slug}` : null;
     return post ? (
       <article
         class={`project-item--container ${this.type}`}
@@ -129,7 +129,7 @@ export class ProjectItem {
               leave={{ opacity: '0', transform: 'translateX(7px)' }}
               items={[
                 <h1 class="project-item--heading">
-                  <stencil-route-link url={url}>{post.heading}</stencil-route-link>
+                  {!this.type && <stencil-route-link url={url}>{post.heading}</stencil-route-link>}
                 </h1>,
               ]}
             />
