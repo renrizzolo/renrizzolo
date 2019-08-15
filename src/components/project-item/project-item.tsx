@@ -37,7 +37,7 @@ export class ProjectItem {
 
   render() {
     const post = this.post;
-    const url = !this.type &&  post ? `/project/${post.slug}` : null;
+    const url = !this.type && post ? `/project/${post.slug}` : null;
     return post ? (
       <article
         class={`project-item--container ${this.type}`}
@@ -130,12 +130,12 @@ export class ProjectItem {
               items={[
                 <h1 class="project-item--heading">
                   <stencil-route-link url={url}>{post.heading}</stencil-route-link>
-                </h1>,
+                </h1>
               ]}
             />
           )}
           <div>
-            {this.type !== 'full-size' && (
+            {!this.type && (
               <transition-group
                 wrapper={'span'}
                 keys={(item) => (item.$ ? item.$.key : item.h ? item.h.key : item.$key$)}
