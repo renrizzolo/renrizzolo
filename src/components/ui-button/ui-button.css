@@ -199,7 +199,7 @@ a.button.active,
   width: 24px;
   height: 24px;
 }
-.link-prev span {
+.link-prev span, .link-back span {
   width: 24px;
   height: 24px;
   transform: rotate(180deg);

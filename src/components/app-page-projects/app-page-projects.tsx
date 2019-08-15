@@ -1,6 +1,6 @@
 import { Component, Prop, State, h } from '@stencil/core';
 import { projects, Project } from './projects';
-
+import arrow from '../../icons/arrow.json';
 @Component({
   tag: 'app-page-projects',
   styleUrl: 'app-page-projects.css',
@@ -97,7 +97,7 @@ export class AppPageProjects {
           <app-wave class="wave--flipped" />
 
           <ui-container>
-            <ui-button button url="/" class="abs abs--top-left">
+            <ui-button button icon={arrow} iconPos="left" url="/" class="flex-center link-back abs abs--top-left">
               Back
             </ui-button>
             <div class="app-page-projects--header">
