@@ -180,15 +180,15 @@ a.button.active,
    ui-button.link-next.abs--right {
     position: relative;
     bottom: -1rem;
-    right: -1.5rem;
+    right: 0rem;
     position: absolute;
     width: calc(100% - 1.5em);
   }
 
    ui-button.link-prev.abs--left {
     position: relative;
-    bottom: 2rem;
-    left: -1.5rem;
+    bottom: 3rem;
+    left: 0rem;
     position: absolute;
     width: calc(100% - 1.5em);
 

@@ -3,7 +3,7 @@
   --item-background--hover: var(--color-primary-light);
   --item-text: var(--color-g-2);
   --item-text--hover: var(--color-primary-dark);
-  --item-text-size: 0.92rem;
+  --item-text-size: 1rem;
   --item-subheading-size: 0.875rem;
   --item-heading-size: 1.125rem;
 }
@@ -63,6 +63,12 @@ a {
   border-top-right-radius: 0;
   overflow: visible;
 }
+  @media screen and (max-width: 420px) {
+  .project-item--container.full-size {
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+    }
+  }
 .project-link {
   margin-bottom: 1rem;
 }
@@ -250,7 +256,7 @@ a {
 }
 
 .tag {
-  font-size: 0.67rem;
+  font-size: 0.75rem;
   background-color: var(--color-g-2);
   border-radius: 12px;
   padding: 0.35rem 0.65rem;
@@ -262,7 +268,7 @@ a {
   display: inline-block;
 }
 .hash-tag {
-  font-size: 0.67rem;
+  font-size: 0.75rem;
   /* background-color: var(--color-secondary-light); */
   border-radius: 12px;
   /* padding: 0.35rem 0.65rem; */
