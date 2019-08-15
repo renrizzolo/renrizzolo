@@ -129,8 +129,10 @@ export class ProjectItem {
               leave={{ opacity: '0', transform: 'translateX(7px)' }}
               items={[
                 <h1 class="project-item--heading">
-                  <stencil-route-link url={url}>{post.heading}</stencil-route-link>
-                </h1>
+                  {!this.type ? <stencil-route-link url={url}>{post.heading}</stencil-route-link>
+                    : post.heading
+                  }
+                </h1>,
               ]}
             />
           )}
