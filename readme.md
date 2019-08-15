@@ -14,7 +14,6 @@ Back
  
 ---
 
-# Stencil App Starter
 
 Stencil is a compiler for building fast web apps using Web Components.
 
@@ -31,6 +30,18 @@ To build the app for production, run:
 ```bash
 npm run build
 ```
+To start the development server, run:
+```bash
+npm run start
+```
+And access it on `localhost:3333`
+
+
+To start the backend server, run:
+```bash
+npm run start.server
+```
+And access it on `localhost:3000`
 
 To run the unit tests once, run:
 
