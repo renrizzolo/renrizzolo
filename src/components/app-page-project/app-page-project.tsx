@@ -82,7 +82,7 @@ export class AppPageProject {
               )} */}
               {this.project ? (
                 <div itemscope itemtype="http://schema.org/Article">
-                  <h1 itemprop="name">{this.project.heading}</h1>
+                  <h1 itemprop="name headline">{this.project.heading}</h1>
                   <h3>{this.project.subHeading}</h3>
 
                   <transition-group
