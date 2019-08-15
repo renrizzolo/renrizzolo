@@ -1,5 +1,19 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a3a00651-2be0-4851-a6e3-e68780dc29f6/deploy-status)](https://app.netlify.com/sites/elastic-hodgkin-a279cc/deploys)
 
+# renrizzolo.com
+A simple portfolio site built with 
+---
+Front
+ - StencilJS
+ - BodyMovin
+ 
+Back
+ - Node / Express
+ - Quill
+ - Multer
+ 
+---
+
 # Stencil App Starter
 
 Stencil is a compiler for building fast web apps using Web Components.
