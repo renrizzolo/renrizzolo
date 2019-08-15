@@ -15,13 +15,18 @@ export class AppHome implements ComponentInterface {
         <img class="ren-bg" src="assets/renrizzolo-profile-c.jpg" />
         <app-background>
           <div class="centered">
+            <header role="banner" class="centered">
+
             <renrizzolo-logo />
             <div class="intro-text">
               <p>I'm a front-end developer from Melbourne, Australia ✌️</p>
-              <ui-button button url="/projects">
-                Projects
-              </ui-button>
+              <div role="navigation" itemscope itemtype="http://www.schema.org/SiteNavigationElement">
+                <ui-button itemprop="url" button url="/projects">
+                  Projects
+                </ui-button>
+              </div>
             </div>
+            </header>
 
             <div class="footer">
               <ui-button button href="https://twitter.com/ren_riz">

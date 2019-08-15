@@ -81,8 +81,8 @@ export class AppPageProject {
                 />
               )} */}
               {this.project ? (
-                <div>
-                  <h1>{this.project.heading}</h1>
+                <div itemscope itemtype="http://schema.org/Article">
+                  <h1 itemprop="name">{this.project.heading}</h1>
                   <h3>{this.project.subHeading}</h3>
 
                   <transition-group

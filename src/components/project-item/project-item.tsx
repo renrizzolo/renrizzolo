@@ -152,7 +152,7 @@ export class ProjectItem {
             )}
 
             {this.type === 'full-size' &&  (
-              <div>
+              <div itemprop="articleBody">
                 <section class="details">
                   <div innerHTML={post.details} />
                 </section>
