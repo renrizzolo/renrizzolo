@@ -18,37 +18,19 @@ p {
   font-size: calc(0.8rem + 0.75vw);
   font-weight: lighter;
   letter-spacing: 0.75px;
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 }
 .intro-text {
-  
   text-align: center;
   opacity: 0;
   transform: translateY(calc(var(--intro-text-translate) * 1px));
   animation: come-on-in 2s 0.5s forwards;
 }
-a {
-  color: var(--col-secondary);
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 25px;
-  padding: 0.5rem 1rem;
-  transition: all 100ms ease-out;
-  background-size: 200% 100%;
-  transition: all 350ms ease-in;
-  background-color: var(--color-text);
-  box-shadow: inset 0px 0 0 0 rgba(0, 0, 0, 0.1);
-  background-position: left bottom;
+.intro-text p {
+  text-align: center;
 }
-a:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: inset -2px -2px 0 0 rgba(0, 0, 0, 0.2);
-  transition: all 200ms ease-out;
-  color: var(--color-text);
-}
+
 
 .ren-bg {
   width: 100%;
