@@ -19,7 +19,7 @@ export class AppHome implements ComponentInterface {
 
             <renrizzolo-logo />
             <div class="intro-text">
-              <p>I'm a front-end developer from Melbourne, Australia ✌️</p>
+              <p>I'm a front-end developer based in Melbourne, Australia ✌️</p>
  
               <div role="navigation" itemscope itemtype="http://www.schema.org/SiteNavigationElement">
                 <ui-button itemprop="url" button url="/projects">
