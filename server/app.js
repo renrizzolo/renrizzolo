@@ -9,7 +9,7 @@ var Api = require('./api');
 
 // this is the remote url used for showing
 // the 'live' cover image on the server
-process.env['url'] = 'https://elastic-hodgkin-a279cc.netlify.com/';
+process.env['url'] = 'https://renrizzolo.com/';
 
 var app = express();
 
