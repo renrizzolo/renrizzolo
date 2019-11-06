@@ -12,22 +12,36 @@ export class AppHome implements ComponentInterface {
     return (
       <div style={this.styles}>
         <app-wave />
-        <img class="ren-bg" src="assets/renrizzolo-profile-c.jpg" />
+        <img
+          class="ren-bg"
+          src="assets/renrizzolo-profile--1200px.jpg"
+          srcset="
+            assets/renrizzolo-profile--450px.jpg 450w,
+            assets/renrizzolo-profile--800px.jpg 800w,
+            assets/renrizzolo-profile--1200px.jpg 1200w"
+          sizes="
+            (max-width: 600px) 450px,
+            (max-width: 950px) 800px,
+            1200px"
+          alt="Ren Rizzolo profile"
+        />
         <app-background>
           <div class="centered">
             <header role="banner" class="centered">
+              <renrizzolo-logo />
+              <div class="intro-text">
+                <p>I'm a front-end developer based in Melbourne, Australia ✌️</p>
 
-            <renrizzolo-logo />
-            <div class="intro-text">
-              <p>I'm a front-end developer based in Melbourne, Australia ✌️</p>
- 
-              <div role="navigation" itemscope itemtype="http://www.schema.org/SiteNavigationElement">
-                <ui-button itemprop="url" button url="/projects">
-                  Projects
-                </ui-button>
+                <div
+                  role="navigation"
+                  itemscope
+                  itemtype="http://www.schema.org/SiteNavigationElement"
+                >
+                  <ui-button itemprop="url" button url="/projects">
+                    Projects
+                  </ui-button>
+                </div>
               </div>
-               
-            </div>
             </header>
 
             <div class="footer">
@@ -42,7 +56,6 @@ export class AppHome implements ComponentInterface {
               <ui-button button href="https://github.com/renrizzolo">
                 GitHub
               </ui-button>
-            
             </div>
           </div>
         </app-background>
