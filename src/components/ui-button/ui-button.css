@@ -59,9 +59,9 @@ a.button.active,
 .color--dark:hover a {
   color: var(--color-secondary);
 }
- .color--dark:hover a .icon svg path {
-   fill: currentColor;
- }
+.color--dark:hover a .icon svg path {
+  fill: currentColor;
+}
 .color--alt {
   color: var(--color-primary);
 }
@@ -76,82 +76,89 @@ a.button.active,
   background-color: var(--color-primary-transparent);
   color: var(--color-primary);
 }
- ui-button.abs {
+ui-button.abs {
   position: absolute;
   z-index: 1;
 }
- ui-button.abs--top-left {
+ui-button.abs--top-left {
   top: 2rem;
   left: 2rem;
 }
- ui-button.abs--top-right {
+ui-button.abs--top-right {
   top: 2rem;
   right: 2rem;
 }
- ui-button.abs--right {
+ui-button.abs--right {
   right: 2rem;
 }
- ui-button.abs--left {
+ui-button.abs--left {
   left: 2rem;
 }
- ui-button.abs--bottom-left {
+ui-button.abs--bottom-left {
   bottom: 2rem;
   left: 2rem;
 }
- ui-button.abs--bottom-right {
+ui-button.abs--bottom-right {
   bottom: 2rem;
   right: 2rem;
 }
 
 @media screen and (max-width: 420px) {
-  ui-button.abs--right,  ui-button.abs--top-right,  ui-button.abs--bottom-right {
+  ui-button.abs--right,
+  ui-button.abs--top-right,
+  ui-button.abs--bottom-right {
     right: 1.5rem;
   }
-   ui-button.abs--bottom-left,  ui-button.abs--left,  ui-button.abs--top-left {
+  ui-button.abs--bottom-left,
+  ui-button.abs--left,
+  ui-button.abs--top-left {
     left: 1.5rem;
   }
-   ui-button.abs--bottom-left,  ui-button.abs--bottom-right {
+  ui-button.abs--bottom-left,
+  ui-button.abs--bottom-right {
     bottom: 1.5rem;
   }
-   ui-button.abs--top-left,  ui-button.abs--top-right {
+  ui-button.abs--top-left,
+  ui-button.abs--top-right {
     top: 1.5rem;
   }
 }
 
- ui-button.abs--middle {
+ui-button.abs--middle {
   top: 50%;
   transform: translateY(-50%);
 }
 
- ui-button.link-next.abs--right {
+ui-button.link-next.abs--right {
   right: -8rem;
 }
- ui-button.link-prev.abs--left {
+ui-button.link-prev.abs--left {
   left: -8rem;
 }
 
-
 @media screen and (max-width: 1200px) {
-   ui-button.link-next.abs--right {
+  ui-button.link-next.abs--right {
     right: 0px;
   }
-   ui-button.link-next.abs--right a {
+  ui-button.link-next.abs--right a {
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
   }
-   ui-button.link-prev.abs--left {
+  ui-button.link-prev.abs--left {
     left: 0px;
   }
-   ui-button.link-prev.abs--left a {
+  ui-button.link-prev.abs--left a {
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
   }
 }
- .link-next .link-info, .link-prev .link-info {
-    display: none;
-  }
-  @media screen and (min-width: 420px) {
-  .link-next a:hover, .link-prev a:hover {
+.link-next .link-info,
+.link-prev .link-info {
+  display: none;
+}
+@media screen and (min-width: 420px) {
+  .link-next a:hover,
+  .link-prev a:hover {
     background-color: transparent;
   }
   .link-next a:hover .project-item--preview-container {
@@ -161,7 +168,7 @@ a.button.active,
     transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.35);
   }
 
-  .link-prev a:hover .project-item--preview-container  {
+  .link-prev a:hover .project-item--preview-container {
     visibility: visible;
     transform: scale(1);
     opacity: 1;
@@ -169,7 +176,8 @@ a.button.active,
   }
 }
 @media screen and (max-width: 420px) {
-   ui-button.link-next .link-info,  ui-button.link-prev .link-info {
+  ui-button.link-next .link-info,
+  ui-button.link-prev .link-info {
     display: block;
     text-overflow: ellipsis;
     max-width: 100%;
@@ -177,7 +185,7 @@ a.button.active,
     overflow: hidden;
     flex-basis: 100%;
   }
-   ui-button.link-next.abs--right {
+  ui-button.link-next.abs--right {
     position: relative;
     bottom: -1rem;
     right: 0rem;
@@ -185,13 +193,12 @@ a.button.active,
     width: calc(100% - 1.5em);
   }
 
-   ui-button.link-prev.abs--left {
+  ui-button.link-prev.abs--left {
     position: relative;
     bottom: 3rem;
     left: 0rem;
     position: absolute;
     width: calc(100% - 1.5em);
-
   }
 }
 
@@ -199,7 +206,8 @@ a.button.active,
   width: 24px;
   height: 24px;
 }
-.link-prev span, .link-back span {
+.link-prev span,
+.link-back span {
   width: 24px;
   height: 24px;
   transform: rotate(180deg);
@@ -227,4 +235,12 @@ a:hover .icon svg path {
   transition: fill 250ms ease-in;
 
   fill: currentColor;
+}
+
+.button-disable-wave {
+  font-size: 80%;
+  border: none;
+  z-index: 2;
+  position: absolute;
+  font-weight: normal;
 }
