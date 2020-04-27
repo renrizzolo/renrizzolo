@@ -1,8 +1,8 @@
-import { Component, h, Prop, ComponentInterface } from '@stencil/core';
+import { Component, h, Prop, ComponentInterface } from "@stencil/core";
 
 @Component({
-  tag: 'app-home',
-  styleUrl: 'app-home.css',
+  tag: "app-home",
+  styleUrl: "app-home.css",
   shadow: true,
 })
 export class AppHome implements ComponentInterface {
@@ -30,7 +30,9 @@ export class AppHome implements ComponentInterface {
             <header role="banner" class="centered">
               <renrizzolo-logo />
               <div class="intro-text">
-                <p>I'm a front-end developer based in Melbourne, Australia ✌️</p>
+                <p>
+                  I'm a front-end developer based in Melbourne, Australia ✌️
+                </p>
 
                 <div
                   role="navigation"
