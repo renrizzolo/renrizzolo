@@ -11,8 +11,6 @@
   --item-text-size: 0.72rem;
   --item-subheading-size: 0.775rem;
   --item-heading-size: 0.9rem;
-  /* --item-background: transparent; */
-  /* --item-background--hover: transparent; */
 }
 article {
   color: var(--item-text);
@@ -35,21 +33,11 @@ a {
   position: relative;
   overflow: hidden;
   transition: background 400ms ease;
-  /* box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2); */
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-
-  /* border-bottom-right-radius: 20px;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 10px;
-  border-top-right-radius: 5px; */
-  /* border-radius: 12px; */
   height: 100%;
 }
 .project-item--container.preview {
   box-shadow: none;
-  /* border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
-  box-shadow: inset -2px -2px 0 0 rgba(0, 0, 0, 0.2); */
   max-width: 180px;
 }
 .project-item--container.full-size {
@@ -155,7 +143,6 @@ a {
 }
 
 .project-item--image {
-  /* max-height: 224px; */
   object-fit: cover;
   vertical-align: middle;
   width: 100%;
@@ -188,7 +175,7 @@ a {
 
 .project-item--heading__overlay {
   clip-path: url("#wave-clip");
-  /* transform: translate3d(-49%, -39%, 0); */
+  pointer-events: none;
   content: "";
   z-index: 0;
   width: 200%;
@@ -196,7 +183,6 @@ a {
   mix-blend-mode: overlay;
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.2);
-  /* background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary)); */
   height: 150%;
   animation: heading-overlay-wave-rev 800ms ease forwards;
   transition: all 800ms 0ms ease;
