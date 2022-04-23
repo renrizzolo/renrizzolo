@@ -1,12 +1,19 @@
-a {
+a,
+button {
   transition: all 350ms ease-out;
   display: inline-block;
   user-select: none;
+
+  border: none;
+  background: unset;
+  padding: 0;
 }
-a:hover {
+a:hover,
+button:hover {
   transition: all 250ms ease-in;
 }
-a {
+a,
+button {
   color: var(--color-button);
   text-decoration: none;
   border-bottom: 2px solid;
@@ -17,14 +24,17 @@ a {
   display: inline-flex;
   align-items: center;
 }
-a.active {
+a.active,
+button.active {
   color: var(--color-text);
 }
-a:hover {
+a:hover,
+button:hover {
   color: var(--color-text);
 }
 
 a.button,
+button.button,
 .route-link-button a {
   border-bottom: 0px;
 
@@ -46,9 +56,14 @@ a.button,
   display: inline-flex;
 }
 a.button:hover,
+button.button:hover,
 a.button.active,
+button.button.active,
 .route-link-button a:hover,
-.route-link-button a.active {
+.route-link-button a.active,
+a.button:focus-visible,
+button.button:focus-visible,
+.route-link-button a:focus-visible {
   background-color: var(--color-secondary);
   box-shadow: inset -2px -2px 0 0 rgba(0, 0, 0, 0.2);
   color: var(--color-button);
@@ -226,7 +241,7 @@ ui-button.link-prev.abs--left {
   margin-left: 3px;
   z-index: 1;
 }
-a:hover .icon svg path {
+ui-button:hover .icon svg path {
   transition: fill 250ms ease-in;
 
   fill: var(--color-button);

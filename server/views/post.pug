@@ -11,7 +11,7 @@ block content
     input(type="file" accept="image/*" name="image" id="image-upload-input")
     button(type="submit") Upload
     p Dev (local) server image:
-    img(class="thumb" src="http://localhost:3000" + post.coverImage)
+    img(class="thumb" src=`http://localhost:${process.env.port}${post.coverImage}`)
     p Live server image:
     img(class="thumb" src=(process.env.url + post.coverImage))
 

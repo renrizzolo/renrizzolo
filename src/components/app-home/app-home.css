@@ -31,8 +31,9 @@ p {
   text-align: center;
 }
 
-
 .ren-bg {
+  user-select: none;
+  -webkit-user-drag: none;
   width: 100%;
   will-change: opacity;
   mix-blend-mode: luminosity;

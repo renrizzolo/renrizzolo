@@ -1,5 +1,5 @@
 :host {
-  --item-background: var(--color-g-2);
+  --item-background: var(--color-primary);
   --item-background--hover: var(--color-primary-light);
   --item-text: var(--color-g-2);
   --item-text--hover: var(--color-primary-dark);
@@ -17,6 +17,7 @@
 article {
   color: var(--item-text);
 }
+
 code {
   color: var(--item-text);
 }
@@ -171,7 +172,7 @@ a {
   background: linear-gradient(#ffffff00, var(--color-primary));
   height: 100%;
   transform: translateY(100%);
-  transition: transform 400ms 0ms ease;
+  transition: transform 300ms 0ms ease;
 }
 .project-item--container.full-size .project-item--image__overlay {
   display: none;
@@ -192,48 +193,48 @@ a {
   z-index: 0;
   width: 200%;
   position: absolute;
-  /* mix-blend-mode: screen; */
+  mix-blend-mode: overlay;
   opacity: 1;
-  background-color: var(--color-primary);
+  background-color: rgba(0, 0, 0, 0.2);
   /* background: linear-gradient(45deg, var(--color-primary-light), var(--color-primary)); */
-  height: 120%;
-  animation: heading-overlay-wave-rev 800ms linear forwards;
+  height: 150%;
+  animation: heading-overlay-wave-rev 800ms ease forwards;
   transition: all 800ms 0ms ease;
 }
 
 .project-item--container:not(.full-size):not(.preview):hover
   .project-item--heading__overlay {
-  animation: heading-overlay-wave 1000ms linear forwards;
+  animation: heading-overlay-wave 1000ms ease forwards;
 }
 @keyframes heading-overlay-wave {
   0% {
     opacity: 1;
-    transform: translate3d(-49%, -39%, 0);
+    transform: translate3d(-30%, -60%, 0);
   }
 
   45% {
-    transform: translate3d(0%, -32%, 0);
+    transform: translate3d(-5%, -60%, 0);
     opacity: 1;
   }
 
   100% {
     opacity: 1;
-    transform: translate3d(-49%, -15%, 0);
+    transform: translate3d(-30%, -60%, 0);
   }
 }
 
 @keyframes heading-overlay-wave-rev {
   0% {
     opacity: 1;
-    transform: translate3d(-49%, -15%, 0);
+    transform: translate3d(-30%, -60%, 0);
   }
-  55% {
+  60% {
     opacity: 1;
-    transform: translate3d(-10%, -20%, 0);
+    transform: translate3d(-5%, -60%, 0);
   }
   100% {
     opacity: 1;
-    transform: translate3d(-49%, -39%, 0);
+    transform: translate3d(-30%, -60%, 0);
   }
 }
 
