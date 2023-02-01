@@ -31,6 +31,14 @@ p {
   text-align: center;
 }
 
+.hero-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .ren-bg {
   user-select: none;
   -webkit-user-drag: none;

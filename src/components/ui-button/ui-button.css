@@ -55,6 +55,13 @@ button.button,
   justify-content: center;
   display: inline-flex;
 }
+
+.button-large a,
+.button-large button {
+  font-size: 1.04rem;
+  padding: 0.65rem 1rem;
+}
+
 a.button:hover,
 button.button:hover,
 a.button.active,

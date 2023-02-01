@@ -1,16 +1,17 @@
 var fs = require("fs");
 var multer = require("multer");
-const fileName = "./server/projects.json";
-const fileDest = "./src/api/projects.json";
+const path = require("path");
+const fileName = path.resolve("./projects.json");
+const fileDest = path.resolve("../src/api/projects.json");
 var posts = require("../projects.json");
 
 var storage = multer.diskStorage({
-  destination: function(req, file, next) {
-    next(null, "./src/assets/uploads");
+  destination: function (req, file, next) {
+    next(null, path.resolve("../src/assets/uploads"));
   },
-  filename: function(req, file, next) {
+  filename: function (req, file, next) {
     next(null, Date.now() + "-" + file.originalname);
-  }
+  },
 });
 
 var upload = multer({ storage: storage });
@@ -19,11 +20,11 @@ var fUpload = upload.fields([{ name: "image", maxCount: 1 }]);
 function createAndCopy(content) {
   return new Promise((resolve, reject) => {
     // (over) write server/projects.json
-    fs.writeFile(fileName, JSON.stringify(content), "utf8", function(err) {
+    fs.writeFile(fileName, JSON.stringify(content), "utf8", function (err) {
       if (err) reject(err);
       console.log("wrote to " + fileName);
       // copy to src/api folder
-      fs.copyFile(fileName, fileDest, err => {
+      fs.copyFile(fileName, fileDest, (err) => {
         if (err) reject(err);
         console.log("copied to " + fileDest);
         resolve();
@@ -35,14 +36,14 @@ function createAndCopy(content) {
 module.exports = class Api {
   uploadImage(req, res) {
     // upload
-    fUpload(req, res, function(err) {
+    fUpload(req, res, function (err) {
       // File details
       if (err) {
         console.error(err);
         console.log("An error occurred when uploading");
       } else {
         res.send({
-          image: "/assets/uploads/" + req.files.image[0].filename
+          image: "/assets/uploads/" + req.files.image[0].filename,
         });
       }
     });
@@ -65,14 +66,14 @@ module.exports = class Api {
       link: post.link,
       tags: post["tags[]"],
       category: post.category,
-      details: post.html
+      details: post.html,
     };
     posts.push(project);
     console.log("nu posts", posts);
 
     createAndCopy(posts)
       .then(res.redirect("/"))
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 
   updateProject(req, res, next) {
@@ -83,7 +84,7 @@ module.exports = class Api {
     if (!post.id) res.render("error");
 
     // get the index of the project we want to update
-    const index = posts.findIndex(function(project) {
+    const index = posts.findIndex(function (project) {
       return Number(post.id) === Number(project.id);
     });
     // make sure the post exists
@@ -99,7 +100,7 @@ module.exports = class Api {
         link: post.link,
         tags: post["tags[]"],
         category: post.category,
-        details: post.html // @todo: get/parse delta from quill
+        details: post.html, // @todo: get/parse delta from quill
       };
 
       posts[index] = project;
@@ -107,7 +108,7 @@ module.exports = class Api {
 
       createAndCopy(posts)
         .then(res.redirect("/"))
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     } else {
       res.render("error");
     }
@@ -118,7 +119,7 @@ module.exports = class Api {
     const post = req.body;
     if (!post.id) res.render("error");
 
-    const index = posts.findIndex(function(project) {
+    const index = posts.findIndex(function (project) {
       return Number(post.id) === Number(project.id);
     });
 
@@ -126,6 +127,6 @@ module.exports = class Api {
 
     createAndCopy(posts)
       .then(res.redirect("/"))
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 };

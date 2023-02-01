@@ -35,13 +35,17 @@ export class AppHome implements ComponentInterface {
                 </p>
 
                 <div
+                  class="hero-nav"
                   role="navigation"
                   itemscope
                   itemtype="http://www.schema.org/SiteNavigationElement"
                 >
-                  <ui-button itemprop="url" button url="/projects">
+                  <ui-button button class="button-large" url="/projects">
                     Projects
                   </ui-button>
+                  {/* <ui-button button class="button-large" url="/blog">
+                    Blog
+                  </ui-button> */}
                 </div>
               </div>
             </header>
