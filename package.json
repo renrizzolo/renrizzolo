@@ -10,7 +10,9 @@
     "start.prod": "stencil build --prod --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "start.server": "npm run start --workspace=server"
+    "start.server": "npm run start --workspace=server",
+    "build-blog": "npm run build --workspace=blog",
+    "deploy": "npm run build-blog && npm run build"
   },
   "dependencies": {
     "@stencil/core": "^1.2.4",

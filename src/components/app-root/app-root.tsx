@@ -1,47 +1,63 @@
-import { Component, State, h, Event, EventEmitter, Element, Host } from '@stencil/core';
-import { themes } from './themes';
+import {
+  Component,
+  State,
+  h,
+  Event,
+  EventEmitter,
+  Element,
+  Host,
+} from "@stencil/core";
+import { themes } from "./themes";
 
 const transitionConfig = {
   config: {
     duration: 600,
-    timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
+    timing: "cubic-bezier(0.21, 0.88, 0.57, 0.95)",
     delay: 50,
   },
-  from: { opacity: '0', transform: 'translateY(-3%)' },
-  enter: { opacity: '1', transform: 'translateY(0px)' },
-  leave: { opacity: '0', transform: 'translateY(2%)' },
+  from: { opacity: "0", transform: "translateY(-3%)" },
+  enter: { opacity: "1", transform: "translateY(0px)" },
+  leave: { opacity: "0", transform: "translateY(2%)" },
 };
 
 const projectTransitionConfig = {
   config: {
     duration: 600,
-    timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)',
+    timing: "cubic-bezier(0.21, 0.88, 0.57, 0.95)",
     delay: 50,
   },
-  from: { opacity: '0', transform: 'translateX(-3%)' },
-  enter: { opacity: '1', transform: 'translateX(0px)' },
-  leave: { opacity: '0', transform: 'translateX(2%)' },
+  from: { opacity: "0", transform: "translateX(-3%)" },
+  enter: { opacity: "1", transform: "translateX(0px)" },
+  leave: { opacity: "0", transform: "translateX(2%)" },
 };
 
 @Component({
-  tag: 'app-root',
-  styleUrl: 'app-root.css',
+  tag: "app-root",
+  styleUrl: "app-root.css",
   shadow: true,
 })
 export class AppRoot {
   @State()
-  currentTheme: string = 'florence';
+  currentTheme: string = "florence";
   @State()
   play: boolean = false;
   @Event() themeUpdated: EventEmitter;
   @Element() el!: HTMLElement;
 
-  changeTheme = (theme) => {
+  changeTheme = (theme: keyof typeof themes) => {
     const root = document.documentElement;
+    // set the theme meta colour
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute?.(
+        "color",
+        themes[theme].find(({ key }) => key === "--color-secondary").value
+      );
+
     themes[theme].forEach(({ key, value }) => {
       root.style.setProperty(key, value);
     });
-    localStorage.setItem('theme', theme);
+    localStorage.setItem("theme", theme);
     this.currentTheme = theme;
     // emit new theme event so
     // SVG wave can compute
@@ -49,15 +65,17 @@ export class AppRoot {
     this.themeUpdated.emit(themes[theme]);
   };
   componentDidLoad() {
-    this.changeTheme(localStorage.getItem('theme') || 'florence');
+    this.changeTheme(
+      (localStorage.getItem("theme") as keyof typeof themes) || "florence"
+    );
   }
   toolBarEnter = () => {
     this.play = true;
-    console.log('play = true', this.play);
+    console.log("play = true", this.play);
   };
   toolBarLeave = () => {
     this.play = false;
-    console.log('play = false', this.play);
+    console.log("play = false", this.play);
   };
   render() {
     return (
@@ -70,24 +88,35 @@ export class AppRoot {
                   <route-transition
                     items={location}
                     keys={location.key}
-                    config={{ duration: 850, timing: 'cubic-bezier(0.21, 0.88, 0.57, 0.95)' }}
-                    from={{ opacity: '1', transform: 'translateY(0%)' }}
-                    enter={{ opacity: '1', transform: 'translateY(-100%)' }}
-                    leave={{ opacity: '1', transform: 'translateY(0%)' }}
+                    config={{
+                      duration: 850,
+                      timing: "cubic-bezier(0.21, 0.88, 0.57, 0.95)",
+                    }}
+                    from={{ opacity: "1", transform: "translateY(0%)" }}
+                    enter={{ opacity: "1", transform: "translateY(-100%)" }}
+                    leave={{ opacity: "1", transform: "translateY(0%)" }}
                     renderFunction={(style, loc, lastEvent) => {
-                      console.log('lastEvent', lastEvent);
+                      console.log("lastEvent", lastEvent);
 
                       return (
-                        <div class={lastEvent !== 'enter' ? 'hide-overflow' : ''}>
+                        <div
+                          class={lastEvent !== "enter" ? "hide-overflow" : ""}
+                        >
                           <div
                             onMouseEnter={this.toolBarEnter}
                             onMouseLeave={this.toolBarLeave}
                             class="theme-buttons"
-                            style={{ opacity: lastEvent === 'pageEntered' ? '1' : '0' }}
+                            style={{
+                              opacity: lastEvent === "pageEntered" ? "1" : "0",
+                            }}
                           >
-                            {Object.keys(themes).map((theme) => (
+                            {(
+                              Object.keys(themes) as (keyof typeof themes)[]
+                            ).map((theme) => (
                               <ui-button
-                                class={`link ${this.currentTheme === theme ? 'active' : ''}`}
+                                class={`link ${
+                                  this.currentTheme === theme ? "active" : ""
+                                }`}
                                 clickHandler={() => this.changeTheme(theme)}
                               >
                                 {theme}
@@ -105,11 +134,14 @@ export class AppRoot {
                               exact={true}
                               componentProps={{ styles: {} }}
                               routeRender={(props) => (
-                                <transition-mount-wrapper mounted={true} styles={style}>
+                                <transition-mount-wrapper
+                                  mounted={true}
+                                  styles={style}
+                                >
                                   <transition-group
                                     {...transitionConfig}
                                     mounted={
-                                      lastEvent === 'pageEntered' &&
+                                      lastEvent === "pageEntered" &&
                                       props.history.location.key === loc.key
                                     }
                                     items={[<app-home />]}
@@ -123,12 +155,15 @@ export class AppRoot {
                               exact={false}
                               componentProps={{ styles: {} }}
                               routeRender={(props) => (
-                                <transition-mount-wrapper mounted={true} styles={style}>
+                                <transition-mount-wrapper
+                                  mounted={true}
+                                  styles={style}
+                                >
                                   <transition-group
-                                    wrapperProps={{ id: '/projects' }}
+                                    wrapperProps={{ id: "/projects" }}
                                     {...transitionConfig}
                                     mounted={
-                                      lastEvent === 'pageEntered' &&
+                                      lastEvent === "pageEntered" &&
                                       props.history.location.key === loc.key
                                     }
                                     items={[<app-page-projects />]}
@@ -144,16 +179,25 @@ export class AppRoot {
                                 const match = { ...props.match };
 
                                 return (
-                                  <transition-mount-wrapper mounted={true} styles={style}>
+                                  <transition-mount-wrapper
+                                    mounted={true}
+                                    styles={style}
+                                  >
                                     <transition-group
                                       {...projectTransitionConfig}
                                       mounted={
-                                        lastEvent === 'pageEntered' &&
+                                        lastEvent === "pageEntered" &&
                                         props.history.location.key === loc.key
                                       }
-                                      wrapperProps={{ id: `/project/${match.params.slug}` }}
+                                      wrapperProps={{
+                                        id: `/project/${match.params.slug}`,
+                                      }}
                                       keys={(item) =>
-                                        item.$ ? item.$.key : item.h ? item.h.key : item.$key$
+                                        item.$
+                                          ? item.$.key
+                                          : item.h
+                                          ? item.h.key
+                                          : item.$key$
                                       }
                                       items={
                                         props.history.location.key === loc.key
@@ -161,7 +205,10 @@ export class AppRoot {
                                               <app-page-project
                                                 match={match}
                                                 key={match.params.slug}
-                                                mounted={props.history.location.key === loc.key}
+                                                mounted={
+                                                  props.history.location.key ===
+                                                  loc.key
+                                                }
                                               />,
                                             ]
                                           : []
@@ -171,14 +218,23 @@ export class AppRoot {
                                 );
                               }}
                             />
+
+                            <stencil-route
+                              url="/blogtest"
+                              component="blog-redirect"
+                            />
+
                             <stencil-route
                               componentProps={{ styles: {} }}
                               routeRender={(props) => (
-                                <transition-mount-wrapper mounted={true} styles={style}>
+                                <transition-mount-wrapper
+                                  mounted={true}
+                                  styles={style}
+                                >
                                   <transition-group
                                     {...transitionConfig}
                                     mounted={
-                                      lastEvent === 'pageEntered' &&
+                                      lastEvent === "pageEntered" &&
                                       props.history.location.key === loc.key
                                     }
                                     items={[<app-page-404 />]}

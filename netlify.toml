@@ -1,0 +1,19 @@
+# Gatsby subdirectory SPA
+[[redirects]]
+  from = "/blog/*"
+  to = "/gatsby/public/:splat"
+  status = 200
+  force = false
+
+# some static assets from markdown don't get --path-prefix applied
+[[redirects]]
+  from = "/static/*"
+  to = "/blog/static/:splat"
+  status = 200
+  force = false
+
+# stencil SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

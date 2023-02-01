@@ -43,9 +43,9 @@ export class AppHome implements ComponentInterface {
                   <ui-button button class="button-large" url="/projects">
                     Projects
                   </ui-button>
-                  {/* <ui-button button class="button-large" url="/blog">
+                  <ui-button button class="button-large" href="/blog">
                     Blog
-                  </ui-button> */}
+                  </ui-button>
                 </div>
               </div>
             </header>

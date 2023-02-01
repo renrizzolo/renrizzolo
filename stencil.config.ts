@@ -14,7 +14,7 @@ export const config: Config = {
       ],
     }),
   ],
-  copy: [{ src: "_redirects" }], // netlify SPA redirects
+  copy: [{ src: "../blog/public", dest: "gatsby/public" }], // netlify SPA redirects
   globalStyle: "src/global/app.css",
   globalScript: "src/global/app.ts",
   outputTargets: [
@@ -22,7 +22,7 @@ export const config: Config = {
       type: "www",
       // comment the following line to disable service workers in production
       serviceWorker: null,
-      // prerenderConfig: './prerender.config.js',
+      prerenderConfig: "./prerender.config.ts",
       baseUrl: "https://renrizzolo.com/",
     },
   ],

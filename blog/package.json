@@ -1,0 +1,44 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "blog",
+  "author": "renrizzolo",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build --prefix-paths",
+    "serve": "gatsby serve --prefix-paths",
+    "clean": "gatsby clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@codesandbox/sandpack-react": "^1.20.8",
+    "gatsby": "^4.12.1",
+    "gatsby-plugin-manifest": "^4.12.1",
+    "gatsby-plugin-sitemap": "^5.12.1",
+    "gatsby-theme-golden-condor": "^0.3.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "@types/react": "^17.0.44",
+    "@types/react-dom": "^17.0.15",
+    "gatsby-plugin-netlify": "^5.1.0",
+    "gatsby-plugin-postcss": "^6.5.0",
+    "postcss": "^8.4.21",
+    "typescript": "^4.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renrizzolo/renrizzolo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renrizzolo/renrizzolo/issues"
+  },
+  "homepage": "https://github.com/renrizzolo/renrizzolo#readme"
+}
