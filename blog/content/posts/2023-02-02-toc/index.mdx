@@ -1,0 +1,313 @@
+---
+title: Creating a dynamic Table Of Contents React component
+image: ./images/IO.png
+date: 2023-02-02
+---
+
+import video from "./images/intersection-observer-debugger.mp4";
+import example from "./observe-active-example.js";
+
+Table Of Contents sidebars are a useful feature for blogs, lengthy pages and documentation.
+
+## Pre-requisites
+
+Each heading within the article/page should have a unique id. In my case I'm using `gatsby-remark-autolink-headers` to automate this.
+
+```html /id="heloooo-there"/
+<h2 id="heloooo-there">Heloooo There</h2>
+<p>.....</p>
+```
+
+Creating a list of anchors that link to these ids will jump the page to that specific region. This is nice, but we can build upon it by highlighting the currently active item.
+
+```html {3}
+<ul>
+  <li>
+    <a href="heloooo-there">Heloooo There</a>
+  </li>
+</ul>
+```
+
+## Basic layout
+
+There's not much to it in terms of layout. Here's a contrived example:
+
+```html {9-16}
+<article style="display: flex; flexDirection: row;">
+  <section style="flex: 1;">
+    <h2 id="heading-1">Heading 1</h2>
+    <!-- paragraphs -->
+    <h2 id="heading-2">Heading 2</h2>
+    <!-- paragraphs -->
+  </section>
+  <aside style="width: 300px;">
+    <ul>
+      <li>
+        <a href="#heading-1">Heading 1</a>
+      </li>
+      <li>
+        <a href="#heading-2">Heading 2</a>
+      </li>
+    </ul>
+  </aside>
+</article>
+```
+
+## Data structure
+
+Ideally you have an object you can loop through to render the heading links. In this example, title is the heading content, and url is the id: `[{ title: "Heading 1", url: "#heading-1" }]`.
+
+If you don't have access to such data, you could create it directly from the DOM.
+
+```js
+const headings = Array.from(document.querySelectorAll("article h2")); // or whatever selector make sense for your markup
+const headingItems = headings.map((el) => ({
+  url: `#${el.id}`,
+  title: el.innerText,
+}));
+```
+
+With this data we can just map it to create our list:
+
+```jsx
+<TableOfContents headings={mdx.tableOfContents.items} />;
+
+//  ...
+
+const TableOfContents = ({ headings }) => {
+  return (
+    <aside>
+      <ul>
+        {headings.map(({ title, url }) => (
+          <li>
+            <a href={url}>{title}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
+};
+```
+
+At this point, we have a simple T.O.C which links to headings on the page.
+
+## Making it dynamic
+
+Let's make a hook, `useObserveActiveSection`, that highlights the currently visible heading section.
+
+We're using an [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), to be notified when the heading element enters the viewport based on certain conditions.
+
+Here's what we'll do to observe the elements - I'll get to `observer` itself next.
+
+```js
+headings.forEach((heading) => {
+  // get the id without the #
+  const id = heading.url.substring(1);
+  const el = document.getElementById(id);
+  // if the heading exists in the document
+  if (el) {
+    // pass it to the intersection observer
+    observer.observe(el);
+  }
+});
+```
+
+### IntersectionObserver
+
+We'll wrap this and the instatiation of the `IntersectionObserver` in a `useEffect`.
+
+<CodeDisclosure>
+
+```js
+// a ref to store the window y position
+const previousY = React.useRef()
+
+React.useEffect(() => {
+  // create the observer with a callback function and options
+  const observer = new IntersectionObserver(
+    // callback function
+    (entries, observer) => {
+      // get the current scroll position
+      const currentY = window.scrollY;
+      entries.forEach((entry) => {
+        // intersection successfully observed!
+        if (entry.isIntersecting) {
+          // set some state for our currently visible heading
+          setHighlighted(entry.target.id);
+        } else {
+          // get the current heading item
+          const thisIndex = headings.findIndex(
+            ({ url }) => url === `#${entry.target.id}`
+          );
+          // highlight previous section when scrolling up
+          // if the window scrollY is less than the last time we recorded it
+          // we're scrolling up
+          if (currentY < previousY.current) {
+            if (thisIndex > 0 && thisIndex < headings.length) {
+              const url = headings[thisIndex - 1]?.url;
+              setHighlighted(url.substring(1));
+            }
+          }
+        }
+        // update the ref
+        previousY.current = currentY;
+      });
+    },
+    // options object
+    {
+      // trigger the callback as soon as the target is visible
+      threshold: 0,
+      root: document,
+      // like a css margin (top, right, bottom, left)
+      // for calculating the bounding box of the root element
+      // This is basically treating the top 15% of the viewport
+      // as the intersection area. This way, a heading won't become active
+      // as soon as it appears on the bottom of the screen.
+      rootMargin: "0% 0% -85% 0%"
+    }
+    },[headings]);
+
+```
+
+<details>
+<CodeSummary summary="the observe calls from earlier" indent="2" />
+
+<!-- prettier-ignore-start -->
+```js
+
+    headings.forEach((heading) => {
+      // get the id without the #
+      const id = heading.url.substring(1);
+      const el = document.getElementById(id);
+      // if the heading exists in the document
+      if (el) {
+        // pass it to the intersection observer
+        observer.observe(el);
+      }
+    });
+```
+<!-- prettier-ignore-end -->
+
+</details>
+
+```js
+
+
+  // clean up the observer
+  return () => observer.disconnect();
+}, [headings]);
+```
+
+</CodeDisclosure>
+
+Here's a visualization of the intersection observer in action, using the ``intersection-observer-debugger` package.
+
+The purple box at the top is our viewport with the negative bottom `rootMargin` making it the top 15% of the viewport. When the observed element enters this area, the observer is triggered with that element's `entry` having the `isIntersecting` property.
+
+<Box
+  as="video"
+  sx={{ width: "100%", height: "auto" }}
+  src={video}
+  controls
+  loop
+  playsinline
+  autoplay
+/>
+
+### Adding the active class
+
+Next up we'll add a separate effect to apply some styling.
+
+```js
+// this is where we record the current heading id
+const [highlighted, setHighlighted] = React.useState();
+
+React.useEffect(() => {
+  if (highlighted) {
+    // find the Table Of Contents Link.
+    // (This could be scoped to a class or a ref of the TOC container element.)
+    const navElement = document.querySelector(`a[href="#${highlighted}"]`);
+    // remove all other active links when highlighting a new one
+    headings.forEach(
+      ({ url }) =>
+        url !== `#${highlighted}` &&
+        document
+          .querySelector(`a[href="${url}"]`)
+          ?.classList.contains("active") &&
+        document.querySelector(`a[href="${url}"]`)?.classList.remove("active")
+    );
+    // add the 'active' class to the current highlighted link
+    navElement &&
+      !navElement.classList.contains("active") &&
+      navElement.classList.add("active");
+  }
+}, [highlighted, headings]);
+```
+
+All this DOM manipulation doesn't feel very React-y. There's nothing _wrong_ with it, but you could definitely finesse it with refs and Context.
+
+## Complete implementation
+
+Let's put it together and see it in action!
+
+<Panel type="info" mb={4}>
+
+This version is getting the headings data directly from the DOM via a known class (`.article-h2`).
+
+</Panel>
+
+<Box sx={{ marginRright: "calc(1rem * -1)" }}>
+  <SandPackEditor
+    options={{
+      showInlineErrors: true,
+      editorHeight: 500,
+    }}
+    code={example}
+  />
+</Box>
+
+## Improvements
+
+- Add a way to set the highlighted heading from outside of the hook.  
+  This way, you can ensure a heading shows as highlighted, even if there's not enough space at the bottom of the viewport to hit the intersection.
+
+- Given a data structure like below, how would you display and make the sub-items (i.e, the h3s) indent?
+
+```json title="headings.json"
+{
+  "items": [
+    {
+      "url": "#basic-markup",
+      "title": "Basic markup",
+      "items": [
+        {
+          "url": "#data-structure",
+          "title": "Data structure"
+        }
+      ]
+    },
+    {
+      "url": "#making-it-dynamic",
+      "title": "Making it dynamic",
+      "items": [
+        {
+          "url": "#intersectionobserver",
+          "title": "IntersectionObserver"
+        },
+        {
+          "url": "#adding-the-active-class",
+          "title": "Adding the active class"
+        }
+      ]
+    },
+    {
+      "url": "#complete-implementation",
+      "title": "Complete implementation"
+    },
+    {
+      "url": "#improvements",
+      "title": "Improvements"
+    }
+  ]
+}
+```

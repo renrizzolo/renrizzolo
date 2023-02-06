@@ -1,0 +1,7 @@
+- label: ✍🏼 Posts
+  path: /posts
+  locations: [top]
+
+- label: 🔗 renrizzolo.com
+  href: https://renrizzolo.com
+  locations: [top]
