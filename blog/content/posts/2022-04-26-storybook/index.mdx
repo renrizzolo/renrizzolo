@@ -11,6 +11,14 @@ embeddedImages:
 Due to some React 17 compatibility issues with our current docs setup, we made the decision to migrate our UI library docs to Storybook.
 Of courses, that was just a catalyst, we'd known of the goodies Storybook had to offer for some time, like accessibility testing and a more structured setup for isolated component documentation and development.
 
+<Panel>
+  <Text as="p">Heads up!</Text>
+  <Text as="p" sx={{ fontSize: 1 }}>
+    This was written for storybook 6.5, which uses mdx version 1. The mdx
+    template (probably) won't work with mdx2!
+  </Text>
+</Panel>
+
 First up, I initialized storybook in the root directory:
 
 ```sh

@@ -6,6 +6,7 @@ date: 2023-02-02
 
 import video from "./images/intersection-observer-debugger.mp4";
 import example from "./observe-active-example.js";
+import poster from "./images/example-poster.png";
 
 Table Of Contents sidebars are a useful feature for blogs, lengthy pages and documentation.
 
@@ -207,12 +208,14 @@ The purple box at the top is our viewport with the negative bottom `rootMargin` 
 <Box
   as="video"
   sx={{ width: "100%", height: "auto" }}
-  src={video}
   controls
   loop
   playsinline
   autoplay
-/>
+  poster={poster}
+>
+  <source src={video} type="video/mp4" />
+</Box>
 
 ### Adding the active class
 
