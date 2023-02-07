@@ -11,7 +11,10 @@ const NavWrapperShadowed = (props) => {
         border: "none",
         height: ["100%", "navHeight.1"],
         marginTop: ["navHeight.0", 0],
-        backdropFilter: "brightness(1.5) blur(31px)",
+        backdropFilter: "brightness(8) blur(31px)",
+        "html.dark &": {
+          backdropFilter: "blur(31px)",
+        },
         backgroundBlendMode: "color",
         background: "transparent",
         "& > div": {
