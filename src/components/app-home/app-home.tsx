@@ -28,7 +28,7 @@ export class AppHome implements ComponentInterface {
         />
         <app-background>
           <div class="centered">
-            <header role="banner" class="centered">
+            <header class="centered">
               <renrizzolo-logo />
               <div class="intro-text">
                 <p>
