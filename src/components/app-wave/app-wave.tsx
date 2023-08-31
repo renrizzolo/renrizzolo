@@ -1,14 +1,13 @@
 import {
-  Component,
-  h,
-  Prop,
-  Element,
-  State,
   Build,
+  Component,
+  Element,
+  Prop,
+  State,
   Watch,
+  h,
 } from "@stencil/core";
-import Lottie from "lottie-web";
-import { AnimationItem } from "lottie-web";
+import Lottie, { AnimationItem } from "lottie-web";
 
 @Component({
   tag: "app-wave",
@@ -19,10 +18,6 @@ export class AppWave {
   @Prop() class: string;
   @State() disableWave: string = localStorage.getItem("disableWave") || "false";
   @State() fillColor: string;
-  @State() wave1: AnimationItem;
-  @State() wave2: AnimationItem;
-  @State() wave3: AnimationItem;
-
   @Element() el!: HTMLElement;
 
   toggleWave = () => {
@@ -47,25 +42,38 @@ export class AppWave {
   //     .replace('#', '%23');
   // }
   @Watch("disableWave")
-  watchDisable(o, _) {
-    console.log("watch", o);
+  watchDisable(o) {
     if (o === "true") {
-      this.wave1.pause();
-      this.wave2.pause();
-      this.wave3.pause();
+      Lottie.pause("wave-1");
+      Lottie.pause("wave-2");
+      Lottie.pause("wave-3");
     } else {
-      this.wave1.play();
-      this.wave2.play();
-      this.wave3.play();
+      Lottie.play("wave-1");
+      Lottie.play("wave-2");
+      Lottie.play("wave-3");
     }
   }
 
   componentDidLoad() {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      this.disableWave = "true";
+      localStorage.setItem("disableWave", "true");
+    }
+    mediaQuery.addEventListener("change", () => {
+      if (mediaQuery.matches) {
+        this.disableWave = "true";
+        localStorage.setItem("disableWave", "true");
+      } else {
+        this.disableWave = "false";
+        localStorage.setItem("disableWave", "false");
+      }
+    });
+
     // thank u svg for being sandboxed 😏
     // this.updateFillColor();
-    // prettier-ignore
     if (Build.isBrowser) {
-
+      // prettier-ignore
       const data = { "v": "5.5.1", "fr": 24, "ip": 0, "op": 170, "w": 1920, "h": 1080, "nm": "Comp 1", "ddd": 0, "assets": [], "layers": [{ "ddd": 0, "ind": 3, "ty": 4, "nm": "wave Outlines", "sr": 1, "ks": { "o": { "a": 0, "k": 100, "ix": 11 }, "r": { "a": 0, "k": 0, "ix": 10 }, "p": { "a": 1, "k": [{ "i": { "x": 0.833, "y": 0.833 }, "o": { "x": 0.167, "y": 0.167 }, "t": 0, "s": [960, 759.75, 0], "to": [320.001, 0.042, 0], "ti": [-320.001, -0.042, 0] }, { "t": 171, "s": [2880.003, 760, 0] }], "ix": 2 }, "a": { "a": 0, "k": [150, 50, 0], "ix": 1 }, "s": { "a": 0, "k": [640, 640, 100], "ix": 6 } }, "ao": 0, "shapes": [{ "ty": "gr", "it": [{ "ind": 0, "ty": "sh", "ix": 1, "ks": { "a": 0, "k": { "i": [[0, 0], [0, 0], [0, 0], [26.5, -5.5], [47.203, 7.867], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [-44.683, 9.273], [-54, -9], [0, 0]], "v": [[-150, 32], [150, 32], [149.999, -10], [111.5, 0.5], [-33, -23], [-150.001, -10]], "c": true }, "ix": 2 }, "nm": "Path 1", "mn": "ADBE Vector Shape - Group", "hd": false }, { "ty": "st", "c": { "a": 0, "k": [0, 0, 0, 1], "ix": 3 }, "o": { "a": 0, "k": 100, "ix": 4 }, "w": { "a": 0, "k": 1, "ix": 5 }, "lc": 1, "lj": 1, "ml": 4, "bm": 0, "nm": "Stroke 2", "mn": "ADBE Vector Graphic - Stroke", "hd": false }, { "ty": "tr", "p": { "a": 0, "k": [150.079, 68.083], "ix": 2 }, "a": { "a": 0, "k": [0, 0], "ix": 1 }, "s": { "a": 0, "k": [100, 100], "ix": 3 }, "r": { "a": 0, "k": 0, "ix": 6 }, "o": { "a": 0, "k": 100, "ix": 7 }, "sk": { "a": 0, "k": 0, "ix": 4 }, "sa": { "a": 0, "k": 0, "ix": 5 }, "nm": "Transform" }], "nm": "Group 1", "np": 7, "cix": 2, "bm": 0, "ix": 1, "mn": "ADBE Vector Group", "hd": false }, { "ty": "fl", "c": { "a": 0, "k": [0, 0, 0, 1], "ix": 4 }, "o": { "a": 0, "k": 100, "ix": 5 }, "r": 1, "bm": 0, "nm": "Fill 1", "mn": "ADBE Vector Graphic - Fill", "hd": false }, { "ty": "rp", "c": { "a": 0, "k": 2, "ix": 1 }, "o": { "a": 0, "k": 0, "ix": 2 }, "m": 2, "ix": 7, "tr": { "ty": "tr", "p": { "a": 0, "k": [-300, 0], "ix": 2 }, "a": { "a": 0, "k": [0, 0], "ix": 1 }, "s": { "a": 0, "k": [100, 100], "ix": 3 }, "r": { "a": 0, "k": 0, "ix": 4 }, "so": { "a": 0, "k": 100, "ix": 5 }, "eo": { "a": 0, "k": 100, "ix": 6 }, "nm": "Transform" }, "nm": "Repeater 1", "mn": "ADBE Vector Filter - Repeater", "hd": false }], "ip": 0, "op": 600, "st": 0, "bm": 0 }], "markers": [] }
       // prettier-ignore
       const data2 = { "v": "5.5.1", "fr": 24, "ip": 0, "op": 170, "w": 1920, "h": 1080, "nm": "Comp 1", "ddd": 0, "assets": [], "layers": [{ "ddd": 0, "ind": 3, "ty": 4, "nm": "wave Outlines 2", "sr": 1, "ks": { "o": { "a": 0, "k": 100, "ix": 11 }, "r": { "a": 0, "k": 0, "ix": 10 }, "p": { "a": 1, "k": [{ "i": { "x": 0.833, "y": 0.833 }, "o": { "x": 0.167, "y": 0.167 }, "t": 0, "s": [960, 759.75, 0], "to": [320.001, 0.042, 0], "ti": [-320.001, -0.042, 0] }, { "t": 171, "s": [2880.003, 760, 0] }], "ix": 2 }, "a": { "a": 0, "k": [150, 50, 0], "ix": 1 }, "s": { "a": 0, "k": [640, 640, 100], "ix": 6 } }, "ao": 0, "shapes": [{ "ty": "gr", "it": [{ "ind": 0, "ty": "sh", "ix": 1, "ks": { "a": 0, "k": { "i": [[0, 0], [0, 0], [0, 0], [26.5, -5.5], [47.203, 7.867], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [-44.683, 9.273], [-54, -9], [0, 0]], "v": [[-150, 32], [150, 32], [149.999, -10], [111.5, 0.5], [-33, -23], [-150.001, -10]], "c": true }, "ix": 2 }, "nm": "Path 1", "mn": "ADBE Vector Shape - Group", "hd": false }, { "ty": "st", "c": { "a": 0, "k": [0, 0, 0, 1], "ix": 3 }, "o": { "a": 0, "k": 100, "ix": 4 }, "w": { "a": 0, "k": 1, "ix": 5 }, "lc": 1, "lj": 1, "ml": 4, "bm": 0, "nm": "Stroke 2", "mn": "ADBE Vector Graphic - Stroke", "hd": false }, { "ty": "tr", "p": { "a": 0, "k": [150.079, 68.083], "ix": 2 }, "a": { "a": 0, "k": [0, 0], "ix": 1 }, "s": { "a": 0, "k": [100, 100], "ix": 3 }, "r": { "a": 0, "k": 0, "ix": 6 }, "o": { "a": 0, "k": 100, "ix": 7 }, "sk": { "a": 0, "k": 0, "ix": 4 }, "sa": { "a": 0, "k": 0, "ix": 5 }, "nm": "Transform" }], "nm": "Group 1", "np": 7, "cix": 2, "bm": 0, "ix": 1, "mn": "ADBE Vector Group", "hd": false }, { "ty": "fl", "c": { "a": 0, "k": [0, 0, 0, 1], "ix": 4 }, "o": { "a": 0, "k": 100, "ix": 5 }, "r": 1, "bm": 0, "nm": "Fill 1", "mn": "ADBE Vector Graphic - Fill", "hd": false }, { "ty": "rp", "c": { "a": 0, "k": 2, "ix": 1 }, "o": { "a": 0, "k": 0, "ix": 2 }, "m": 2, "ix": 7, "tr": { "ty": "tr", "p": { "a": 0, "k": [-300, 0], "ix": 2 }, "a": { "a": 0, "k": [0, 0], "ix": 1 }, "s": { "a": 0, "k": [100, 100], "ix": 3 }, "r": { "a": 0, "k": 0, "ix": 4 }, "so": { "a": 0, "k": 100, "ix": 5 }, "eo": { "a": 0, "k": 100, "ix": 6 }, "nm": "Transform" }, "nm": "Repeater 1", "mn": "ADBE Vector Filter - Repeater", "hd": false }], "ip": 0, "op": 600, "st": 0, "bm": 0 }], "markers": [] }
@@ -73,39 +81,43 @@ export class AppWave {
       // prettier-ignore
       const data3 = { "v": "5.5.1", "fr": 24, "ip": 0, "op": 170, "w": 1920, "h": 1080, "nm": "Comp 1", "ddd": 0, "assets": [], "layers": [{ "ddd": 0, "ind": 3, "ty": 4, "nm": "wave 3", "sr": 1, "ks": { "o": { "a": 0, "k": 100, "ix": 11 }, "r": { "a": 0, "k": 0, "ix": 10 }, "p": { "a": 1, "k": [{ "i": { "x": 0.562, "y": 0.312 }, "o": { "x": 0.189, "y": 0.249 }, "t": 0, "s": [960, 759.75, 0], "to": [136.521, 0.014, 0], "ti": [-291.499, -0.032, 0] }, { "i": { "x": 0.734, "y": 0.832 }, "o": { "x": 0.329, "y": 0.249 }, "t": 60, "s": [1627.955, 759.822, 0], "to": [444.856, 0.048, 0], "ti": [-389.327, -0.039, 0] }, { "i": { "x": 0.833, "y": 0.833 }, "o": { "x": 0.425, "y": 0.716 }, "t": 121, "s": [3042.908, 759.968, 0], "to": [137.287, 0.014, 0], "ti": [-73.468, -0.007, 0] }, { "t": 170, "s": [3470.003, 760, 0] }], "ix": 2 }, "a": { "a": 0, "k": [150, 50, 0], "ix": 1 }, "s": { "a": 0, "k": [640, 640, 100], "ix": 6 } }, "ao": 0, "shapes": [{ "ty": "gr", "it": [{ "ind": 0, "ty": "sh", "ix": 1, "ks": { "a": 0, "k": { "i": [[0, 0], [0, 0], [0, 0], [26.5, -5.5], [47.203, 7.867], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [-44.683, 9.273], [-54, -9], [0, 0]], "v": [[-150, 32], [150, 32], [149.999, -10], [111.5, 0.5], [-33, -23], [-150.001, -10]], "c": true }, "ix": 2 }, "nm": "Path 1", "mn": "ADBE Vector Shape - Group", "hd": false }, { "ty": "st", "c": { "a": 0, "k": [0, 0, 0, 1], "ix": 3 }, "o": { "a": 0, "k": 100, "ix": 4 }, "w": { "a": 0, "k": 1, "ix": 5 }, "lc": 1, "lj": 1, "ml": 4, "bm": 0, "nm": "Stroke 2", "mn": "ADBE Vector Graphic - Stroke", "hd": false }, { "ty": "tr", "p": { "a": 0, "k": [150.079, 80.083], "ix": 2 }, "a": { "a": 0, "k": [0, 0], "ix": 1 }, "s": { "a": 0, "k": [131, 131], "ix": 3 }, "r": { "a": 0, "k": 0, "ix": 6 }, "o": { "a": 0, "k": 100, "ix": 7 }, "sk": { "a": 0, "k": 0, "ix": 4 }, "sa": { "a": 0, "k": 0, "ix": 5 }, "nm": "Transform" }], "nm": "Group 1", "np": 7, "cix": 2, "bm": 0, "ix": 1, "mn": "ADBE Vector Group", "hd": false }, { "ty": "fl", "c": { "a": 0, "k": [0, 0, 0, 1], "ix": 4 }, "o": { "a": 0, "k": 100, "ix": 5 }, "r": 1, "bm": 0, "nm": "Fill 1", "mn": "ADBE Vector Graphic - Fill", "hd": false }, { "ty": "rp", "c": { "a": 0, "k": 2, "ix": 1 }, "o": { "a": 0, "k": 0, "ix": 2 }, "m": 2, "ix": 7, "tr": { "ty": "tr", "p": { "a": 0, "k": [-393, 0], "ix": 2 }, "a": { "a": 0, "k": [0, 0], "ix": 1 }, "s": { "a": 0, "k": [100, 100], "ix": 3 }, "r": { "a": 0, "k": 0, "ix": 4 }, "so": { "a": 0, "k": 100, "ix": 5 }, "eo": { "a": 0, "k": 100, "ix": 6 }, "nm": "Transform" }, "nm": "Repeater 1", "mn": "ADBE Vector Filter - Repeater", "hd": false }], "ip": 0, "op": 600, "st": 0, "bm": 0 }], "markers": [] }
 
-      const elements = this.el.querySelectorAll('.wave');
+      const elements = this.el.querySelectorAll(".wave");
 
-      this.wave1 = Lottie.loadAnimation({
+      Lottie.loadAnimation({
+        name: "wave-1",
         container: elements[0],
-        renderer: 'svg',
+        renderer: "svg",
         loop: true,
-        autoplay: this.disableWave === 'false' && true,
+        autoplay: this.disableWave === "false" && true,
         animationData: data,
-      });
-      this.wave1.setSpeed(0.5);
+      }).setSpeed(0.5);
 
-      this.wave2 = Lottie.loadAnimation({
+      Lottie.loadAnimation({
+        name: "wave-2",
         container: elements[1],
-        renderer: 'svg',
+        renderer: "svg",
         loop: true,
-        autoplay: this.disableWave === 'false' && true,
+        autoplay: this.disableWave === "false" && true,
         animationData: data2,
-      });
-      this.wave2.setSpeed(0.45);
+      }).setSpeed(0.45);
 
-      this.wave3 = Lottie.loadAnimation({
+      Lottie.loadAnimation({
+        name: "wave-3",
         container: elements[2],
-        renderer: 'svg',
+        renderer: "svg",
         loop: true,
-        autoplay: this.disableWave === 'false' && true,
+        autoplay: this.disableWave === "false" && true,
         animationData: data3,
-      });
-      this.wave3.setSpeed(0.5);
+      }).setSpeed(0.5);
     }
   }
-  render() {
-    console.log("waverenders");
+  componentWillUnload() {
+    Lottie.destroy("wave-1");
+    Lottie.destroy("wave-2");
+    Lottie.destroy("wave-3");
+  }
 
+  render() {
     return (
       <div>
         <ui-button

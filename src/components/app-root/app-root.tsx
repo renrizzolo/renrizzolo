@@ -53,10 +53,10 @@ export class AppRoot {
         "color",
         themes[theme].find(({ key }) => key === "--color-secondary").value
       );
-
     themes[theme].forEach(({ key, value }) => {
       root.style.setProperty(key, value);
     });
+
     localStorage.setItem("theme", theme);
     this.currentTheme = theme;
     // emit new theme event so
@@ -64,19 +64,21 @@ export class AppRoot {
     // the new value
     this.themeUpdated.emit(themes[theme]);
   };
-  componentDidLoad() {
+
+  componentWillLoad() {
     this.changeTheme(
       (localStorage.getItem("theme") as keyof typeof themes) || "florence"
     );
   }
+
   toolBarEnter = () => {
     this.play = true;
-    console.log("play = true", this.play);
   };
+
   toolBarLeave = () => {
     this.play = false;
-    console.log("play = false", this.play);
   };
+
   render() {
     return (
       <Host>

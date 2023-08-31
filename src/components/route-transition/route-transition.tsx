@@ -1,11 +1,19 @@
-import { Component, ComponentInterface, Prop, State, Element, Watch } from '@stencil/core';
-import { LocationSegments } from '@stencil/router';
+import {
+  Component,
+  ComponentInterface,
+  Prop,
+  State,
+  Element,
+  Watch,
+  forceUpdate,
+} from "@stencil/core";
+import { LocationSegments } from "@stencil/router";
 
-let lastKey = '';
-let lastEvent = '';
+let lastKey = "";
+let lastEvent = "";
 
 @Component({
-  tag: 'route-transition',
+  tag: "route-transition",
   shadow: false,
 })
 export class RouteTransition implements ComponentInterface {
@@ -16,7 +24,10 @@ export class RouteTransition implements ComponentInterface {
   @Prop()
   keys: string;
   @Prop()
-  config: { duration: number; timing: string } = {duration: 300, timing: 'ease'};
+  config: { duration: number; timing: string } = {
+    duration: 300,
+    timing: "ease",
+  };
   @Prop()
   from: { [key: string]: string };
   @Prop()
@@ -30,31 +41,17 @@ export class RouteTransition implements ComponentInterface {
     lastEvent: string
   ) => any;
 
-  @Watch('keys')
+  @Watch("keys")
   keyWatcher(newValue: string, oldValue: string) {
-    console.log('new key', newValue, oldValue);
-    if (lastKey !== newValue && lastEvent !== 'pageLeave') {
-      // console.log(
-      //   'page: will leave',
-      //   this.localPageSegments.pathname,
-      //   lastKey,
-      //   this.currentPageLocation.key
-      // );
-      this._setEvent('pageLeave', this.localPageSegments);
+    if (lastKey !== newValue && lastEvent !== "pageLeave") {
+      this._setEvent("pageLeave", this.localPageSegments);
     }
 
-    if (lastKey !== newValue && lastEvent !== 'pageEnter') {
+    if (lastKey !== newValue && lastEvent !== "pageEnter") {
       //let the unmount transition run
-      console.log('page: before timeout');
 
       setTimeout(() => {
-        // console.log(
-        //   'page: has entered with delay',
-        //   this.currentPageLocation.pathname,
-        //   lastKey,
-        //   this.currentPageLocation.key
-        // );
-        this._setEvent('pageEnter', this.currentPageLocation);
+        this._setEvent("pageEnter", this.currentPageLocation);
       }, this.config.duration);
       this.localPageSegments = this.currentPageLocation;
     }
@@ -69,22 +66,22 @@ export class RouteTransition implements ComponentInterface {
     return this.items;
   }
   private _setEvent = (
-    event: 'pageEnter' | 'pageEntered' | 'pageLeave' | 'pageLeft',
+    event: "pageEnter" | "pageEntered" | "pageLeave" | "pageLeft",
     location: LocationSegments
   ) => {
     if (lastEvent === event && lastKey === location.key) return;
 
-    if (event === 'pageEnter') {
+    if (event === "pageEnter") {
       this.loc = this.localPageSegments;
-    } else if (event === 'pageLeave') {
+    } else if (event === "pageLeave") {
       this.loc = location;
-    } else if (event === 'pageLeft') {
+    } else if (event === "pageLeft") {
       this.loc = this.currentPageLocation;
-    } else if (event === 'pageEntered' && lastEvent !== 'pageEntered') {
+    } else if (event === "pageEntered" && lastEvent !== "pageEntered") {
       // this is hackyyy
       // forcing update because the location doesn't change
       setTimeout(() => {
-        this.el.forceUpdate();
+        forceUpdate(this.el);
         // why tho
       }, 50);
     }
@@ -95,25 +92,25 @@ export class RouteTransition implements ComponentInterface {
 
   componentWillLoad() {
     if (!this.items) {
-      throw Error('Please add items to <route-transition />!');
+      throw Error("Please add items to <route-transition />!");
     }
     this.localPageSegments = this.currentPageLocation;
     lastKey = this.currentPageLocation.key;
-    this._setEvent('pageEnter', this.currentPageLocation);
+    this._setEvent("pageEnter", this.currentPageLocation);
   }
 
   componentDidLoad() {
     // app loaded
     if (lastKey === this.currentPageLocation.key) {
       setTimeout(() => {
-        this._setEvent('pageEntered', this.currentPageLocation);
+        this._setEvent("pageEntered", this.currentPageLocation);
       }, 250);
     }
   }
 
   componentDidUnload() {
     if (lastKey !== this.currentPageLocation.key) {
-      this._setEvent('pageLeave', this.localPageSegments);
+      this._setEvent("pageLeave", this.localPageSegments);
     }
   }
 
@@ -121,29 +118,32 @@ export class RouteTransition implements ComponentInterface {
     // new page 'finished' entering
     if (
       lastKey === this.localPageSegments.key &&
-      lastEvent !== 'pageEntered' &&
-      lastEvent !== 'pageLeave'
+      lastEvent !== "pageEntered" &&
+      lastEvent !== "pageLeave"
     ) {
       // this is not ok
       // clearly there's a race condition
       setTimeout(() => {
-        this._setEvent('pageEntered', this.currentPageLocation);
+        this._setEvent("pageEntered", this.currentPageLocation);
       }, 250);
     }
   }
 
   getStyle() {
     let style = {};
-    if (lastEvent === 'pageEnter') {
+    if (lastEvent === "pageEnter") {
       style = this.from;
     }
-    if (lastEvent === 'pageEntered') {
+    if (lastEvent === "pageEntered") {
       style = this.enter;
     }
-    if (lastEvent === 'pageLeave') {
+    if (lastEvent === "pageLeave") {
       style = this.leave;
     }
-    style = { transition: `${this.config.duration}ms ${this.config.timing}`, ...style };
+    style = {
+      transition: `${this.config.duration}ms ${this.config.timing}`,
+      ...style,
+    };
     return style;
   }
 

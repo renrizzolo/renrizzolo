@@ -148,6 +148,7 @@ a {
   width: 100%;
   height: auto;
   transform: scale(1);
+  will-change: transform;
   transition: transform 500ms ease;
 }
 .project-item--image__overlay {

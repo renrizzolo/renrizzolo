@@ -62,14 +62,14 @@ export namespace Components {
     leaveDuration?: number;
     timing:
       | string
-      | 'ease'
-      | 'linear'
-      | 'ease-in'
-      | 'ease-out'
-      | 'ease-in-out'
-      | 'bounce'
-      | 'flick'
-      | 'woosh';
+      | "ease"
+      | "linear"
+      | "ease-in"
+      | "ease-out"
+      | "ease-in-out"
+      | "bounce"
+      | "flick"
+      | "woosh";
 
     delay?: number;
   };
@@ -284,14 +284,14 @@ declare namespace LocalJSX {
     leaveDuration?: number;
     timing:
       | string
-      | 'ease'
-      | 'linear'
-      | 'ease-in'
-      | 'ease-out'
-      | 'ease-in-out'
-      | 'bounce'
-      | 'flick'
-      | 'woosh';
+      | "ease"
+      | "linear"
+      | "ease-in"
+      | "ease-out"
+      | "ease-in-out"
+      | "bounce"
+      | "flick"
+      | "woosh";
 
     delay?: number;
   };

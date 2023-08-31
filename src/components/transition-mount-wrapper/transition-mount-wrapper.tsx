@@ -1,8 +1,15 @@
-import { h, Component, Prop, State, ComponentInterface, Host } from '@stencil/core';
+import {
+  h,
+  Component,
+  Prop,
+  State,
+  ComponentInterface,
+  Host,
+} from "@stencil/core";
 
 @Component({
-  tag: 'transition-mount-wrapper',
-  styleUrl: 'transition-mount-wrapper.css',
+  tag: "transition-mount-wrapper",
+  styleUrl: "transition-mount-wrapper.css",
   shadow: false,
 })
 export class TransitionMountWrapper implements ComponentInterface {
@@ -12,7 +19,7 @@ export class TransitionMountWrapper implements ComponentInterface {
   mounted: boolean;
   @State()
   isMounted: boolean;
-  componentDidLoad() {
+  componentWillLoad() {
     this.isMounted = true;
   }
   render() {

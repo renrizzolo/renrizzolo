@@ -1,5 +1,4 @@
-const sans =
-  "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol";
+const sans = `-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`;
 const serif =
   '"Palatino Linotype", "Book Antiqua", Palatino, Times New Roman, serif';
 

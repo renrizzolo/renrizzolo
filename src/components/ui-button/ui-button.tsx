@@ -1,6 +1,13 @@
 import { Component, h, Prop, State, Element } from "@stencil/core";
+
 import lottie, { AnimationItem } from "lottie-web";
 import data from "../../icons/link.json";
+
+let id = 0;
+
+function uniqueId() {
+  return `icon-${++id}`;
+}
 
 @Component({
   tag: "ui-button",
@@ -29,33 +36,43 @@ export class UiButton {
 
   @State()
   animation: AnimationItem;
+  @State()
+  id: string;
 
   @Element()
   el!: HTMLElement;
 
+  componentWillLoad() {
+    if (this.icon) {
+      this.id = uniqueId();
+    }
+  }
+
   componentDidLoad() {
     if (this.icon) {
       const icon = this.el.querySelector(".icon");
-      console.log(icon);
-      this.animation = lottie.loadAnimation({
-        container: icon,
-        renderer: "svg",
-        loop: false,
-        autoplay: false,
-        animationData: this.external ? data : this.icon,
-      });
-      this.animation.setSpeed(1.5);
+      lottie
+        .loadAnimation({
+          name: this.id,
+          container: icon,
+          renderer: "svg",
+          loop: false,
+          autoplay: false,
+          animationData: this.external ? data : this.icon,
+        })
+        .setSpeed(1.5);
     }
   }
+
   enter = () => {
     if (!this.icon) return;
-    this.animation.setDirection(1);
-    this.animation.play();
+    lottie.setDirection(1, this.id);
+    lottie.play(this.id);
   };
   exit = () => {
     if (!this.icon) return;
-    this.animation.setDirection(-1);
-    this.animation.play();
+    lottie.setDirection(-1, this.id);
+    lottie.play(this.id);
   };
 
   render() {

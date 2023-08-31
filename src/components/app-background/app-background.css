@@ -15,7 +15,6 @@
     var(--color-g-4)
   );
   box-sizing: border-box;
-  transition: background 1200ms ease;
   animation: gradient 10s ease 0s alternate infinite;
 }
 @media screen and (max-width: 420px) {

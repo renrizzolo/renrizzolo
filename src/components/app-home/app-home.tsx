@@ -20,9 +20,10 @@ export class AppHome implements ComponentInterface {
             assets/renrizzolo-profile--800px.jpg 800w,
             assets/renrizzolo-profile--1200px.jpg 1200w"
           sizes="
-            (max-width: 600px) 450px,
-            (max-width: 950px) 800px,
-            1200px"
+            (min-width: 1200px) 1200px,
+            (min-width: 650px) 800px,
+            100vw
+          "
           alt="Ren Rizzolo profile"
         />
         <app-background>
