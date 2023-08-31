@@ -1,6 +1,6 @@
 .app-page-project {
   background-color: var(--color-secondary);
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 h1,
 h3 {

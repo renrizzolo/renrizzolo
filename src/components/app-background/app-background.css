@@ -1,9 +1,9 @@
 .app-background {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   padding: 2rem;
   background-size: 400% 400%;
@@ -15,24 +15,9 @@
     var(--color-g-4)
   );
   box-sizing: border-box;
-  animation: gradient 10s ease 0s alternate infinite;
 }
 @media screen and (max-width: 420px) {
   .app-background {
     padding: 1.5rem;
-  }
-}
-@keyframes gradient {
-  0% {
-    background-position: 0% 0%;
-  }
-  25% {
-    background-position: 50% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 100% 100%;
   }
 }
