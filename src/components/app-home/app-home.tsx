@@ -22,7 +22,7 @@ export class AppHome implements ComponentInterface {
           sizes="
             (min-width: 1200px) 1200px,
             (min-width: 650px) 800px,
-            100vw
+            450px
           "
           alt="Ren Rizzolo profile"
         />
