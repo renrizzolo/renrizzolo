@@ -1,6 +1,6 @@
-import { Component, h, Prop, State, Element } from "@stencil/core";
+import { Component, Element, Prop, State, h } from "@stencil/core";
 
-import lottie, { AnimationItem } from "lottie-web";
+import lottie from "lottie-web";
 import data from "../../icons/link.json";
 
 let id = 0;
@@ -34,8 +34,6 @@ export class UiButton {
   @Prop()
   iconClass?: string;
 
-  @State()
-  animation: AnimationItem;
   @State()
   id: string;
 

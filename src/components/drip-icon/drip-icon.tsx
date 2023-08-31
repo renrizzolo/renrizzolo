@@ -1,13 +1,5 @@
-import {
-  Component,
-  h,
-  Prop,
-  Element,
-  State,
-  Watch,
-  Build,
-} from "@stencil/core";
-import lottie, { AnimationItem } from "lottie-web";
+import { Build, Component, Element, Prop, Watch, h } from "@stencil/core";
+import lottie from "lottie-web";
 
 @Component({
   tag: "drip-icon",
@@ -17,7 +9,6 @@ import lottie, { AnimationItem } from "lottie-web";
 export class DripIcon {
   @Prop() play: boolean;
   @Element() el!: HTMLElement;
-  @State() animation: AnimationItem;
 
   @Watch("play")
   watchPlay(o, _) {

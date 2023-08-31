@@ -7,7 +7,7 @@ import {
   Watch,
   h,
 } from "@stencil/core";
-import Lottie, { AnimationItem } from "lottie-web";
+import Lottie from "lottie-web";
 
 @Component({
   tag: "app-wave",
@@ -60,15 +60,17 @@ export class AppWave {
       this.disableWave = "true";
       localStorage.setItem("disableWave", "true");
     }
-    mediaQuery.addEventListener("change", () => {
-      if (mediaQuery.matches) {
-        this.disableWave = "true";
-        localStorage.setItem("disableWave", "true");
-      } else {
-        this.disableWave = "false";
-        localStorage.setItem("disableWave", "false");
-      }
-    });
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", () => {
+        if (mediaQuery.matches) {
+          this.disableWave = "true";
+          localStorage.setItem("disableWave", "true");
+        } else {
+          this.disableWave = "false";
+          localStorage.setItem("disableWave", "false");
+        }
+      });
+    }
 
     // thank u svg for being sandboxed 😏
     // this.updateFillColor();

@@ -42,7 +42,7 @@ export class RouteTransition implements ComponentInterface {
   ) => any;
 
   @Watch("keys")
-  keyWatcher(newValue: string, oldValue: string) {
+  keyWatcher(newValue: string) {
     if (lastKey !== newValue && lastEvent !== "pageLeave") {
       this._setEvent("pageLeave", this.localPageSegments);
     }

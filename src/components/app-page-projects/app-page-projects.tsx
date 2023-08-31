@@ -153,7 +153,7 @@ export class AppPageProjects {
 
             <transition-group
               trail={true}
-              keys={(item, i, fn) => {
+              keys={(item, i) => {
                 let res;
                 if (typeof item === "function") {
                   res = item();
