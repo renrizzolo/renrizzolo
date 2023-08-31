@@ -12,61 +12,60 @@
   will-change: opacity;
 }
 .wave {
-  /* width: 100%; */
-  /* height: calc(var(--wave-size) * 1px); */
   position: absolute;
-    will-change: opacity;
-
+  will-change: opacity;
   bottom: -10px;
   left: 0;
   right: 0;
   mix-blend-mode: screen;
-  /* background-size: calc(var(--wave-size) * 1px * 5); */
-  /* background-repeat: repeat-x; */
-  /* animation: bg-pos 15s linear forwards infinite; */
 }
 .wave svg {
   min-width: 1000px;
   width: 100%;
   height: 100%;
-  /* fix some weird mobile only overflow problem */
-  /* (mix blend mode + transform) */
-  /* transform: unset!important; */
 }
 .wave svg path {
   fill: var(--color-secondary);
   stroke: var(--color-secondary);
 }
+
 .wave:nth-of-type(1) {
   mix-blend-mode: hue;
-  /* height: calc(var(--wave-size) * 1.1px); */
-}
-.wave:nth-of-type(2) {
-  mix-blend-mode: screen;
-  /* width: calc(var(--wave-size) * 1.2px); */
-  /* background-size: calc(var(--wave-size) * 1.2px * 5); */
-  /* animation: bg-pos-2 15s linear forwards infinite; */
 }
 
-@keyframes bg-pos {
-  0% {
-    background-position: 0% 75%;
-  }
-  50% {
-    background-position: calc(var(--wave-size) * 2px) 75%;
-  }
-  100% {
-    background-position: calc(var(--wave-size) * 1px * 5) 75%;
-  }
+.wave:nth-of-type(2) {
+  mix-blend-mode: screen;
 }
-@keyframes bg-pos-2 {
-  0% {
-    background-position: 0% 75%;
+.wave-animate-base {
+  transform: matrix(6.5, 0, 0, 6.5, 0, 439.91943359375);
+}
+.wave-animate {
+  animation: matrix linear forwards infinite;
+}
+
+.wave-animate-paused {
+  animation-play-state: paused;
+}
+
+.wave-1 {
+  animation-duration: 16s;
+}
+
+.wave-2 {
+  animation-duration: 16.2s;
+  animation-delay: 1.6s;
+}
+
+.wave-3 {
+  animation-duration: 15.8s;
+  animation-delay: 0.8s;
+}
+
+@keyframes matrix {
+  from {
+    transform: matrix(6.5, 0, 0, 6.5, 0, 439.91943359375);
   }
-  50% {
-    background-position: calc(var(--wave-size) * 2px) 75%;
-  }
-  100% {
-    background-position: calc(var(--wave-size) * 1.2px * 5) 75%;
+  to {
+    transform: matrix(6.5, 0, 0, 6.5, 1950, 439.91943359375);
   }
 }
