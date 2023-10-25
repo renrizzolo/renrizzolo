@@ -101,6 +101,7 @@ export namespace Components {
         "icon"?: object;
         "iconClass"?: string;
         "iconPos"?: string;
+        "rel"?: string;
         "url"?: string;
     }
     interface UiContainer {
@@ -323,6 +324,7 @@ declare namespace LocalJSX {
         "icon"?: object;
         "iconClass"?: string;
         "iconPos"?: string;
+        "rel"?: string;
         "url"?: string;
     }
     interface UiContainer {

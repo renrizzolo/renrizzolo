@@ -47,20 +47,44 @@ export class AppHome implements ComponentInterface {
                   <ui-button button class="button-large" href="/blog">
                     Blog
                   </ui-button>
+                  <ui-button
+                    button
+                    class="button-large"
+                    href="https://www.linkedin.com/in/ren-rizzolo"
+                    rel="noopener noreferrer"
+                    external
+                  >
+                    ✨ Hire Me
+                  </ui-button>
                 </div>
               </div>
             </header>
 
             <div class="footer">
-              <ui-button button href="mailto:info@renrizzolo.com">
+              <ui-button
+                button
+                href="mailto:info@renrizzolo.com"
+                rel="noopener noreferrer"
+                external
+              >
                 Email
               </ui-button>
               &nbsp;
-              <ui-button button href="https://twitter.com/ren_riz">
+              <ui-button
+                button
+                href="https://twitter.com/ren_riz"
+                rel="noopener noreferrer"
+                external
+              >
                 Twitter
               </ui-button>
               &nbsp;
-              <ui-button button href="https://github.com/renrizzolo">
+              <ui-button
+                button
+                href="https://github.com/renrizzolo"
+                rel="noopener noreferrer"
+                external
+              >
                 GitHub
               </ui-button>
             </div>

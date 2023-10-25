@@ -3,19 +3,29 @@
   min-height: 100dvh;
 }
 
-.app-page-projects--filters {
+.app-page-projects--horizontal {
   margin-left: -0.5rem;
   margin-right: -0.5rem;
   display: flex;
   flex-direction: row;
   margin-bottom: 1rem;
-  min-height: 55px;
+  min-height: 48px;
   overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--color-secondary) var(--color-primary);
+  scrollbar-width: thin;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
-.app-page-projects--filters ui-button {
+.app-page-projects--horizontal ui-button {
   margin: 0.5rem;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+.app-page-projects--tags ui-button button {
+  font-size: 80%;
+  font-weight: normal;
+  border: none;
 }
 @media screen and (max-width: 600px) {
   .app-page-projects--container {

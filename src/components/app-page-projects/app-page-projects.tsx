@@ -110,7 +110,7 @@ export class AppPageProjects {
               <h1>Projects</h1>
               <p>A selection of projects I've designed & developed.</p>
             </div>
-            <div class="app-page-projects--filters">
+            <div class="app-page-projects--horizontal">
               <ui-button
                 button
                 class={`${this.filteredBy === "" ? "active" : ""}`}
@@ -138,7 +138,7 @@ export class AppPageProjects {
                 Websites & Web Apps
               </ui-button>
             </div>
-            <div class="app-page-projects--filters">
+            <div class="app-page-projects--horizontal app-page-projects--tags">
               {this.tags.sort().map((tag) => (
                 <ui-button
                   class={`link ${

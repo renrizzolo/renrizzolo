@@ -30,6 +30,8 @@ export class UiButton {
   @Prop()
   icon?: object;
   @Prop()
+  rel?: string;
+  @Prop()
   iconPos?: string = "right";
   @Prop()
   iconClass?: string;
@@ -38,7 +40,7 @@ export class UiButton {
   id: string;
 
   @Element()
-  el!: HTMLElement;
+  el: HTMLElement;
 
   componentWillLoad() {
     if (this.icon) {
@@ -116,6 +118,7 @@ export class UiButton {
         href={this.href}
         onClick={this.clickHandler}
         target={this.external ? "_blank" : "_self"}
+        rel={this.rel}
       >
         <slot></slot>
         {this.icon && (
