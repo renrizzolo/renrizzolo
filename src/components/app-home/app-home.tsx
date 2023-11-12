@@ -47,7 +47,7 @@ export class AppHome implements ComponentInterface {
                   <ui-button button class="button-large" href="/blog">
                     Blog
                   </ui-button>
-                  <ui-button
+                  {/* <ui-button
                     button
                     class="button-large"
                     href="https://www.linkedin.com/in/ren-rizzolo"
@@ -55,7 +55,7 @@ export class AppHome implements ComponentInterface {
                     external
                   >
                     ✨ Hire Me
-                  </ui-button>
+                  </ui-button> */}
                 </div>
               </div>
             </header>
