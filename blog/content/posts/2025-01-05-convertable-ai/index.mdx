@@ -1,0 +1,295 @@
+---
+title: Building the convertable.ai design system with React and Vanilla Extract
+excerpt: Design systems are crucial for maintaining consistency and efficiency in modern web applications.
+image: ./images/vanilla-extract-theming.png
+date: 2025-01-05
+---
+
+Design systems are crucial for maintaining consistency and efficiency in modern web applications. In this post, I'll detail some concepts for styling the [Convertable AI](https://convertable.ai) (convertable.ai converts unstructured information to tables/csv/json) design system using React, Vanilla Extract, and TypeScript, with a focus on creating a robust, type-safe theming system that supports both light and dark modes.
+
+## The Foundation: Theme Variants
+
+At the core of the design system is a theme variant system that handles different visual states and modes. I used [Vanilla Extract](https://vanilla-extract.style/) combined with TypeScript to ensure type safety throughout the styling architecture.
+
+### Surface Variants
+
+Let's start with how I handled surface styles. Surfaces are the building blocks of our UI, providing different background colors and border colors for various elevation levels:
+
+<Panel mb="3">
+  <Text as="p">
+    Note I made a light weight theme variants helper that's used in some of
+    these snippets: &nbsp;
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://www.npmjs.com/package/ve-theme-variants"
+    >
+      https://www.npmjs.com/package/ve-theme-variants
+    </a>
+  </Text>
+</Panel>
+
+```typescript title="surfaceVariants.ts"
+const surfaceVariants = {
+  light: {
+    surface0: { backgroundColor: color.white, borderColor: color["grey-100"] },
+    surface1: {
+      backgroundColor: color["grey-50"],
+      borderColor: color["grey-100"],
+    },
+    // ... more surface variants
+  },
+  dark: {
+    surface0: {
+      backgroundColor: color["grey-950"],
+      borderColor: color["grey-900"],
+    },
+    // ... more surface variants
+  },
+} satisfies ThemedStyleVariants;
+```
+
+I define a contract for each surface variant to ensure type safety:
+
+```typescript title="surfaceVariants.ts"
+const surfaceContract = {
+  backgroundColor: "null",
+  borderColor: "null",
+};
+```
+
+### Button Actions and Variants
+
+One of the most complex components in the system in terms of variants is the Button component. I've created an action variant mapping that handles different states, sizes, and appearances:
+
+```typescript title="actionVariants.ts"
+const createactionVariants = () => {
+  const actionColorMap = (c: Color) => ({
+    light: {
+      vars: { [focusRingShadow]: color[`${c}-300`] },
+      color: color[`white`],
+      backgroundColor: color[`${c}-700`],
+      selectors: {
+        "&:hover": { backgroundColor: color[`${c}-800`] },
+      },
+    },
+    dark: {
+      // Dark mode variants
+    },
+  });
+
+  const actionVars = (mode: TModes) => ({
+    "action-danger": actionColorMap("red")[mode],
+    "action-primary": actionColorMap("teal")[mode],
+    "action-accent": actionColorMap("purple")[mode],
+    // ... more custom variants
+  });
+
+  return actionVars;
+};
+
+const actionVariants = createActionVariants();
+
+export { actionVariants };
+```
+
+Note how these are not semantically tied to the button - I use these action variants for popovers, selects, and more.
+
+## Unified Theme Management
+
+All the theme variants come together in a central theme configuration.
+I build the contract for the whole theme, and generate variables and classes for light and dark modes.
+
+```typescript title="theme.ts" {9}
+const themeContract = {
+  ...actionVariantsContract,
+  ...surfaceVariantsContract,
+  ...textVariantsContract,
+  // ... other contracts
+};
+
+export const { themeVars, themeClasses } = createThemeVariants(themeContract, [
+  { light: actionVariants("light"), dark: actionVariants("dark") },
+  surfaceVariants,
+  textVariants,
+  // ... other variants
+]);
+
+export const darkTheme = themeClasses.dark;
+export const lightTheme = themeClasses.light;
+
+export const darkSelector = `${darkTheme} &`;
+export const lightSelector = `${lightTheme} &`;
+```
+
+I have a `<ThemeProvider />` that applies the theme class to the html element.
+
+Note the dark/light selector can be used to apply color mode styles directly:
+
+```typescript title="table.css.ts"
+export const tableHeader = style([
+  {
+    selectors: {
+      [darkSelector]: {
+        backgroundColor: rootVars.color["grey-925"],
+      },
+      [lightSelector]: {
+        backgroundColor: rootVars.color["grey-125"],
+      },
+    },
+  },
+]);
+```
+
+## The Recipe Pattern
+
+I used Vanilla Extract's recipe pattern to compose styles with variants. Here's how I structured the button styles:
+
+<CodeDisclosure>
+
+```typescript title="button.css.ts"
+import { style } from "@vanilla-extract/css";
+import { recipe } from "@vanilla-extract/recipes";
+import { themeVars } from "../../styles/theme.css";
+
+const buttonDefaultBase = style([
+  focusRing,
+  {
+    textDecoration: "none",
+    lineHeight: "1",
+    userSelect: "none",
+    // ...
+  },
+]);
+
+export const button = recipe({
+```
+
+<details>
+<CodeSummary summary="general button styles" indent="1" />
+
+<!-- prettier-ignore-start -->
+```typescript
+  base: buttonDefaultBase,
+  variants: {
+    kind: {
+      default: buttonDefaultBase,
+      secondary: buttonDefaultBase,
+      ghost: buttonDefaultBase,
+      link: [
+        /* link styles */
+      ],
+    },
+    size: {
+      xs: style([
+        /* xs styles */
+      ]),
+      sm: style([
+        /* sm styles */
+      ]),
+      md: style([
+        /* md styles */
+      ]),
+      lg: style([
+        /* lg styles */
+      ]),
+    },
+    tone: {
+      // these will be defined in the compound variants
+      primary: {},
+      accent: {},
+      muted: {},
+      danger: {},
+    },
+  },
+```
+<!-- prettier-ignore-end -->
+
+</details>
+
+```typescript
+
+  // Compound variants for different combinations
+  compoundVariants: [
+    // Default
+    {
+      variants: {
+        tone: "muted",
+        kind: "default",
+        disabled: false,
+      },
+      style: style(themeVars["action-muted"]),
+    },
+    {
+      variants: {
+        tone: "danger",
+        kind: "default",
+        disabled: false,
+      },
+      style: style(themeVars["action-danger"]),
+    },
+    {
+      variants: {
+        tone: "primary",
+        kind: "default",
+        disabled: false,
+      },
+      style: style(themeVars["action-primary"]),
+    },
+    // ... more variant combinations for secondary/ghost buttons
+  ],
+});
+```
+
+</CodeDisclosure>
+
+## Benefits of this approach
+
+1. **Type Safety**: TypeScript ensures that our theme variants and styles are correctly typed throughout the application.
+
+2. **Dark Mode Support**: Built-in support for dark mode with type-safe theme switching.
+
+3. **Maintainable Variants**: The recipe pattern makes it easy to add and modify variants while maintaining type safety.
+
+4. **Performance**: Vanilla Extract generates static CSS at build time, providing excellent runtime performance.
+
+5. **Developer Experience**: Strong TypeScript integration provides excellent autocomplete and error checking.
+
+## Practical Usage
+
+Here's a dumbed down version of the Button component
+
+```typescript title="Button.tsx"
+import { button } from "./button.css";
+
+type ButtonVariants = Parameters<typeof button>[0];
+
+const MyButton = ({
+  size,
+  tone,
+  kind,
+  disabled,
+  loading,
+  children,
+}: ButtonVariants & { children: React.ReactNode }) => (
+  <Box
+    className={button({
+      size,
+      tone,
+      kind,
+      disabled,
+      loading,
+    })}
+  >
+    {children}
+  </Box>
+);
+```
+
+## Conclusion
+
+Building a design system with React and Vanilla Extract has allowed me to create a robust, type-safe theming solution that's both maintainable and performant. The combination of TypeScript's type system and Vanilla Extract's CSS-in-JS capabilities provides a good foundation for building complex UI components while maintaining consistency across the app.
+
+The use of contracts and variants ensures that our theme system is extensible and type-safe, while the recipe pattern provides a clean API for styling multi-variant components.
+
+It's a work in progress, but you can check out the Convertable AI Storybook [here](https://storybook.convertable.ai/).
